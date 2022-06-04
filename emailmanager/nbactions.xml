@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Quick Redeploy</actionName>
+            <displayName>Quick Redeploy</displayName>
+            <goals>
+                <goal>compile</goal>
+                <goal>war:exploded</goal>
+            </goals>
+        </action>
+    </actions>

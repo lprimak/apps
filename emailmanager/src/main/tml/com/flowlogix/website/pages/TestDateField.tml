@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
+	  xmlns:p="tapestry:parameter" xmlns:f="tapestry-library:flowlogix">
+<head>
+<title>Test Date Field</title>
+<style>
+DIV.t-beaneditor {
+    background: #b7cae2;
+}    
+</style>
+
+</head>
+<body>
+<t:zone t:id="birthdayZone">
+  <form t:type="form" zone="birthdayZone">
+      <input t:type="datefield" value="birthdays.get(0).dob"/>
+      <input t:type="submit" type="button" value="Submit"/>
+  </form>
+  <t:beaneditform object="birthdays.get(0)" zone="birthdayZone" include="fullname,dob"/>
+  <br/>
+</t:zone>
+  <br/>
+  <t:grid source="birthdays" include="fullname,dob"/>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="Hope" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>Hope</display-name>
+    <distributable/>
+     <session-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+    <context-param>
+        <param-name>tapestry.app-package</param-name>
+        <param-value>com.flowlogix.website</param-value>
+    </context-param>
+    <filter>
+        <description>Tapestry</description>
+        <display-name>Hope Filter</display-name>
+        <filter-name>hope</filter-name>
+        <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hope</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <resource-ref>
+        <description>Hope Database</description>
+        <res-ref-name>jdbc/Hope</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+</web-app>
