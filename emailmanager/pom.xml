@@ -16,7 +16,7 @@
         <netbeans.hint.j2eeVersion>1.6</netbeans.hint.j2eeVersion>
         <flowlogix.version>1.2.6</flowlogix.version>
         <yuicompressor.version>2.4.7-cust-tap-${tap.version}</yuicompressor.version>
-        <tap-jquery.version>3.3.6</tap-jquery.version>
+        <tap-jquery.version>4.1.1</tap-jquery.version>
         <lombok.version>1.16.0</lombok.version>
     </properties>
     
