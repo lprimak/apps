@@ -65,7 +65,7 @@
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>plastic</artifactId>
-            <version>5.3.7-asm5</version>
+            <version>5.8.2</version>
             <scope>${war-deps.scope}</scope>
         </dependency>
         <dependency>
