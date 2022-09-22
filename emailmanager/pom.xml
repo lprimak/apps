@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
         <flowlogix.version>5.0-M3</flowlogix.version>
+        <skinny.war>false</skinny.war>
     </properties>
 
     <dependencies>
@@ -26,16 +27,18 @@
             <groupId>org.jvnet.libpam4j</groupId>
             <artifactId>libpam4j</artifactId>
             <version>1.4</version>
-            <scope>provided</scope>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>shiro-ee</artifactId>
             <version>${flowlogix.version}</version>
+            <optional>${skinny.war}</optional>
         </dependency>
     </dependencies>
 
@@ -57,14 +60,18 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-        </plugins>
         <pluginManagement>
             <plugins>
                 <!-- Up-to-date compiler plugin -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.10.1</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>com/flowlogix/website/pages/**</exclude>
+                            <exclude>com/flowlogix/website/services/**</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
