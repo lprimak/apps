@@ -1,15 +1,6 @@
 package com.flowlogix.website.pages;
 
-import com.flowlogix.web.mixins.ColorHighlightOverride;
-import com.flowlogix.web.mixins.DisableAfterSubmit;
-import com.flowlogix.web.services.annotations.AJAX;
 import lombok.Getter;
-
-import org.apache.tapestry5.Block;
-import org.apache.tapestry5.annotations.InjectComponent;
-import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Secure;
-import org.apache.tapestry5.corelib.components.Zone;
 
 import com.flowlogix.website.EmailManagerLocal;
 import com.flowlogix.website.services.HopeModule;
@@ -18,19 +9,8 @@ import javax.ejb.EJBException;
 import javax.validation.constraints.NotNull;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.tapestry5.BindingConstants;
-import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.PersistenceConstants;
-import org.apache.tapestry5.annotations.Mixin;
-import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.SetupRender;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.Request;
 
 
-@Secure
 @RequiresPermissions({"mail:junk:erase", "mail:draft:send"})
 public class EmailManager
 {
@@ -39,7 +19,7 @@ public class EmailManager
         EmailManagerLocal _eraser = eraserImpl;
         try
         {
-            eraserImpl.isMock();            
+            eraserImpl.isMock();
         }
         catch(EJBException e)
         {
@@ -47,8 +27,8 @@ public class EmailManager
         }
         this.emailManager = _eraser;
     }
-    
-    
+
+
     @SetupRender
     void init()
     {
@@ -57,8 +37,8 @@ public class EmailManager
             emailStatus = "<None>";
         }
     }
-	
-	
+
+
     @SuppressWarnings("unused")
     @OnEvent(value = "eraseJunk")
     @AJAX(discardAfter = true, requireSession = false)
@@ -68,7 +48,7 @@ public class EmailManager
         setMockMessage("Erased Junk Mail");
         return status.getBody();
     }
-    
+
 
     @SuppressWarnings("unused")
     @OnEvent(value = "sendDrafts")
@@ -86,8 +66,8 @@ public class EmailManager
         }
         return status.getBody();
     }
-    
-    
+
+
     @SuppressWarnings("unused")
     @OnEvent(value="updatestatus", component="status")
     private Block updateStatus()
@@ -95,29 +75,29 @@ public class EmailManager
         init();
         return status.getBody();
     }
-    
-    
+
+
     @OnEvent(value = "logout")
     private void logout()
     {
         SecurityUtils.getSubject().logout();
     }
-    
-    
+
+
     private void setMockMessage(final String junkErasedMessage)
     {
         if (emailManager.isMock())
         {
             emailStatus = junkErasedMessage + " (Mock)";
-        } 
+        }
         else
         {
             emailStatus = junkErasedMessage;
         }
     }
 
-     
-    @Getter @Persist(PersistenceConstants.FLASH) private String emailStatus;  
+
+    @Getter @Persist(PersistenceConstants.FLASH) private String emailStatus;
     @EJB(beanName = "EmailManagerImpl") private EmailManagerLocal eraserImpl;
     @EJB(beanName = "EmailManagerMock") private EmailManagerLocal eraserMock;
     private final EmailManagerLocal emailManager;

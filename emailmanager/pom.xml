@@ -1,4 +1,3 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -12,86 +11,84 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
-        <netbeans.hint.j2eeVersion>1.6</netbeans.hint.j2eeVersion>
-        <flowlogix.version>1.2.6</flowlogix.version>
-        <yuicompressor.version>2.4.7-cust-tap-${tap.version}</yuicompressor.version>
-        <tap-jquery.version>3.3.6</tap-jquery.version>
-        <lombok.version>1.16.0</lombok.version>
+        <maven.compiler.release>11</maven.compiler.release>
+        <flowlogix.version>5.0-M3</flowlogix.version>
+        <skinny.war>false</skinny.war>
     </properties>
-    
-    <parent>
-        <groupId>com.flowlogix</groupId>
-        <artifactId>tapestry-build-core</artifactId>
-        <version>1.2.6</version>
-    </parent>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
-                <configuration>
-                    <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <!-- Groovy Plugin -->
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/tml</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-    </build>
-    
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>flowlogix-tapestry</artifactId>
-            <version>${flowlogix.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tapestry</groupId>
-            <artifactId>plastic</artifactId>
-            <version>5.3.7-asm5</version>
-            <scope>${war-deps.scope}</scope>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>8.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jvnet.libpam4j</groupId>
             <artifactId>libpam4j</artifactId>
             <version>1.4</version>
-            <scope>provided</scope>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
-            <groupId>com.yahoo.platform.yui</groupId>
-            <artifactId>yuicompressor</artifactId>
-            <version>${yuicompressor.version}</version>
-            <scope>${war-deps.scope}</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
-            <groupId>org.got5</groupId>
-            <artifactId>tapestry5-jquery</artifactId>
-            <version>${tap-jquery.version}</version>
-            <scope>${war-deps.scope}</scope>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>shiro-ee</artifactId>
+            <version>${flowlogix.version}</version>
+            <optional>${skinny.war}</optional>
         </dependency>
     </dependencies>
-    
-    <repositories>
-        <repository>
-            <id>flowlogix-maven2</id>
-            <url>https://raw.github.com/flowlogix/flowlogix-m2/master</url>
-        </repository>
-    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.flowlogix</groupId>
+                <artifactId>flowlogix-bom</artifactId>
+                <version>${flowlogix.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>5.12.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Up-to-date compiler plugin -->
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.10.1</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>com/flowlogix/website/pages/**</exclude>
+                            <exclude>com/flowlogix/website/services/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.2</version>
+                    <configuration>
+                        <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <configuration>
+                        <excludeScope>provided</excludeScope>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
