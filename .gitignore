@@ -1,2 +1,10 @@
-target/
-**/.DS_Store
+target
+**/nbproject
+**.classpath
+**.factorypath
+**.project
+**.settings
+**.vscode
+**.DS_Store
+**.idea
+**nb-configuration.xml
