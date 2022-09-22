@@ -3,18 +3,6 @@ package com.flowlogix.website.services;
 import com.flowlogix.website.security.UnixRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.web.mgt.WebSecurityManager;
-import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.ioc.Configuration;
-import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.ServiceBinder;
-import org.apache.tapestry5.ioc.annotations.Contribute;
-import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.ioc.services.ApplicationDefaults;
-import org.apache.tapestry5.ioc.services.FactoryDefaults;
-import org.apache.tapestry5.ioc.services.SymbolProvider;
-import org.got5.tapestry5.jquery.JQuerySymbolConstants;
-import org.tynamo.security.SecuritySymbols;
-
 
 public class HopeModule
 {
@@ -28,7 +16,7 @@ public class HopeModule
         // invoking the constructor.
     }
 
-    
+
     @Contribute(SymbolProvider.class)
     @ApplicationDefaults
     public void setAppDefaults(MappedConfiguration<String, String> configuration)
@@ -42,7 +30,7 @@ public class HopeModule
         configuration.add(JQuerySymbolConstants.USE_MINIFIED_JS, Boolean.FALSE.toString());
     }
 
-    
+
     @Contribute(SymbolProvider.class)
     @FactoryDefaults
     public void setFactoryDefaults(MappedConfiguration<String, String> configuration)
@@ -52,16 +40,16 @@ public class HopeModule
         configuration.add(DRAFT_FOLDER_NAME, "Drafts");
         configuration.add(SENT_FOLDER_NAME, "Sent");
     }
-    
-    
+
+
     @Contribute(WebSecurityManager.class)
     public void initPamRealm(Configuration<Realm> configuration,
     @Symbol(PAM_AUTH_SERVICE_NAME) String serviceName)
     {
         configuration.add(new UnixRealm(serviceName));
     }
-    
-    
+
+
     public static final String PAM_AUTH_SERVICE_NAME = "com.flowlogix.pam-service-name";
     public static final String JUNK_FOLDER_NAME = "com.flowlogix.junk-folder-name";
     public static final String DRAFT_FOLDER_NAME = "com.flowlogix.draft-folder-name";
