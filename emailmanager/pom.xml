@@ -69,7 +69,6 @@
                     <configuration>
                         <excludes>
                             <exclude>com/flowlogix/website/pages/**</exclude>
-                            <exclude>com/flowlogix/website/services/**</exclude>
                         </excludes>
                     </configuration>
                 </plugin>

@@ -9,4 +9,13 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
+        <param-value>/*.xhtml</param-value>
+    </context-param>
 </web-app>

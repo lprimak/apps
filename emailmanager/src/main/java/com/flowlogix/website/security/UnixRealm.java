@@ -4,9 +4,9 @@
  */
 package com.flowlogix.website.security;
 
+import static com.flowlogix.website.ui.Constants.PAM_AUTH_SERVICE_NAME;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.apache.shiro.authc.AuthenticationException;
@@ -20,7 +20,6 @@ import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.apache.shiro.authz.permission.WildcardPermissionResolver;
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.jvnet.libpam.PAM;
@@ -31,80 +30,64 @@ import org.jvnet.libpam.UnixUser;
  *
  * @author lprimak
  */
-public class UnixRealm extends AuthorizingRealm
-{
-    public UnixRealm(String serviceName)
-    {
-        super(new MemoryConstrainedCacheManager());
-        if(getPermissionResolver() == null)
-        {
+public class UnixRealm extends AuthorizingRealm {
+    private final String serviceName;
+
+    public UnixRealm() {
+        this.serviceName = PAM_AUTH_SERVICE_NAME;
+        if (getPermissionResolver() == null) {
             setPermissionResolver(new WildcardPermissionResolver());
         }
-        
-        this.serviceName = serviceName;
     }
 
-    
     @Override
     @SneakyThrows(PAMException.class)
-    protected void onInit()
-    {
+    protected void onInit() {
         super.onInit();
         getPam();
     }
-    
-    
-    protected PAM getPam() throws PAMException
-    {
+
+    protected PAM getPam() throws PAMException {
         // PAM instances are not reusable.
         return new PAM(serviceName);
     }
 
-    
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
-    {
-        final UsernamePasswordToken upToken = (UsernamePasswordToken)token;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        final UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         final String password = String.valueOf(upToken.getPassword());
         UnixUser unixUser = null;
-        try
-        {
-            @Cleanup("dispose") PAM pam = getPam();
+        try {
+            @Cleanup("dispose")
+            PAM pam = getPam();
             unixUser = pam.authenticate(upToken.getUsername(), password);
-        } catch (PAMException ex)
-        {
+        } catch (PAMException ex) {
             throw new AuthenticationException(ex);
         }
         return new SimpleAuthenticationInfo(new UserAuth(unixUser.getUserName(), password), upToken.getPassword(), getName());
     }
 
-    
     @Override
     @SneakyThrows(PAMException.class)
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals)
-    {
-        Set<String> roles = new HashSet<String>();
-        Set<Permission> permissions = new HashSet<Permission>();
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        var roles = new HashSet<String>();
+        var permissions = new HashSet<Permission>();
         permissions.add(new WildcardPermission("mail:*"));
         Collection<UserAuth> principalsList = principals.byType(UserAuth.class);
 
-        if (principalsList.isEmpty())
-        {
+        if (principalsList.isEmpty()) {
             throw new AuthorizationException("Empty principals list!");
         }
 
-        for (UserAuth userPrincipal : principalsList)
-        {
-            @Cleanup("dispose") PAM pam = getPam();
+        for (UserAuth userPrincipal : principalsList) {
+            @Cleanup("dispose")
+            PAM pam = getPam();
             UnixUser unixUser = pam.authenticate(userPrincipal.getUserName(), userPrincipal.getPassword());
             roles.addAll(unixUser.getGroups());
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
-        info.setObjectPermissions(permissions); 
+        info.setObjectPermissions(permissions);
 
         return info;
     }
-    
-    
-    private final String serviceName;
 }

@@ -5,7 +5,7 @@
 package com.flowlogix.website.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,5 +40,5 @@ public class Sample implements Serializable
 
     @Column(name = "DoB")
     @Temporal(TemporalType.DATE)
-    private Date DoB;
+    private LocalDate DoB;
 }
