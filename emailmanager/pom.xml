@@ -24,6 +24,13 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>4.1</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jvnet.libpam4j</groupId>
             <artifactId>libpam4j</artifactId>
             <version>1.4</version>

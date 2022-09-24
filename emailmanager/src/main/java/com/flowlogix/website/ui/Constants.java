@@ -1,16 +1,27 @@
 package com.flowlogix.website.ui;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import lombok.Getter;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 /**
  *
  * @author lprimak
  */
+@ApplicationScoped
+@Getter
 public class Constants {
-    public static final String PAM_AUTH_SERVICE_NAME =
-            System.getProperty("com.flowlogix.pam-service-name", "pwauth");
-    public static final String JUNK_FOLDER_NAME =
-            System.getProperty("com.flowlogix.junk-folder-name", "Junk");
-    public static final String DRAFT_FOLDER_NAME =
-            System.getProperty("com.flowlogix.draft-folder-name", "Drafts");
-    public static final String SENT_FOLDER_NAME =
-            System.getProperty("com.flowlogix.sent-folder-name", "Sent");
+    @Inject
+    @ConfigProperty(name = "com.flowlogix.pam-service-name", defaultValue = "pwauth")
+    String pamAuthServiceName;
+    @Inject
+    @ConfigProperty(name = "com.flowlogix.junk-folder-name", defaultValue = "Junk")
+    String junkFolderName;
+    @Inject
+    @ConfigProperty(name = "com.flowlogix.draft-folder-name", defaultValue = "Drafts")
+    String draftFolderName;
+    @Inject
+    @ConfigProperty(name = "com.flowlogix.sent-folder-name", defaultValue = "Sent")
+    String sentFolderName;
 }

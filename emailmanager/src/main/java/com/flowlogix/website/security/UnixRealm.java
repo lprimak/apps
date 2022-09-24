@@ -4,7 +4,7 @@
  */
 package com.flowlogix.website.security;
 
-import static com.flowlogix.website.ui.Constants.PAM_AUTH_SERVICE_NAME;
+import com.flowlogix.website.ui.Constants;
 import java.util.Collection;
 import java.util.HashSet;
 import lombok.Cleanup;
@@ -25,16 +25,16 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.jvnet.libpam.PAM;
 import org.jvnet.libpam.PAMException;
 import org.jvnet.libpam.UnixUser;
+import org.omnifaces.util.Beans;
 
 /**
  *
  * @author lprimak
  */
 public class UnixRealm extends AuthorizingRealm {
-    private final String serviceName;
+    private final String serviceName = Beans.getReference(Constants.class).getPamAuthServiceName();
 
     public UnixRealm() {
-        this.serviceName = PAM_AUTH_SERVICE_NAME;
         if (getPermissionResolver() == null) {
             setPermissionResolver(new WildcardPermissionResolver());
         }
