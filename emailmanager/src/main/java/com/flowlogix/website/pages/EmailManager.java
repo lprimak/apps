@@ -3,7 +3,6 @@ package com.flowlogix.website.pages;
 import lombok.Getter;
 
 import com.flowlogix.website.EmailManagerLocal;
-import com.flowlogix.website.services.HopeModule;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.validation.constraints.NotNull;

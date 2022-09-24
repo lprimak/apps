@@ -5,8 +5,8 @@ import javax.ejb.Local;
 @Local
 public interface EmailManagerLocal
 {
-    public void eraseFolder(String folderName);
-    public boolean isMock();
+    void eraseFolder(String folderName);
+    boolean isMock();
 
-    public int sendDrafts(String draftFolderName, String sentFolderName);
+    int sendDrafts(String draftFolderName, String sentFolderName);
 }

@@ -7,29 +7,17 @@ package com.flowlogix.website.security;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 /**
  *
  * @author lprimak
  */
-public @EqualsAndHashCode class UserAuth implements Serializable
-{
-    public UserAuth()
-    {
-        // default constructor
-    }
-    
-    
-    public UserAuth(String userName, String password)
-    {
-        this.userName = userName;
-        this.password = password;
-    }
-    
-    
-    private @Getter @Setter String userName;
-    private @Getter @Setter String password;
-
+@Getter
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public class UserAuth implements Serializable {
     private static final long serialVersionUID = 1L;
+    private final String userName;
+    private final String password;
 }

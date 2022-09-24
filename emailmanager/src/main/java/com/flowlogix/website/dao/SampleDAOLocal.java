@@ -13,7 +13,6 @@ import javax.ejb.Local;
  * @author lprimak
  */
 @Local
-public interface SampleDAOLocal
-{
+public interface SampleDAOLocal {
     List<Sample> query(String queryName);
 }

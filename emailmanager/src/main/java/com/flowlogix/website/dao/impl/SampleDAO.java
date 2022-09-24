@@ -16,14 +16,12 @@ import javax.persistence.PersistenceContext;
  * @author lprimak
  */
 @Stateless
-public class SampleDAO implements SampleDAOLocal
-{
+public class SampleDAO implements SampleDAOLocal {
+    @PersistenceContext
+    EntityManager em;
+
     @Override
-    public List<Sample> query(String queryName)
-    {
+    public List<Sample> query(String queryName) {
         return em.createNamedQuery(queryName, Sample.class).getResultList();
     }
-    
-    
-    private @PersistenceContext EntityManager em;
 }

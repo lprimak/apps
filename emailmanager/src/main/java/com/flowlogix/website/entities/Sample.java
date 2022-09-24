@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,12 +22,8 @@ import lombok.Data;
  */
 @Entity
 @Data
-@NamedQueries(
-{
-    @NamedQuery(name = "Sample.findAll", query = "SELECT s FROM Sample s")
-})
-public class Sample implements Serializable
-{
+@NamedQuery(name = "Sample.findAll", query = "SELECT s FROM Sample s")
+public class Sample implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
