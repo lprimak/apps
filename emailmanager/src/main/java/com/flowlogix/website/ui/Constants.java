@@ -1,5 +1,6 @@
 package com.flowlogix.website.ui;
 
+import javax.annotation.sql.DataSourceDefinition;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import lombok.Getter;
@@ -11,6 +12,13 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
  */
 @ApplicationScoped
 @Getter
+@DataSourceDefinition(name = "java:app/jdbc/Hope", className = "org.postgresql.ds.PGSimpleDataSource",
+        serverName = "10.0.1.210", portNumber = 5432, databaseName = "hope",
+//        user = "xxx", password = "yyy",
+        maxPoolSize = 32, minPoolSize = 8,
+        properties = {
+            "fish.payara.is-connection-validation-required = true",
+            "fish.payara.connection-validation-method = auto-commit"})
 public class Constants {
     @Inject
     @ConfigProperty(name = "com.flowlogix.pam-service-name", defaultValue = "pwauth")

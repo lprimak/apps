@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import lombok.Data;
 
@@ -34,6 +32,5 @@ public class Sample implements Serializable {
     private String fullName;
 
     @Column(name = "DoB")
-    @Temporal(TemporalType.DATE)
     private LocalDate DoB;
 }

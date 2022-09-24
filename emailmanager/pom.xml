@@ -31,6 +31,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.0</version>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
             <groupId>org.jvnet.libpam4j</groupId>
             <artifactId>libpam4j</artifactId>
             <version>1.4</version>
@@ -51,6 +57,16 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>flowlogix-datamodel</artifactId>
             <version>${flowlogix.version}</version>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
             <optional>${skinny.war}</optional>
         </dependency>
     </dependencies>
