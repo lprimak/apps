@@ -47,6 +47,12 @@
             <version>${flowlogix.version}</version>
             <optional>${skinny.war}</optional>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>flowlogix-datamodel</artifactId>
+            <version>${flowlogix.version}</version>
+            <optional>${skinny.war}</optional>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
