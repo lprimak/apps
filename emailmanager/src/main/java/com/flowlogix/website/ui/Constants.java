@@ -14,7 +14,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @Getter
 @DataSourceDefinition(name = "java:app/jdbc/Hope", className = "org.postgresql.ds.PGSimpleDataSource",
         serverName = "10.0.1.210", portNumber = 5432, databaseName = "hope",
-//        user = "xxx", password = "yyy",
+        user = "${MPCONFIG=hope-db-username:}", password = "${MPCONFIG=hope-db-password:}",
         maxPoolSize = 32, minPoolSize = 8,
         properties = {
             "fish.payara.is-connection-validation-required = true",

@@ -31,15 +31,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.kohsuke</groupId>
+            <artifactId>libpam4j</artifactId>
+            <version>1.11</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.5.0</version>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jvnet.libpam4j</groupId>
-            <artifactId>libpam4j</artifactId>
-            <version>1.4</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
@@ -79,11 +79,6 @@
                 <version>${flowlogix.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.jna</groupId>
-                <artifactId>jna</artifactId>
-                <version>5.12.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

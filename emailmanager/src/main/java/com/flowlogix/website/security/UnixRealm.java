@@ -41,11 +41,10 @@ public class UnixRealm extends AuthorizingRealm {
     }
 
     @Override
-//    @SneakyThrows(PAMException.class)
+    @SneakyThrows(PAMException.class)
     protected void onInit() {
         super.onInit();
-        // +++ TODO FIXME remove the following
-//        getPam();
+        getPam();
     }
 
     protected PAM getPam() throws PAMException {
