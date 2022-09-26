@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Test Date Field</title>
     </h:head>
@@ -9,9 +10,37 @@
         <h:form>
             <p:outputLabel for="firstBirthday" value="Change Birthday"/>
             <p:datePicker id="firstBirthday" value="#{birthdays.firstBirthday}"
-                          monthNavigator="true"
-                          yearNavigator="true"
+                          monthNavigator="true" yearNavigator="true"
                           showWeek="true"/>
+            <p:dataTable value="#{birthdays.birthdays}" var="birthday"
+                         editable="true" editMode="cell">
+                <p:ajax event="cellEdit" listener="#{birthdays.onCellEdited}"/>
+                <p:column headerText="Name">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{birthday.fullName}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{birthday.fullName}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Birthday">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{birthday.doB}">
+                                <f:convertDateTime type="localDate"/>
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:datePicker value="#{birthday.doB}"
+                                          monthNavigator="true" yearNavigator="true"
+                                          showWeek="true"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Save"/>
         </h:form>
     </h:body>
 </html>

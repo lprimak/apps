@@ -20,7 +20,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-@NamedQuery(name = "Sample.findAll", query = "SELECT s FROM Sample s")
+@NamedQuery(name = "Sample.findAll", query = "SELECT s FROM Sample s order by s.id")
 public class Sample implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
