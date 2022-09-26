@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.mail.Address;
+import javax.mail.MailSessionDefinition;
 import javax.mail.Transport;
 import lombok.Cleanup;
 import lombok.Getter;
@@ -25,9 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 
 @Stateless
+@MailSessionDefinition(name = "java:app/mail/HopeMail",
+        host = "${MPCONFIG=hope-mail-host:}",
+        user = "${MPCONFIG=hope-mail-user:}", password = "${MPCONFIG=hope-mail-password:}")
 @Slf4j
 public class EmailManagerImpl implements EmailManagerLocal {
-    @Resource(name = "mail/HopeMail")
+    @Resource(name = "java:app/mail/HopeMail")
     Session mailSession;
 
     @Override
