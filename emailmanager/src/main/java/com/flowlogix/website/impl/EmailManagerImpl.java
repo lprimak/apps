@@ -16,6 +16,7 @@ import com.flowlogix.website.security.UserAuth;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.inject.Inject;
 import javax.mail.Address;
 import javax.mail.MailSessionDefinition;
 import javax.mail.Transport;
@@ -24,15 +25,24 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
 @MailSessionDefinition(name = "java:app/mail/HopeMail",
-        host = "${MPCONFIG=hope-mail-host:}",
-        user = "${MPCONFIG=hope-mail-user:}", password = "${MPCONFIG=hope-mail-password:}")
+        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtps", storeProtocol = "imaps")
 @Slf4j
 public class EmailManagerImpl implements EmailManagerLocal {
     @Resource(name = "java:app/mail/HopeMail")
     Session mailSession;
+    @Inject
+    @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
+    private String smtp_host;
+    @Inject
+    @ConfigProperty(name = "hope-smtp-user", defaultValue = "none")
+    private String smtp_user;
+    @Inject
+    @ConfigProperty(name = "hope-smtp-password", defaultValue = "none")
+    private String smtp_password;
 
     @Override
     @SneakyThrows(MessagingException.class)
@@ -48,8 +58,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @SneakyThrows(MessagingException.class)
     public int sendDrafts(String draftFolderName, String sentFolderName) {
         @Cleanup Folder folder = new Folder(draftFolderName, javax.mail.Folder.READ_WRITE);
-        @Cleanup Transport transport = mailSession.getTransport("smtp");
-        transport.connect();
+        @Cleanup Transport transport = mailSession.getTransport();
+        transport.connect(smtp_host, smtp_user, smtp_password);
         @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, javax.mail.Folder.READ_WRITE);
         int numSent = 0;
         for (Message msg : folder.getFolder().getMessages()) {
