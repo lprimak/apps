@@ -8,12 +8,12 @@
     </h:head>
     <h:body>
         <h:form>
-            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.eraseJunk}"/>
+            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.eraseJunk}" update="status"/>
                 to Erase Junk Email</h1>
-            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.sendDrafts}"/>
+            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.sendDrafts}" update="status"/>
                 to Send Draft Emails</h1>
         </h:form>
-        <h:form>
+        <h:form id="status">
             <h3>E-Mail Operation Status: ${emailManager.emailStatus}</h3>
             <p:commandButton value="Log Out" action="#{authc.logout}"/>
         </h:form>

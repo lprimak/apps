@@ -16,6 +16,8 @@ import com.flowlogix.website.security.UserAuth;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.mail.Address;
 import javax.mail.MailSessionDefinition;
@@ -43,6 +45,17 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Inject
     @ConfigProperty(name = "hope-smtp-password", defaultValue = "none")
     private String smtp_password;
+
+    @PostConstruct
+    @SneakyThrows(MessagingException.class)
+    void init() {
+        @Cleanup var transport = mailSession.getTransport();
+        transport.connect(smtp_host, smtp_user, smtp_password);
+        @Cleanup var store = mailSession.getStore();
+        UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
+        Objects.requireNonNull(user, "not authenticated");
+        store.connect(user.getUserName(), user.getPassword());
+    }
 
     @Override
     @SneakyThrows(MessagingException.class)

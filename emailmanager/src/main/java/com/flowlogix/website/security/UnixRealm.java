@@ -7,6 +7,7 @@ package com.flowlogix.website.security;
 import com.flowlogix.website.ui.Constants;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,7 +17,6 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.apache.shiro.authz.permission.WildcardPermissionResolver;
@@ -70,15 +70,13 @@ public class UnixRealm extends AuthorizingRealm {
     @Override
     @SneakyThrows(PAMException.class)
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        var roles = new HashSet<String>();
-        var permissions = new HashSet<Permission>();
-        permissions.add(new WildcardPermission("mail:*"));
         Collection<UserAuth> principalsList = principals.byType(UserAuth.class);
 
         if (principalsList.isEmpty()) {
             throw new AuthorizationException("Empty principals list!");
         }
 
+        var roles = new HashSet<String>();
         for (UserAuth userPrincipal : principalsList) {
             @Cleanup("dispose")
             PAM pam = getPam();
@@ -86,7 +84,7 @@ public class UnixRealm extends AuthorizingRealm {
             roles.addAll(unixUser.getGroups());
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
-        info.setObjectPermissions(permissions);
+        info.setObjectPermissions(Set.of(new WildcardPermission("mail:*")));
 
         return info;
     }

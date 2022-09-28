@@ -22,7 +22,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
             "fish.payara.connection-validation-method = auto-commit"})
 public class Constants {
     @Inject
-    @ConfigProperty(name = "com.flowlogix.pam-service-name", defaultValue = "pwauth")
+    @ConfigProperty(name = "com.flowlogix.pam-service-name", defaultValue = "login")
     String pamAuthServiceName;
     @Inject
     @ConfigProperty(name = "com.flowlogix.junk-folder-name", defaultValue = "Junk")
