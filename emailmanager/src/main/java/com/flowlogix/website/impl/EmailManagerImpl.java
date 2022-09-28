@@ -27,11 +27,14 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
 @MailSessionDefinition(name = "java:app/mail/HopeMail",
-        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtps", storeProtocol = "imaps")
+        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp", storeProtocol = "imaps",
+        properties = {
+            "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=false"})
 @Slf4j
 public class EmailManagerImpl implements EmailManagerLocal {
     @Resource(name = "java:app/mail/HopeMail")
@@ -39,6 +42,9 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
     private String smtp_host;
+    @Inject
+    @ConfigProperty(name = "hope-smtp-port", defaultValue = "587")
+    private int smtp_port;
     @Inject
     @ConfigProperty(name = "hope-smtp-user", defaultValue = "none")
     private String smtp_user;
@@ -50,7 +56,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @SneakyThrows(MessagingException.class)
     void init() {
         @Cleanup var transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_user, smtp_password);
+        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
         @Cleanup var store = mailSession.getStore();
         UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
         Objects.requireNonNull(user, "not authenticated");
@@ -59,6 +65,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
 
     @Override
     @SneakyThrows(MessagingException.class)
+    @RequiresPermissions("mail:folder:write")
     public void eraseFolder(String folderName) {
         @Cleanup
         Folder folder = new Folder(folderName, javax.mail.Folder.READ_WRITE);
@@ -69,10 +76,11 @@ public class EmailManagerImpl implements EmailManagerLocal {
 
     @Override
     @SneakyThrows(MessagingException.class)
+    @RequiresPermissions({"mail:send", "mail:folder:read"})
     public int sendDrafts(String draftFolderName, String sentFolderName) {
         @Cleanup Folder folder = new Folder(draftFolderName, javax.mail.Folder.READ_WRITE);
         @Cleanup Transport transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_user, smtp_password);
+        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
         @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, javax.mail.Folder.READ_WRITE);
         int numSent = 0;
         for (Message msg : folder.getFolder().getMessages()) {

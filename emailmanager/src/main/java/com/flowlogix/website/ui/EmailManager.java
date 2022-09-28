@@ -1,10 +1,12 @@
 package com.flowlogix.website.ui;
 
 import com.flowlogix.website.EmailManagerLocal;
+import java.io.Serializable;
+import java.util.Optional;
 import javax.ejb.EJBException;
-import javax.enterprise.inject.Model;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import lombok.Getter;
+import javax.inject.Named;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.omnifaces.util.JNDIObjectLocator;
 import org.primefaces.PrimeFaces;
@@ -13,16 +15,18 @@ import org.primefaces.PrimeFaces;
  *
  * @author lprimak
  */
-@Model
+@Named @SessionScoped
 @RequiresPermissions({"mail:junk:erase", "mail:draft:send"})
-public class EmailManager {
+public class EmailManager implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static final String EMAIL_MESSAGE_ATTR = "com.flowlogix.emailmanager.email-message";
     private final EmailManagerLocal emailManager;
     private final JNDIObjectLocator locator = JNDIObjectLocator.builder().build();
     private final EmailManagerLocal eraserImpl = locator.getObject("java:module/EmailManagerImpl");
     private final EmailManagerLocal eraserMock = locator.getObject("java:module/EmailManagerMock");
     @Inject
     private Constants constants;
-    private @Getter String emailStatus = "<None>";
+    private String emailStatus;
 
     public EmailManager() {
         var eraser = eraserImpl;
@@ -57,5 +61,11 @@ public class EmailManager {
             emailStatus = junkErasedMessage;
         }
         PrimeFaces.current().executeScript("PF('poll').start()");
+    }
+
+    public String getEmailStatus() {
+        var es = Optional.ofNullable(emailStatus).orElse("<None>");
+        emailStatus = null;
+        return es;
     }
 }
