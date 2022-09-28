@@ -1,10 +1,19 @@
-#loginFormContainer {
-    background: url(../img/login-bg.png) no-repeat;
+/*#loginFormContainer {
     width:778px;
     height:600px;
     margin:0 auto;
 }
-
+*/
 #loginForm {
-    padding: 90px 110px;
+    background: url(../img/login-bg.png) no-repeat;
+    padding: 150px 150px;
+    padding-bottom: 350px;
+}
+
+#loginForm .ui-outputlabel {
+    margin: 5px;
+}
+
+#loginForm div {
+    margin-bottom: 10px;
 }

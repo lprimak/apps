@@ -7,29 +7,31 @@
         <title>Login Page</title>
         <h:outputStylesheet name="css/login-style.css"/>
     </h:head>
-    <h:body id="loginFormContainer">
-        <div jsf:rendered="#{authc.sessionExpired}" style="color: red;">
-            Your Session Has Expired
-        </div>
-        <div jsf:rendered="#{authc.loginFailure}" style="color: red;">
-            Login Failed
-        </div>
-        <h:form styleClass="rounded-border form-container" id="loginForm"  prependId="false">
-            <p:messages id="messages"/>
-            <p:focus for="username"/>
-            <div>
-                <p:outputLabel for="username" value="User Name"/>
-                <p:inputText id="username" required="true"/>
-            </div>
-            <div>
-                <p:outputLabel for="password" value="Password"/>
-                <p:password id="password" required="true"/>
-            </div>
-            <div>
-                <p:outputLabel for="rememberMe" value="Remember Me"/>
-                <h:selectBooleanCheckbox id="rememberMe" />
-            </div>
-            <p:commandButton value="Login ..." action="#{authc.login}" validateClient="true"/>
-        </h:form>
+    <h:body>
+        <p:panel>
+            <h:form id="loginForm" prependId="false">
+                <p:messages id="messages"/>
+                <div jsf:rendered="#{authc.sessionExpired}" style="color: red;">
+                    Your Session Has Expired
+                </div>
+                <div jsf:rendered="#{authc.loginFailure}" style="color: red;">
+                    Login Failed
+                </div>
+                <p:focus for="username"/>
+                <div>
+                    <p:outputLabel for="username" value="User Name"/>
+                    <p:inputText id="username" required="true"/>
+                </div>
+                <div>
+                    <p:outputLabel for="password" value="Password"/>
+                    <p:password id="password" required="true"/>
+                </div>
+                <div>
+                    <p:outputLabel for="rememberMe" value="Remember Me"/>
+                    <h:selectBooleanCheckbox id="rememberMe" />
+                </div>
+                <p:commandButton value="Login ..." action="#{authc.login}" validateClient="true"/>
+            </h:form>
+        </p:panel>
     </h:body>
 </html>
