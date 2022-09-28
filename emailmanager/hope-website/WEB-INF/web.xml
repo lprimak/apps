@@ -4,6 +4,9 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaeehttp://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <display-name>Hope</display-name>
     <distributable/>
+    <welcome-files>
+        <welcome-file>emailmanager.xhtml</welcome-file>
+    </welcome-files>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>

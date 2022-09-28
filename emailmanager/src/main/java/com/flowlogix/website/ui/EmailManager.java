@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import lombok.Getter;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.omnifaces.util.JNDIObjectLocator;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -55,5 +56,6 @@ public class EmailManager {
         } else {
             emailStatus = junkErasedMessage;
         }
+        PrimeFaces.current().executeScript("PF('poll').start()");
     }
 }

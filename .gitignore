@@ -9,3 +9,4 @@ target
 **.idea
 **nb-configuration.xml
 **nbactions.xml
+**faces-config.NavData
