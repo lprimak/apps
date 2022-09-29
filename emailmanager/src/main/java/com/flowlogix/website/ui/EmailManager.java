@@ -2,7 +2,6 @@ package com.flowlogix.website.ui;
 
 import com.flowlogix.website.EmailManagerLocal;
 import java.io.Serializable;
-import java.util.Optional;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -54,13 +53,22 @@ public class EmailManager implements Serializable {
 
     }
 
-    public String getEmailStatus() {
-        var es = Optional.ofNullable(emailStatus).orElse("<None>");
-        emailStatus = null;
-        return es;
+    public boolean isStartPolling() {
+        boolean startPolling = emailStatus != null;
+        if (startPolling) {
+            highlightStatus(false);
+        }
+        return startPolling;
     }
 
-    public void highlightStatus() {
+    public String getEmailStatus() {
+        return emailStatus != null ? emailStatus : "<None>";
+    }
+
+    public void highlightStatus(boolean resetStatus) {
+        if (resetStatus) {
+            emailStatus = null;
+        }
         PrimeFaces.current().executeScript("$(emailStatus).effect('highlight', {color: '#5AACFD'}, 1000)");
     }
 
@@ -70,7 +78,6 @@ public class EmailManager implements Serializable {
         } else {
             emailStatus = junkErasedMessage;
         }
-        highlightStatus();
         PrimeFaces.current().executeScript("PF('poll').start()");
     }
 }

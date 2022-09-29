@@ -16,7 +16,8 @@
         <h:form id="status">
             <h3>E-Mail Operation Status: <span id="emailStatus">${emailManager.emailStatus}</span></h3>
             <p:commandButton value="Log Out" action="#{authc.logout}"/>
-            <p:poll interval="5" autoStart="false" stop="#{true}" listener="#{emailManager.highlightStatus}" widgetVar="poll" update="status"/>
+            <p:poll interval="5" autoStart="#{emailManager.startPolling}" stop="true"
+                    listener="#{emailManager.highlightStatus(true)}" widgetVar="poll" update="status"/>
         </h:form>
     </h:body>
 </html>

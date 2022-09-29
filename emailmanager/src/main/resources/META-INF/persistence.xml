@@ -6,7 +6,8 @@
     <jta-data-source>java:app/jdbc/Hope</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <!--<property name="eclipselink.ddl-generation.output-mode" vakue="sql-script"/>-->
     </properties>
   </persistence-unit>
 </persistence>
