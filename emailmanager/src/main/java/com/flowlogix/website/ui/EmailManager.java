@@ -54,18 +54,23 @@ public class EmailManager implements Serializable {
 
     }
 
+    public String getEmailStatus() {
+        var es = Optional.ofNullable(emailStatus).orElse("<None>");
+        emailStatus = null;
+        return es;
+    }
+
+    public void highlightStatus() {
+        PrimeFaces.current().executeScript("$(emailStatus).effect('highlight', {color: '#5AACFD'}, 1000)");
+    }
+
     private void setMockMessage(String junkErasedMessage) {
         if (emailManager.isMock()) {
             emailStatus = junkErasedMessage + " (Mock)";
         } else {
             emailStatus = junkErasedMessage;
         }
+        highlightStatus();
         PrimeFaces.current().executeScript("PF('poll').start()");
-    }
-
-    public String getEmailStatus() {
-        var es = Optional.ofNullable(emailStatus).orElse("<None>");
-        emailStatus = null;
-        return es;
     }
 }
