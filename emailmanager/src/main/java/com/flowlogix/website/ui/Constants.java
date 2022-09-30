@@ -33,4 +33,8 @@ public class Constants {
     @Inject
     @ConfigProperty(name = "com.flowlogix.sent-folder-name", defaultValue = "Sent")
     String sentFolderName;
+
+    @Inject
+    @ConfigProperty(name = "com.flowlogix.cipher-key", defaultValue = " ")
+    String cipherKey;
 }
