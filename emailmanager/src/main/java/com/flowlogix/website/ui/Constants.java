@@ -13,8 +13,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 @Getter
 @DataSourceDefinition(name = "java:app/jdbc/Hope", className = "org.postgresql.ds.PGSimpleDataSource",
-        serverName = "${MPCONFIG=hope-db-hostname:nova.hope.nyc.ny.us}", portNumber = 5432,
-        databaseName = "hope",
+        url = "${MPCONFIG=hope-db-url:jdbc:postgresql://nova.hope.nyc.ny.us/hope?sslmode=disable}",
         user = "${MPCONFIG=hope-db-username:}", password = "${MPCONFIG=hope-db-password:}",
         maxPoolSize = 32, minPoolSize = 8,
         properties = {
