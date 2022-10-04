@@ -13,7 +13,7 @@
                           monthNavigator="true" yearNavigator="true"
                           showWeek="true"/>
             <p:dataTable value="#{birthdays.birthdays}" var="birthday"
-                         editable="true" editMode="cell">
+                         widgetVar="birthdayTable" editable="true" editMode="cell">
                 <p:ajax event="cellEdit" listener="#{birthdays.onCellEdited}"/>
                 <p:column headerText="Name">
                     <p:cellEditor>
@@ -34,6 +34,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <p:datePicker value="#{birthday.doB}"
+                                          onchange="var bt = PF('birthdayTable'); bt.saveCell(bt.currentCell)"
                                           monthNavigator="true" yearNavigator="true"
                                           showWeek="true" pattern="MMM dd, yyyy"/>
                         </f:facet>
