@@ -31,8 +31,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
 @MailSessionDefinition(name = "java:app/mail/HopeMail",
-        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp",
-        storeProtocol = "${MPCONFIG=hope-imap-proto:imaps}",
+        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp", storeProtocol = "imaps",
         properties = {
             "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=false"})
 @Slf4j
