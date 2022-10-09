@@ -1,24 +1,35 @@
 package com.flowlogix.website.ui;
 
+import com.flowlogix.website.EmailManagerLocal;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.mail.MessagingException;
+import static lombok.AccessLevel.PACKAGE;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.omnifaces.util.JNDIObjectLocator;
+import org.omnifaces.util.Lazy;
 import org.primefaces.PrimeFaces;
 
 /**
  *
  * @author lprimak
  */
-@Named @SessionScoped
+@Named @SessionScoped @Slf4j
+@Builder(access = PACKAGE, toBuilder = true)
+@NoArgsConstructor @AllArgsConstructor
 @RequiresPermissions({"mail:junk:erase", "mail:draft:send"})
 public class EmailManager implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Constants constants;
-    @Inject
-    private EmailManagerProducer emailManager;
+    private final JNDIObjectLocator locator = JNDIObjectLocator.builder().build();
+    private final transient Lazy<EmailManagerLocal> emailManager = new Lazy<>(this::createEmailManager);
     private String emailStatus;
 
     public void eraseJunk() {
@@ -63,5 +74,24 @@ public class EmailManager implements Serializable {
             emailStatus = junkErasedMessage;
         }
         PrimeFaces.current().executeScript("PF('poll').start()");
+    }
+
+    private EmailManagerLocal createEmailManager() {
+        try {
+            EmailManagerLocal eraserImpl = locator.getObject("java:module/EmailManagerImpl");
+            eraserImpl.pingImap();
+            return eraserImpl;
+        } catch (MessagingException e) {
+            log.warn("Ping Imap", e);
+            return locator.getObject("java:module/EmailManagerMock");
+        }
+    }
+
+    /**
+     * This deals with transient final fields correctly.
+     * @return result
+     */
+    protected Object readResolve() {
+        return toBuilder().build();
     }
 }
