@@ -67,9 +67,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @RequiresPermissions({"mail:send", "mail:folder:read"})
     public int sendDrafts(String draftFolderName, String sentFolderName) {
         @Cleanup Folder folder = new Folder(draftFolderName, javax.mail.Folder.READ_WRITE);
-        @Cleanup Transport transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
         @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, javax.mail.Folder.READ_WRITE);
+        @Cleanup Transport transport = null;
         int numSent = 0;
         for (Message msg : folder.getFolder().getMessages()) {
             if (msg.isSet(Flag.DELETED)) {
@@ -79,6 +78,9 @@ public class EmailManagerImpl implements EmailManagerLocal {
             addAddresses(addrs, msg, Message.RecipientType.TO);
             addAddresses(addrs, msg, Message.RecipientType.CC);
             addAddresses(addrs, msg, Message.RecipientType.BCC);
+            if (transport == null) {
+                transport = connectTransport();
+            }
             transport.sendMessage(msg, addrs.toArray(Address[]::new));
             sentFolder.getFolder().appendMessages(new Message[] { msg });
             msg.setFlag(Flag.DELETED, true);
@@ -97,16 +99,12 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Override
     @RequiresPermissions("mail:folder:read")
     public void pingImap() throws MessagingException {
-        @Cleanup var store = mailSession.getStore();
-        UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
-        Objects.requireNonNull(user, "not authenticated");
-        store.connect(user.getUserName(), user.getPassword());
+        @Cleanup var store = connectImap();
     }
 
     @Override
     public void pingSmtp() throws MessagingException {
-        @Cleanup var transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
+        @Cleanup var transport = connectTransport();
     }
 
     private void addAddresses(List<Address> addrs, Message msg, RecipientType type) throws MessagingException {
@@ -116,16 +114,34 @@ public class EmailManagerImpl implements EmailManagerLocal {
         }
     }
 
+    private Store connectImap() throws MessagingException {
+        var store = mailSession.getStore();
+        try {
+            log.debug(mailSession.getProperties().toString());
+            UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
+            Objects.requireNonNull(user, "not authenticated");
+            store.connect(user.getUserName(), user.getPassword());
+            return store;
+        } catch (MessagingException e) {
+            store.close();
+            throw e;
+        }
+    }
+
+    @SneakyThrows(MessagingException.class)
+    private Transport connectTransport() {
+        var transport = mailSession.getTransport();
+        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
+        return transport;
+    }
+
     private class Folder {
         @Getter
         private final javax.mail.Folder folder;
         private final Store store;
         public Folder(String folderName, int options) throws MessagingException {
-            store = mailSession.getStore();
+            store = connectImap();
             try {
-                log.debug(mailSession.getProperties().toString());
-                UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
-                store.connect(user.getUserName(), user.getPassword());
                 folder = store.getFolder(folderName);
                 folder.open(options);
             } catch (MessagingException e) {
