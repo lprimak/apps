@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <flowlogix.version>5.0-M9</flowlogix.version>
+        <flowlogix.version>5.0-M10</flowlogix.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
     </properties>
@@ -52,6 +52,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>shiro-ee</artifactId>
             <version>${flowlogix.version}</version>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>3.14.0-FL-1</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>

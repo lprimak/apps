@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.mail.Address;
 import javax.mail.MailSessionDefinition;
@@ -32,7 +31,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
 @MailSessionDefinition(name = "java:app/mail/HopeMail",
-        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp", storeProtocol = "imaps",
+        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp",
+        storeProtocol = "${MPCONFIG=hope-imap-proto:imaps}",
         properties = {
             "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=false"})
 @Slf4j
@@ -51,17 +51,6 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Inject
     @ConfigProperty(name = "hope-smtp-password", defaultValue = "none")
     private String smtp_password;
-
-    @PostConstruct
-    @SneakyThrows(MessagingException.class)
-    void init() {
-        @Cleanup var transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
-        @Cleanup var store = mailSession.getStore();
-        UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
-        Objects.requireNonNull(user, "not authenticated");
-        store.connect(user.getUserName(), user.getPassword());
-    }
 
     @Override
     @SneakyThrows(MessagingException.class)
@@ -104,6 +93,21 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Override
     public boolean isMock() {
         return false;
+    }
+
+    @Override
+    @RequiresPermissions("mail:folder:read")
+    public void pingImap() throws MessagingException {
+        @Cleanup var store = mailSession.getStore();
+        UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
+        Objects.requireNonNull(user, "not authenticated");
+        store.connect(user.getUserName(), user.getPassword());
+    }
+
+    @Override
+    public void pingSmtp() throws MessagingException {
+        @Cleanup var transport = mailSession.getTransport();
+        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
     }
 
     private void addAddresses(List<Address> addrs, Message msg, RecipientType type) throws MessagingException {
