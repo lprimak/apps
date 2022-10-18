@@ -34,9 +34,8 @@
                         </f:facet>
                         <f:facet name="input">
                             <p:datePicker value="#{birthday.doB}"
-                                          onchange="var birthdayTable = PF('birthdayTable');
-                                              var currentCell = birthdayTable.jq.find('td:has(.ui-cell-editor-input:visible)');
-                                              if (currentCell.length) birthdayTable.saveCell(currentCell)"
+                                          onchange="var bt = PF('birthdayTable');
+                                              if (bt.currentCell) bt.saveCell(bt.currentCell)"
                                           monthNavigator="true" yearNavigator="true"
                                           showWeek="true" pattern="MMM dd, yyyy"/>
                         </f:facet>
