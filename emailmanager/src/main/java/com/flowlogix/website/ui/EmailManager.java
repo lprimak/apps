@@ -1,6 +1,5 @@
 package com.flowlogix.website.ui;
 
-import com.flowlogix.shiro.ee.filters.Forms;
 import com.flowlogix.website.EmailManagerLocal;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -40,7 +39,6 @@ public class EmailManager implements Serializable {
         } catch (MessagingException e) {
             log.debug("failed to erase junk mail", e);
             displayMessage("Failed to erase junk mail: " + e.getMessage());
-            Forms.redirectToView();
         }
     }
 
@@ -57,7 +55,6 @@ public class EmailManager implements Serializable {
         } catch (MessagingException e) {
             log.debug("failed to send drafts", e);
             displayMessage("Failed to send drafts: " + e.getMessage());
-            Forms.redirectToView();
         }
     }
 
