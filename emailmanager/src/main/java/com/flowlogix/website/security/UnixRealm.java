@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -31,6 +33,7 @@ import org.omnifaces.util.Beans;
  *
  * @author lprimak
  */
+@Slf4j
 public class UnixRealm extends AuthorizingRealm {
     private final String serviceName = Beans.getReference(Constants.class).getPamAuthServiceName();
 
@@ -68,7 +71,6 @@ public class UnixRealm extends AuthorizingRealm {
     }
 
     @Override
-    @SneakyThrows(PAMException.class)
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Collection<UserAuth> principalsList = principals.byType(UserAuth.class);
 
@@ -77,11 +79,16 @@ public class UnixRealm extends AuthorizingRealm {
         }
 
         var roles = new HashSet<String>();
-        for (UserAuth userPrincipal : principalsList) {
-            @Cleanup("dispose")
-            PAM pam = getPam();
-            UnixUser unixUser = pam.authenticate(userPrincipal.getUserName(), userPrincipal.getPassword());
-            roles.addAll(unixUser.getGroups());
+        try {
+            for (UserAuth userPrincipal : principalsList) {
+                @Cleanup("dispose")
+                PAM pam = getPam();
+                UnixUser unixUser = pam.authenticate(userPrincipal.getUserName(), userPrincipal.getPassword());
+                roles.addAll(unixUser.getGroups());
+            }
+        } catch (PAMException ex) {
+            log.debug("PAM authentication failure", ex);
+            SecurityUtils.getSubject().logout();
         }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
         info.setObjectPermissions(Set.of(new WildcardPermission("mail:*")));
