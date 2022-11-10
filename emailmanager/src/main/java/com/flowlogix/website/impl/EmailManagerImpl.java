@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.inject.Inject;
 import javax.mail.Address;
+import javax.mail.AuthenticationFailedException;
 import javax.mail.MailSessionDefinition;
 import javax.mail.Transport;
 import lombok.Cleanup;
@@ -122,6 +123,10 @@ public class EmailManagerImpl implements EmailManagerLocal {
             Objects.requireNonNull(user, "not authenticated");
             store.connect(user.getUserName(), user.getPassword());
             return store;
+        } catch (AuthenticationFailedException e) {
+            store.close();
+            SecurityUtils.getSubject().logout();
+            throw e;
         } catch (MessagingException e) {
             store.close();
             throw e;
