@@ -53,9 +53,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     private String smtp_password;
 
     @Override
-    @SneakyThrows(MessagingException.class)
     @RequiresPermissions("mail:folder:write")
-    public void eraseFolder(String folderName) {
+    public void eraseFolder(String folderName) throws MessagingException {
         @Cleanup
         Folder folder = new Folder(folderName, javax.mail.Folder.READ_WRITE);
         for (Message msg : folder.getFolder().getMessages()) {
@@ -64,9 +63,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     }
 
     @Override
-    @SneakyThrows(MessagingException.class)
     @RequiresPermissions({"mail:send", "mail:folder:read"})
-    public int sendDrafts(String draftFolderName, String sentFolderName) {
+    public int sendDrafts(String draftFolderName, String sentFolderName) throws MessagingException {
         @Cleanup Folder folder = new Folder(draftFolderName, javax.mail.Folder.READ_WRITE);
         @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, javax.mail.Folder.READ_WRITE);
         @Cleanup Transport transport = null;
