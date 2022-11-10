@@ -23,7 +23,6 @@ import org.primefaces.PrimeFaces;
 @Named @SessionScoped @Slf4j
 @Builder(access = PACKAGE, toBuilder = true)
 @NoArgsConstructor @AllArgsConstructor
-@RequiresPermissions({"mail:junk:erase", "mail:draft:send"})
 public class EmailManager implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
@@ -32,11 +31,13 @@ public class EmailManager implements Serializable {
     private final transient Lazy<EmailManagerLocal> emailManager = new Lazy<>(this::createEmailManager);
     private String emailStatus;
 
+    @RequiresPermissions("mail:junk:erase")
     public void eraseJunk() {
         emailManager.get().eraseFolder(constants.getJunkFolderName());
         displayMessage("Erased Junk Mail");
     }
 
+    @RequiresPermissions("mail:draft:send")
     public void sendDrafts() {
         int numSent = emailManager.get().sendDrafts(constants.getDraftFolderName(),
                 constants.getSentFolderName());
