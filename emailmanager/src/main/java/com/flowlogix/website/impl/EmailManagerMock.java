@@ -36,7 +36,11 @@ public class EmailManagerMock implements EmailManagerLocal {
     }
 
     private void logUserName() {
-        UserAuth auth = SecurityUtils.getSubject().getPrincipals().oneByType(UserAuth.class);
-        log.info("User: {}", auth.getUserName());
+        if (SecurityUtils.getSubject().getPrincipals() != null) {
+            UserAuth auth = SecurityUtils.getSubject().getPrincipals().oneByType(UserAuth.class);
+            log.info("User: {}", auth.getUserName());
+        } else {
+            log.info("User: <none>");
+        }
     }
 }
