@@ -123,7 +123,6 @@ public class EmailManagerImpl implements EmailManagerLocal {
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();
-            SecurityUtils.getSubject().logout();
             throw e;
         } catch (MessagingException e) {
             store.close();
