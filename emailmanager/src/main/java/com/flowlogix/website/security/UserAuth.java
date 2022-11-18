@@ -22,10 +22,8 @@ public class UserAuth implements Serializable {
     private final byte[] password;
 
     private static final long serialVersionUID = 2L;
-    @SuppressWarnings("serial")
     private transient final Lazy<CipherKeySupplier> keySource
             = new Lazy<>(() -> Beans.getReference(CipherKeySupplier.class));
-    @SuppressWarnings("serial")
     private transient final Lazy<AesCipherService> cipherService = new Lazy<>(AesCipherService::new);
 
     public UserAuth(String userName, String password) {
