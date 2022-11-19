@@ -4,5 +4,5 @@
   * Junk Mail Eraser
   * Draft Mail Sender
 
-### Flow Logix Tapestry Library examples ###
-This project contains examples for the [Flow Logix Tapestry Library](http://code.google.com/p/flowlogix/wiki/TapestryLibrary)
+### Flow Logix Library examples ###
+This project contains examples for the [Flow Logix Library](https://github.com/flowlogix/flowlogix)
