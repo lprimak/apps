@@ -25,8 +25,8 @@ public class CipherKeySource implements CipherKeySupplier {
         cipherKey = constants.getCipherKey();
         if (isBlank(cipherKey)) {
             var acs = new AesCipherService();
-            cipherKey = new String(acs.generateNewKey(128)
-                    .getEncoded(), StandardCharsets.UTF_8);
+            acs.setKeySize(128);
+            cipherKey = new String(acs.generateNewKey().getEncoded(), StandardCharsets.UTF_8);
         }
     }
 
