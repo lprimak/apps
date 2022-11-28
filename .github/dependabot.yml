@@ -10,3 +10,10 @@ updates:
     open-pull-requests-limit: 50
     schedule:
       interval: "daily"
+
+ - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: 'jakarta-ee-10'
+    open-pull-requests-limit: 50
+    schedule:
+      interval: "daily"
