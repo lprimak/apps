@@ -34,11 +34,13 @@
             <groupId>org.kohsuke</groupId>
             <artifactId>libpam4j</artifactId>
             <version>1.11</version>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
             <version>5.12.1</version>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
