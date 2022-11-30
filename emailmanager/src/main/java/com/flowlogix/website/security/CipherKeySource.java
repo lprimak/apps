@@ -2,7 +2,7 @@ package com.flowlogix.website.security;
 
 import com.flowlogix.shiro.ee.cdi.KeyGen.CipherKeySupplier;
 import com.flowlogix.website.ui.Constants;
-import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,8 +25,7 @@ public class CipherKeySource implements CipherKeySupplier {
         cipherKey = constants.getCipherKey();
         if (isBlank(cipherKey)) {
             var acs = new AesCipherService();
-            acs.setKeySize(128);
-            cipherKey = new String(acs.generateNewKey().getEncoded(), StandardCharsets.UTF_8);
+            cipherKey = Base64.getEncoder().encodeToString(acs.generateNewKey().getEncoded());
         }
     }
 
