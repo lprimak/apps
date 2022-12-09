@@ -6,7 +6,7 @@ package com.flowlogix.website.dao;
 
 import com.flowlogix.website.entities.Sample;
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 
 /**
  *

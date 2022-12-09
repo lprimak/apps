@@ -2,8 +2,8 @@ package com.flowlogix.website.impl;
 
 import com.flowlogix.website.EmailManagerLocal;
 import com.flowlogix.website.security.UserAuth;
-import javax.ejb.Stateless;
-import javax.mail.MessagingException;
+import jakarta.ejb.Stateless;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 

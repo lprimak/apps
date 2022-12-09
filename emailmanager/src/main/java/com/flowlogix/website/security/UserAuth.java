@@ -8,7 +8,7 @@ import com.flowlogix.shiro.ee.cdi.KeyGen.CipherKeySupplier;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import lombok.EqualsAndHashCode;
-import org.apache.shiro.crypto.AesCipherService;
+import org.apache.shiro.crypto.cipher.AesCipherService;
 import org.omnifaces.util.Beans;
 import org.omnifaces.util.Lazy;
 
@@ -40,12 +40,12 @@ public class UserAuth implements Serializable {
 
     public String getUserName() {
         return new String(cipherService.get().decrypt(userName, keySource.get().get()
-                .getBytes(StandardCharsets.UTF_8)).getBytes(), StandardCharsets.UTF_8);
+                .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8);
     }
 
     public String getPassword() {
         return new String(cipherService.get().decrypt(password, keySource.get().get()
-                .getBytes(StandardCharsets.UTF_8)).getBytes(), StandardCharsets.UTF_8);
+                .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8);
     }
 
     protected Object readResolve() {

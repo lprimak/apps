@@ -2,10 +2,10 @@ package com.flowlogix.website.ui;
 
 import com.flowlogix.website.EmailManagerLocal;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.mail.MessagingException;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.mail.MessagingException;
 import static lombok.AccessLevel.PACKAGE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
