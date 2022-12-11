@@ -60,7 +60,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>shiro-ee</artifactId>
             <version>${flowlogix.version}</version>
-            <classifier>jakarta-shiro2</classifier>
+            <classifier>shiro2</classifier>
             <optional>${skinny.war}</optional>
             <exclusions>
                 <exclusion>
