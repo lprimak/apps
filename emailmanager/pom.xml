@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <flowlogix.version>5.1.5</flowlogix.version>
+        <flowlogix.version>5.1.7</flowlogix.version>
         <shiro.version>2.0.0-lp-nov30</shiro.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
