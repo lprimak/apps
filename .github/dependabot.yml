@@ -11,9 +11,23 @@ updates:
     schedule:
       interval: "daily"
 
- - package-ecosystem: "maven"
+  - package-ecosystem: "maven"
     directory: "/"
     target-branch: 'jakarta-ee-10'
+    open-pull-requests-limit: 50
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: 'jdk-modules'
+    open-pull-requests-limit: 50
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: 'jdk-modules-shiro1'
     open-pull-requests-limit: 50
     schedule:
       interval: "daily"
