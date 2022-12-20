@@ -24,13 +24,23 @@
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>10.0.0</version>
+            <type>pom</type>
             <scope>provided</scope>
+            <!-- See https://github.com/eclipse-ee4j/jakartaee-api/issues/133 -->
             <exclusions>
                 <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
+                    <groupId>jakarta.platform</groupId>
+                    <artifactId>jakarta.jakartaee-web-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- See https://github.com/eclipse-ee4j/jakartaee-api/issues/133 -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
@@ -38,28 +48,6 @@
             <version>5.0</version>
             <type>pom</type>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.enterprise</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.ws.rs</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.json</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.json.bind</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.annotation</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
@@ -184,6 +172,11 @@
                 <version>${flowlogix.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>2.1.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,5 +1,8 @@
 module HopeNYC {
-    requires jakarta.jakartaee.api;
+    requires jakarta.mail;
+    requires jakarta.ejb;
+    requires jakarta.persistence;
+    requires jakarta.validation;
     requires lombok;
     requires shiro.core;
     requires omnifaces;
