@@ -16,18 +16,19 @@ import com.flowlogix.website.security.UserAuth;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import jakarta.inject.Inject;
 import jakarta.mail.Address;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.mail.MailSessionDefinition;
 import jakarta.mail.Transport;
+import java.util.Optional;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.cdi.annotations.Principal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
@@ -39,6 +40,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class EmailManagerImpl implements EmailManagerLocal {
     @Resource(name = "java:app/mail/HopeMail")
     Session mailSession;
+    @Inject
+    @Principal
+    Optional<UserAuth> user;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
     private String smtp_host;
@@ -117,9 +121,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
         var store = mailSession.getStore();
         try {
             log.debug(mailSession.getProperties().toString());
-            UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
-            Objects.requireNonNull(user, "not authenticated");
-            store.connect(user.getUserName(), user.getPassword());
+            store.connect(user.orElseThrow(UnauthenticatedException::new).getUserName(),
+                    user.get().getPassword());
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();

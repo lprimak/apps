@@ -4,10 +4,10 @@
  */
 package com.flowlogix.website.security;
 
-import com.flowlogix.shiro.ee.cdi.KeyGen.CipherKeySupplier;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import lombok.EqualsAndHashCode;
+import org.apache.shiro.cdi.annotations.CipherKeySupplier;
 import org.apache.shiro.crypto.cipher.AesCipherService;
 import org.omnifaces.util.Beans;
 import org.omnifaces.util.Lazy;
