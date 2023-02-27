@@ -1,7 +1,7 @@
 package com.flowlogix.website;
 
-import javax.ejb.Local;
-import javax.mail.MessagingException;
+import jakarta.ejb.Local;
+import jakarta.mail.MessagingException;
 
 @Local
 public interface EmailManagerLocal

@@ -1,13 +1,13 @@
 package com.flowlogix.website.security;
 
-import com.flowlogix.shiro.ee.cdi.KeyGen.CipherKeySupplier;
 import com.flowlogix.website.ui.Constants;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Base64;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import org.apache.shiro.crypto.AesCipherService;
+import org.apache.shiro.cdi.annotations.CipherKeySupplier;
+import org.apache.shiro.crypto.cipher.AesCipherService;
 
 /**
  *

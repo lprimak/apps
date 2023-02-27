@@ -2,14 +2,20 @@ package com.flowlogix.website.impl;
 
 import com.flowlogix.website.EmailManagerLocal;
 import com.flowlogix.website.security.UserAuth;
-import javax.ejb.Stateless;
-import javax.mail.MessagingException;
+import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
+import jakarta.mail.MessagingException;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.cdi.annotations.Principal;
 
 @Slf4j
 @Stateless
 public class EmailManagerMock implements EmailManagerLocal {
+    @Inject
+    @Principal
+    Optional<UserAuth> auth;
+
     @Override
     public void eraseFolder(String folderName) {
         // just a fake test
@@ -36,9 +42,8 @@ public class EmailManagerMock implements EmailManagerLocal {
     }
 
     private void logUserName() {
-        if (SecurityUtils.getSubject().getPrincipals() != null) {
-            UserAuth auth = SecurityUtils.getSubject().getPrincipals().oneByType(UserAuth.class);
-            log.info("User: {}", auth.getUserName());
+        if (auth.isPresent()) {
+            log.info("User: {}", auth.get().getUserName());
         } else {
             log.info("User: <none>");
         }

@@ -1,8 +1,8 @@
 package com.flowlogix.website.ui;
 
-import javax.annotation.sql.DataSourceDefinition;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.sql.DataSourceDefinition;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.Getter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

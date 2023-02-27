@@ -1,14 +1,14 @@
 package com.flowlogix.website.impl;
 
 
-import javax.annotation.Resource;
-import javax.ejb.Stateless;
-import javax.mail.Flags.Flag;
-import javax.mail.Message;
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
+import jakarta.annotation.Resource;
+import jakarta.ejb.Stateless;
+import jakarta.mail.Flags.Flag;
+import jakarta.mail.Message;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.Store;
 
 import com.flowlogix.website.EmailManagerLocal;
 
@@ -16,18 +16,19 @@ import com.flowlogix.website.security.UserAuth;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-import javax.inject.Inject;
-import javax.mail.Address;
-import javax.mail.AuthenticationFailedException;
-import javax.mail.MailSessionDefinition;
-import javax.mail.Transport;
+import jakarta.inject.Inject;
+import jakarta.mail.Address;
+import jakarta.mail.AuthenticationFailedException;
+import jakarta.mail.MailSessionDefinition;
+import jakarta.mail.Transport;
+import java.util.Optional;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.cdi.annotations.Principal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
@@ -39,6 +40,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class EmailManagerImpl implements EmailManagerLocal {
     @Resource(name = "java:app/mail/HopeMail")
     Session mailSession;
+    @Inject
+    @Principal
+    Optional<UserAuth> user;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
     private String smtp_host;
@@ -56,7 +60,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @RequiresPermissions("mail:folder:write")
     public void eraseFolder(String folderName) throws MessagingException {
         @Cleanup
-        Folder folder = new Folder(folderName, javax.mail.Folder.READ_WRITE);
+        Folder folder = new Folder(folderName, jakarta.mail.Folder.READ_WRITE);
         for (Message msg : folder.getFolder().getMessages()) {
             msg.setFlag(Flag.DELETED, true);
         }
@@ -65,8 +69,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Override
     @RequiresPermissions({"mail:send", "mail:folder:read"})
     public int sendDrafts(String draftFolderName, String sentFolderName) throws MessagingException {
-        @Cleanup Folder folder = new Folder(draftFolderName, javax.mail.Folder.READ_WRITE);
-        @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, javax.mail.Folder.READ_WRITE);
+        @Cleanup Folder folder = new Folder(draftFolderName, jakarta.mail.Folder.READ_WRITE);
+        @Cleanup Folder sentFolder = folder.getAnotherFolder(sentFolderName, jakarta.mail.Folder.READ_WRITE);
         @Cleanup Transport transport = null;
         int numSent = 0;
         for (Message msg : folder.getFolder().getMessages()) {
@@ -117,9 +121,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
         var store = mailSession.getStore();
         try {
             log.debug(mailSession.getProperties().toString());
-            UserAuth user = (UserAuth) SecurityUtils.getSubject().getPrincipal();
-            Objects.requireNonNull(user, "not authenticated");
-            store.connect(user.getUserName(), user.getPassword());
+            store.connect(user.orElseThrow(UnauthenticatedException::new).getUserName(),
+                    user.get().getPassword());
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();
@@ -139,7 +142,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
 
     private class Folder {
         @Getter
-        private final javax.mail.Folder folder;
+        private final jakarta.mail.Folder folder;
         private final Store store;
         public Folder(String folderName, int options) throws MessagingException {
             store = connectImap();
