@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <flowlogix.version>5.3.2</flowlogix.version>
+        <flowlogix.version>5.4</flowlogix.version>
         <shiro.version>2.0.0-alpha-1</shiro.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
@@ -142,7 +142,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>4.0.1</version>
+            <version>4.1</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
