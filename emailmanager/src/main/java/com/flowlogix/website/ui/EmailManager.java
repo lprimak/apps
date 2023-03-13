@@ -5,6 +5,7 @@ import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.mail.AuthenticationFailedException;
 import jakarta.mail.MessagingException;
 import static lombok.AccessLevel.PACKAGE;
 import lombok.AllArgsConstructor;
@@ -21,14 +22,12 @@ import org.primefaces.PrimeFaces;
  * @author lprimak
  */
 @Named @SessionScoped @Slf4j
-@Builder(access = PACKAGE, toBuilder = true)
-@NoArgsConstructor @AllArgsConstructor
 public class EmailManager implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private Constants constants;
     private final JNDIObjectLocator locator = JNDIObjectLocator.builder().build();
-    private final transient Lazy<EmailManagerLocal> emailManager = new Lazy<>(this::createEmailManager);
+    private final Lazy<EmailManagerLocal> emailManager = new Lazy<>(this::createEmailManager);
     private String emailStatus;
 
     @RequiresPermissions("mail:junk:erase")
@@ -87,21 +86,15 @@ public class EmailManager implements Serializable {
     }
 
     private EmailManagerLocal createEmailManager() {
+        EmailManagerLocal eraserImpl = locator.getObject("java:module/EmailManagerImpl");
         try {
-            EmailManagerLocal eraserImpl = locator.getObject("java:module/EmailManagerImpl");
             eraserImpl.pingImap();
+            return eraserImpl;
+        } catch (AuthenticationFailedException e) {
             return eraserImpl;
         } catch (MessagingException e) {
             log.warn("Ping Imap", e);
             return locator.getObject("java:module/EmailManagerMock");
         }
-    }
-
-    /**
-     * This deals with transient final fields correctly.
-     * @return result
-     */
-    protected Object readResolve() {
-        return toBuilder().build();
     }
 }
