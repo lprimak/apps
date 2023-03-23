@@ -14,6 +14,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <flowlogix.version>5.4</flowlogix.version>
         <shiro.version>2.0.0-alpha-1</shiro.version>
+        <lombok.version>1.18.26</lombok.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
         <pam.provided>true</pam.provided>
@@ -81,6 +82,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
@@ -235,7 +237,7 @@
                             <annotationProcessorPath>
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
-                                <version>1.18.24</version>
+                                <version>${lombok.version}</version>
                             </annotationProcessorPath>
                         </annotationProcessorPaths>
                     </configuration>
