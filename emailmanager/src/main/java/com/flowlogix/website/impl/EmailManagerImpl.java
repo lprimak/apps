@@ -1,6 +1,8 @@
 package com.flowlogix.website.impl;
 
 
+import com.flowlogix.website.security.UserAuth;
+import com.flowlogix.website.security.shiro.tmp.ShiroPrincipal;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.mail.Flags.Flag;
@@ -9,12 +11,11 @@ import jakarta.mail.Message.RecipientType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Store;
-
 import com.flowlogix.website.EmailManagerLocal;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import jakarta.inject.Inject;
 import jakarta.mail.Address;
 import jakarta.mail.AuthenticationFailedException;
@@ -24,8 +25,8 @@ import lombok.Cleanup;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.cdi.annotations.Principal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
@@ -38,7 +39,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Resource(name = "java:app/mail/HopeMail")
     Session mailSession;
     @Inject
-    ShiroPrincipal user;
+    @Principal
+    ShiroPrincipal<UserAuth> user;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
     private String smtp_host;
@@ -117,8 +119,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
         var store = mailSession.getStore();
         try {
             log.debug(mailSession.getProperties().toString());
-            store.connect(user.getPrincipal().orElseThrow(AuthenticationFailedException::new).getUserName(),
-                    user.getPrincipal().get().getPassword());
+            var principal = Optional.ofNullable(user.get()).orElseThrow(AuthenticationFailedException::new);
+            store.connect(principal.getUserName(), principal.getPassword());
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();
