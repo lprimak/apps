@@ -3,8 +3,11 @@ package com.flowlogix.website.security.shiro.tmp;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cdi.annotations.Principal;
+import org.omnifaces.util.Lazy;
 import java.lang.reflect.ParameterizedType;
+import java.util.function.Supplier;
 
 /**
  * Remove when Shiro alpha-2 is released
@@ -15,8 +18,10 @@ public class PrincipalProducer {
     @Produces
     @Principal
     @SuppressWarnings("unchecked")
-    public static <T> ShiroPrincipal<T> getPrincipal(InjectionPoint injectionPoint) {
+    public static <T> Supplier<T> getPrincipal(InjectionPoint injectionPoint) {
         var parameterizedType = (ParameterizedType) injectionPoint.getType();
-        return new ShiroPrincipal<>((Class<T>) parameterizedType.getActualTypeArguments()[0]);
+        var principalType = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+        Lazy.SerializableSupplier<T> supplier = () -> SecurityUtils.getSubject().getPrincipals().oneByType(principalType);
+        return supplier;
     }
 }

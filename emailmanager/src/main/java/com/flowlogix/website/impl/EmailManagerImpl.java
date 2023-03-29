@@ -2,7 +2,6 @@ package com.flowlogix.website.impl;
 
 
 import com.flowlogix.website.security.UserAuth;
-import com.flowlogix.website.security.shiro.tmp.ShiroPrincipal;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.mail.Flags.Flag;
@@ -16,6 +15,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import jakarta.inject.Inject;
 import jakarta.mail.Address;
 import jakarta.mail.AuthenticationFailedException;
@@ -40,7 +40,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
     Session mailSession;
     @Inject
     @Principal
-    ShiroPrincipal<UserAuth> user;
+    Supplier<UserAuth> user;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
     private String smtp_host;
