@@ -3,8 +3,12 @@ package com.flowlogix.website.security.shiro.tmp;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Qualifier;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.cdi.annotations.Principal;
 import org.omnifaces.util.Lazy;
 import java.lang.reflect.ParameterizedType;
 import java.util.function.Supplier;
@@ -15,6 +19,12 @@ import java.util.function.Supplier;
 @Dependent
 @Deprecated
 public class PrincipalProducer {
+    @Qualifier
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+    public @interface Principal {
+    }
+
     @Produces
     @Principal
     @SuppressWarnings("unchecked")
