@@ -100,7 +100,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @Override
     @RequiresPermissions("mail:folder:read")
     public void pingImap() throws MessagingException {
-        @Cleanup var store = connectImap();
+        @Cleanup var store = connectImap(false);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
         }
     }
 
-    private Store connectImap() throws MessagingException {
+    private Store connectImap(boolean authenticate) throws MessagingException {
         var store = mailSession.getStore();
         try {
             log.debug(mailSession.getProperties().toString());
@@ -124,7 +124,11 @@ public class EmailManagerImpl implements EmailManagerLocal {
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();
-            throw e;
+            if (!authenticate && e.getMessage().contains("failed to connect")) {
+                throw new MessagingException(e.getMessage());
+            } else {
+                throw e;
+            }
         } catch (MessagingException e) {
             store.close();
             throw e;
@@ -143,7 +147,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
         private final jakarta.mail.Folder folder;
         private final Store store;
         public Folder(String folderName, int options) throws MessagingException {
-            store = connectImap();
+            store = connectImap(true);
             try {
                 folder = store.getFolder(folderName);
                 folder.open(options);

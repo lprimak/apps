@@ -7,7 +7,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
-      <!--<property name="eclipselink.ddl-generation.output-mode" vakue="sql-script"/>-->
+      <!--<property name="eclipselink.ddl-generation.output-mode" value="sql-script"/>-->
     </properties>
   </persistence-unit>
 </persistence>
