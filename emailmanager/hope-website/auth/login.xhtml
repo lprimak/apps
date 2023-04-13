@@ -13,10 +13,10 @@
         <p:panel>
             <h:form id="loginForm" prependId="false">
                 <p:messages id="messages"/>
-                <div jsf:rendered="#{authc.sessionExpired}" style="color: red;">
+                <div jsf:rendered="#{authc.sessionExpired}" class="error">
                     Your Session Has Expired
                 </div>
-                <div jsf:rendered="#{authc.loginFailure}" style="color: red;">
+                <div jsf:rendered="#{authc.loginFailure}" class="error">
                     Login Failed
                 </div>
                 <p:focus for="username"/>

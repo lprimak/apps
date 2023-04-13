@@ -11,9 +11,29 @@
 }
 
 #loginForm .ui-outputlabel {
+    display: inline-block;
+    text-align: right;
     margin: 5px;
+    width: 8em;
+}
+
+#loginForm .ui-button {
+    margin-left: 2em;
 }
 
 #loginForm div {
+    margin-bottom: 10px;
+}
+
+#loginForm .error {
+    color: red;
+    margin-left: 2em;
+}
+
+#loginForm .ui-messages {
+    width: 30em;
+}
+
+#loginForm .ui-messages li {
     margin-bottom: 10px;
 }
