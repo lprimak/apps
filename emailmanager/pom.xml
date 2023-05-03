@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
+        <jakartaee.version>10.0.0</jakartaee.version>
         <flowlogix.version>5.4.1</flowlogix.version>
         <shiro2.version>2.0.0-alpha-1</shiro2.version>
         <lombok.version>1.18.26</lombok.version>
@@ -24,22 +25,6 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
-            <version>10.0.0</version>
-            <type>pom</type>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.platform</groupId>
-                    <artifactId>jakarta.jakartaee-web-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>10.0.0</version>
-            <type>pom</type>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
@@ -47,12 +32,6 @@
             <version>6.0</version>
             <type>pom</type>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.platform</groupId>
-                    <artifactId>jakarta.jakartaee-core-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- MP warnings aoidance: see https://github.com/quarkusio/quarkus/issues/19970 -->
         <dependency>
@@ -90,12 +69,6 @@
             <artifactId>flowlogix-jee</artifactId>
             <version>${flowlogix.version}</version>
             <classifier>jakarta</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.platform</groupId>
-                    <artifactId>jakarta.jakartaee-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -111,10 +84,6 @@
                 <exclusion>
                     <groupId>org.primefaces</groupId>
                     <artifactId>primefaces</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.platform</groupId>
-                    <artifactId>jakarta.jakartaee-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -191,6 +160,17 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${jakartaee.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-core-api</artifactId>
+                <version>${jakartaee.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -233,6 +213,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.11.0</version>
                     <configuration>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
                         <annotationProcessorPaths>
                             <annotationProcessorPath>
                                 <groupId>org.projectlombok</groupId>
