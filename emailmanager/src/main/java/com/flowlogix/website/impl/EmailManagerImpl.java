@@ -2,7 +2,6 @@ package com.flowlogix.website.impl;
 
 
 import com.flowlogix.website.security.UserAuth;
-import com.flowlogix.website.security.shiro.tmp.PrincipalProducer.Principal;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.mail.Flags.Flag;
@@ -27,6 +26,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.cdi.annotations.Principal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
