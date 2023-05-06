@@ -4,7 +4,7 @@
 
     <groupId>com.flowlogix</groupId>
     <artifactId>hope-website</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.x-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Hope NYC</name>
@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
         <jakartaee.version>10.0.0</jakartaee.version>
-        <flowlogix.version>5.4.1</flowlogix.version>
+        <flowlogix.version>6.0</flowlogix.version>
         <shiro2.version>2.0.0-alpha-1</shiro2.version>
         <lombok.version>1.18.26</lombok.version>
         <skinny.war>false</skinny.war>
@@ -31,7 +31,7 @@
             <artifactId>microprofile</artifactId>
             <type>pom</type>
         </dependency>
-        <!-- MP warnings aoidance: see https://github.com/quarkusio/quarkus/issues/19970 -->
+        <!-- MP warnings avoidance: see https://github.com/quarkusio/quarkus/issues/19970 -->
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>osgi.annotation</artifactId>
@@ -63,61 +63,41 @@
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
-            <groupId>com.flowlogix</groupId>
-            <artifactId>flowlogix-jee</artifactId>
-            <version>${flowlogix.version}</version>
-            <classifier>jakarta</classifier>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>flowlogix-datamodel</artifactId>
             <version>${flowlogix.version}</version>
-            <classifier>jakarta</classifier>
             <optional>${skinny.war}</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.flowlogix</groupId>
-                    <artifactId>flowlogix-jee</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.primefaces</groupId>
-                    <artifactId>primefaces</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
             <classifier>jakarta</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-cdi</artifactId>
             <classifier>jakarta</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <classifier>jakarta</classifier>
         </dependency>
-
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
             <classifier>jakarta</classifier>
         </dependency>
+
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <version>4.1</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>12.0.0</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
