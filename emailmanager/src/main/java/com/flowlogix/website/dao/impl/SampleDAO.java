@@ -6,10 +6,10 @@ package com.flowlogix.website.dao.impl;
 
 import com.flowlogix.website.dao.SampleDAOLocal;
 import com.flowlogix.website.entities.Sample;
+import jakarta.inject.Inject;
 import java.util.List;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 /**
  *
@@ -17,7 +17,7 @@ import jakarta.persistence.PersistenceContext;
  */
 @Stateless
 public class SampleDAO implements SampleDAOLocal {
-    @PersistenceContext
+    @Inject
     EntityManager em;
 
     @Override

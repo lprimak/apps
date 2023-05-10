@@ -2,6 +2,7 @@ package com.flowlogix.website.ui;
 
 import com.flowlogix.website.dao.SampleDAOLocal;
 import com.flowlogix.website.entities.Sample;
+import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +11,6 @@ import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import org.primefaces.event.CellEditEvent;
@@ -25,7 +25,7 @@ public class Birthdays implements Serializable {
     private static final long serialVersionUID = 1L;
     private @Getter List<Sample> birthdays;
     private @EJB SampleDAOLocal sampleDAO;
-    private @PersistenceContext EntityManager em;
+    private @Inject EntityManager em;
 
     @PostConstruct
     void init() {
