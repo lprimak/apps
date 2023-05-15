@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
         <jakartaee.version>10.0.0</jakartaee.version>
-        <flowlogix.version>6.1</flowlogix.version>
+        <flowlogix.version>6.3</flowlogix.version>
         <shiro2.version>2.0.0-alpha-2</shiro2.version>
         <lombok.version>1.18.26</lombok.version>
         <skinny.war>false</skinny.war>
