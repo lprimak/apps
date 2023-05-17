@@ -151,11 +151,6 @@
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-core-api</artifactId>
-                <version>${jakartaee.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
