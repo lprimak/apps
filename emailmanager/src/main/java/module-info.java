@@ -9,8 +9,8 @@ module HopeNYC {
     requires omnifaces;
     requires primefaces;
     requires microprofile.config.api;
-    requires flowlogix.datamodel;
-    requires flowlogix.jee;
+    requires com.flowlogix.datamodel;
+    requires com.flowlogix.jee;
     requires org.apache.commons.lang3;
     requires shiro.jakarta.ee;
     requires shiro.cdi;
