@@ -6,7 +6,7 @@ module HopeNYC {
     requires jakarta.faces.api;
     requires lombok;
     requires org.omnifaces;
-    requires primefaces;
+    requires org.primefaces;
     requires microprofile.config.api;
     requires com.flowlogix.datamodel;
     requires com.flowlogix.jee;
