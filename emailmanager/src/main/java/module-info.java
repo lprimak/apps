@@ -4,6 +4,7 @@ module HopeNYC {
     requires jakarta.persistence;
     requires jakarta.validation;
     requires jakarta.faces.api;
+    requires java.compiler;
     requires lombok;
     requires org.omnifaces;
     requires org.primefaces;

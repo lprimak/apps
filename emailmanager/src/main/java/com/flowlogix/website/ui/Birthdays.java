@@ -1,11 +1,12 @@
 package com.flowlogix.website.ui;
 
+import com.flowlogix.jeedao.primefaces.JPALazyDataModel;
 import com.flowlogix.website.dao.SampleDAOLocal;
 import com.flowlogix.website.entities.Sample;
+import com.flowlogix.website.entities.Sample_;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
@@ -23,35 +24,36 @@ import org.primefaces.event.CellEditEvent;
 @ViewScoped
 public class Birthdays implements Serializable {
     private static final long serialVersionUID = 1L;
-    private @Getter List<Sample> birthdays;
-    private @EJB SampleDAOLocal sampleDAO;
-    private @Inject EntityManager em;
+
+    @Inject
+    EntityManager em;
+    @Inject
+    @Getter
+    JPALazyDataModel<Sample, Long> birthdayModel;
+    @EJB
+    SampleDAOLocal sampleDAO;
+
+    private long firstRecordId;
 
     @PostConstruct
     void init() {
-        birthdays = sampleDAO.query("Sample.findAll");
+        birthdayModel.initialize(builder -> builder.sorter((sortData, cb, root) ->
+                sortData.applicationSort(Sample_.id.getName(),
+                var -> cb.asc(root.get(Sample_.id)))).build());
+        firstRecordId = sampleDAO.findFirst().orElseThrow();
     }
 
     public LocalDate getFirstBirthday() {
-        return birthdays.get(0).getDoB();
+        return em.find(birthdayModel.getEntityClass(), firstRecordId).getDoB();
     }
 
     @Transactional
     public void setFirstBirthday(LocalDate dob) {
-        var birthday = em.find(Sample.class, birthdays.get(0).getId());
-        birthday.setDoB(dob);
+        em.find(birthdayModel.getEntityClass(), firstRecordId).setDoB(dob);
     }
 
     @Transactional
     public void onCellEdited(CellEditEvent<?> event) {
-        var birthday = em.find(Sample.class, birthdays.get(event.getRowIndex()).getId());
-        switch (event.getColumn().getHeaderText()) {
-            case "Name":
-                birthday.setFullName((String)event.getNewValue());
-                break;
-            case "Birthday":
-                birthday.setDoB((LocalDate)event.getNewValue());
-                break;
-        }
+        em.merge(birthdayModel.getRowData());
     }
 }

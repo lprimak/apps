@@ -12,7 +12,7 @@
             <p:datePicker id="firstBirthday" value="#{birthdays.firstBirthday}"
                           monthNavigator="true" yearNavigator="true"
                           showWeek="true"/>
-            <p:dataTable value="#{birthdays.birthdays}" var="birthday"
+            <p:dataTable value="#{birthdays.birthdayModel}" var="birthday" lazy="true" scrollRows="5" rows="10"
                          widgetVar="birthdayTable" editable="true" editMode="cell">
                 <p:ajax event="cellEdit" listener="#{birthdays.onCellEdited}"/>
                 <p:column headerText="Name">
