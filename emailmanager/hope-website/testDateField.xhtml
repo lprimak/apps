@@ -13,9 +13,9 @@
                           monthNavigator="true" yearNavigator="true"
                           showWeek="true"/>
             <p:dataTable value="#{birthdays.birthdayModel}" var="birthday" lazy="true" scrollRows="5" rows="10"
-                         widgetVar="birthdayTable" editable="true" editMode="cell">
+                         widgetVar="birthdayTable" editable="true" editMode="cell" filterEvent="enter">
                 <p:ajax event="cellEdit" listener="#{birthdays.onCellEdited}"/>
-                <p:column headerText="Name">
+                <p:column headerText="Name" filterBy="#{birthday.fullName}" filterMatchMode="contains">
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{birthday.fullName}"/>
@@ -25,20 +25,38 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="Birthday">
+                <p:column headerText="Birthday" filterBy="#{birthday.dateOfBirth}" filterMatchMode="between">
+                    <f:facet name="filter">
+                        <p:datePicker selectionMode="range" widgetVar="filterDatePicker"
+                                      onchange="PF('birthdayTable').filter(); PF('filterDatePicker').hide()"/>
+                    </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
-                            <h:outputText value="#{birthday.doB}">
+                            <h:outputText value="#{birthday.dateOfBirth}">
                                 <f:convertDateTime type="localDate"/>
                             </h:outputText>
                         </f:facet>
                         <f:facet name="input">
-                            <p:datePicker value="#{birthday.doB}"
+                            <p:datePicker value="#{birthday.dateOfBirth}"
                                           onchange="var bt = PF('birthdayTable'); bt.saveCell(bt.currentCell)"
                                           monthNavigator="true" yearNavigator="true"
                                           showWeek="true" pattern="MMM dd, yyyy"/>
                         </f:facet>
                     </p:cellEditor>
+                </p:column>
+                <p:column headerText="Internal ID" filterBy="#{birthday.id}" filterMatchMode="in">
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu onchange="PF('birthdayTable').filter()"
+                                              label="Select">
+                            <f:selectItem itemValue="0"/>
+                            <f:selectItem itemValue="1"/>
+                            <f:selectItem itemValue="2"/>
+                            <f:selectItem itemValue="3"/>
+                            <f:selectItem itemValue="4"/>
+                            <f:selectItem itemValue="5"/>
+                        </p:selectCheckboxMenu>
+                    </f:facet>
+                    <h:outputText value="#{birthday.id}"/>
                 </p:column>
             </p:dataTable>
             <p:commandButton value="Save"/>

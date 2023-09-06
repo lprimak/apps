@@ -44,12 +44,12 @@ public class Birthdays implements Serializable {
     }
 
     public LocalDate getFirstBirthday() {
-        return em.find(birthdayModel.getEntityClass(), firstRecordId).getDoB();
+        return em.find(birthdayModel.getEntityClass(), firstRecordId).getDateOfBirth();
     }
 
     @Transactional
     public void setFirstBirthday(LocalDate dob) {
-        em.find(birthdayModel.getEntityClass(), firstRecordId).setDoB(dob);
+        em.find(birthdayModel.getEntityClass(), firstRecordId).setDateOfBirth(dob);
     }
 
     @Transactional

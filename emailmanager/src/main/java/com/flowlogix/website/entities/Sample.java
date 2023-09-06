@@ -33,5 +33,5 @@ public class Sample implements Serializable {
     private String fullName;
 
     @Column(name = "DoB")
-    private LocalDate DoB;
+    private LocalDate dateOfBirth;
 }
