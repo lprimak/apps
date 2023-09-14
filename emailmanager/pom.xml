@@ -73,21 +73,25 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
             <classifier>jakarta</classifier>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-cdi</artifactId>
             <classifier>jakarta</classifier>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <classifier>jakarta</classifier>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
             <classifier>jakarta</classifier>
+            <optional>${skinny.war}</optional>
         </dependency>
 
         <dependency>
@@ -100,6 +104,7 @@
             <artifactId>primefaces</artifactId>
             <version>13.0.1</version>
             <classifier>jakarta</classifier>
+            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -229,7 +234,8 @@
                     <artifactId>maven-dependency-plugin</artifactId>
                     <version>3.6.0</version>
                     <configuration>
-                        <excludeScope>provided</excludeScope>
+                        <includeScope>runtime</includeScope>
+                        <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual</excludeArtifactIds>
                     </configuration>
                 </plugin>
                 <plugin>
