@@ -120,7 +120,8 @@ public class EmailManagerImpl implements EmailManagerLocal {
         try {
             log.debug(mailSession.getProperties().toString());
             var principal = Optional.ofNullable(user.get()).orElseThrow(AuthenticationFailedException::new);
-            store.connect(principal.getUserName(), principal.getPassword());
+            store.connect(principal.getUserName().orElseThrow(MessagingException::new),
+                    principal.getPassword().orElseThrow(MessagingException::new));
             return store;
         } catch (AuthenticationFailedException e) {
             store.close();

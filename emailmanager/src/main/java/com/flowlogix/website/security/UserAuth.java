@@ -2,13 +2,17 @@ package com.flowlogix.website.security;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cdi.annotations.CipherKeySupplier;
+import org.apache.shiro.crypto.CryptoException;
 import org.apache.shiro.crypto.cipher.AesCipherService;
 import org.omnifaces.util.Beans;
 import org.omnifaces.util.Lazy;
 import static lombok.EqualsAndHashCode.CacheStrategy.LAZY;
 
+@Slf4j
 @EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = LAZY)
 public class UserAuth implements Serializable {
     private final byte[] userName;
@@ -26,13 +30,23 @@ public class UserAuth implements Serializable {
                 keySource.get().get().getBytes(StandardCharsets.UTF_8)).getBytes();
     }
 
-    public String getUserName() {
-        return new String(cipherService.get().decrypt(userName, keySource.get().get()
-                .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8);
+    public Optional<String> getUserName() {
+        try {
+            return Optional.of(new String(cipherService.get().decrypt(userName, keySource.get().get()
+                    .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8));
+        } catch (CryptoException e) {
+            log.warn("Can't decrypt user name", e);
+            return Optional.empty();
+        }
     }
 
-    public String getPassword() {
-        return new String(cipherService.get().decrypt(password, keySource.get().get()
-                .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8);
+    public Optional<String> getPassword() {
+        try {
+            return Optional.of(new String(cipherService.get().decrypt(password, keySource.get().get()
+                    .getBytes(StandardCharsets.UTF_8)).getClonedBytes(), StandardCharsets.UTF_8));
+        } catch (CryptoException e) {
+            log.warn("Can't decrypt user password", e);
+            return Optional.empty();
+        }
     }
 }

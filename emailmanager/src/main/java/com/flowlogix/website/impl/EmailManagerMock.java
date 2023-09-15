@@ -43,7 +43,7 @@ public class EmailManagerMock implements EmailManagerLocal {
 
     private void logUserName() {
         if (auth.get() != null) {
-            log.info("User: {}", auth.get().getUserName());
+            log.info("User: {}", auth.get().getUserName().orElse("<invalid>"));
         } else {
             log.info("User: <none>");
         }

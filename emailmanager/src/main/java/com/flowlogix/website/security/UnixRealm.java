@@ -7,6 +7,7 @@ package com.flowlogix.website.security;
 import com.flowlogix.website.ui.Constants;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -83,9 +84,11 @@ public class UnixRealm extends AuthorizingRealm {
             for (UserAuth userPrincipal : principalsList) {
                 @Cleanup("dispose")
                 PAM pam = getPam();
-                UnixUser unixUser = pam.authenticate(userPrincipal.getUserName(), userPrincipal.getPassword());
+                UnixUser unixUser = pam.authenticate(userPrincipal.getUserName().get(), userPrincipal.getPassword().get());
                 roles.addAll(unixUser.getGroups());
             }
+        } catch (NoSuchElementException ex) {
+            // unable to decrypt credentials from principal
         } catch (PAMException ex) {
             log.debug("PAM authentication failure", ex);
             SecurityUtils.getSubject().logout();
