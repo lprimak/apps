@@ -7,8 +7,9 @@ import org.apache.shiro.cdi.annotations.CipherKeySupplier;
 import org.apache.shiro.crypto.cipher.AesCipherService;
 import org.omnifaces.util.Beans;
 import org.omnifaces.util.Lazy;
+import static lombok.EqualsAndHashCode.CacheStrategy.LAZY;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = LAZY)
 public class UserAuth implements Serializable {
     private final byte[] userName;
     private final byte[] password;
