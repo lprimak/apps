@@ -66,19 +66,31 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>flowlogix-datamodel</artifactId>
             <version>${flowlogix.version}</version>
-            <optional>${skinny.war}</optional>
         </dependency>
 
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
             <classifier>jakarta</classifier>
-            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-cdi</artifactId>
             <classifier>jakarta</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <optional>${skinny.war}</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
@@ -97,7 +109,6 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omnifaces</artifactId>
-            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -235,7 +246,8 @@
                     <version>3.6.0</version>
                     <configuration>
                         <includeScope>runtime</includeScope>
-                        <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual</excludeArtifactIds>
+                        <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
+                        <excludeGroupIds>com.flowlogix</excludeGroupIds>
                     </configuration>
                 </plugin>
                 <plugin>
