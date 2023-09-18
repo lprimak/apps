@@ -2,7 +2,6 @@ package com.flowlogix.website.dao;
 
 import com.flowlogix.jeedao.DaoHelper;
 import com.flowlogix.website.entities.Sample;
-import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.enterprise.event.Observes;
@@ -12,7 +11,6 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 import java.util.stream.Stream;
-import static jakarta.interceptor.Interceptor.Priority.APPLICATION;
 
 @Slf4j
 @ApplicationScoped
@@ -22,7 +20,7 @@ public class Initializer {
     @Inject
     DaoHelper<Sample> sampleDaoHelper;
 
-    void init(@Observes @Priority(APPLICATION + 100) Startup init) {
+    void init(@Observes Startup init) {
         if (sampleDaoHelper.count() == 0) {
             log.info("Empty Table - Adding sample data");
             Stream.of(
