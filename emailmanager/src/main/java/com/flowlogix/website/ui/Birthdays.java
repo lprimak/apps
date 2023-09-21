@@ -29,7 +29,7 @@ public class Birthdays implements Serializable {
     EntityManager em;
     @Inject
     @Getter
-    JPALazyDataModel<Sample, Long> birthdayModel;
+    JPALazyDataModel<Sample> birthdayModel;
     @EJB
     SampleDAOLocal sampleDAO;
 
