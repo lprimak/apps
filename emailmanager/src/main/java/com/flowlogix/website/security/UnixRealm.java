@@ -31,7 +31,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.jvnet.libpam.PAM;
 import org.jvnet.libpam.PAMException;
 import org.jvnet.libpam.UnixUser;
-import org.omnifaces.util.Beans;
 
 /**
  *
