@@ -9,6 +9,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +38,11 @@ import org.omnifaces.util.Beans;
  * @author lprimak
  */
 @Slf4j
+@Named
+@ApplicationScoped
 public class UnixRealm extends AuthorizingRealm {
-    private final String serviceName = Beans.getReference(Constants.class).getPamAuthServiceName();
+    @Inject
+    Constants constants;
 
     public UnixRealm() {
         if (getPermissionResolver() == null) {
@@ -53,7 +59,7 @@ public class UnixRealm extends AuthorizingRealm {
 
     protected PAM getPam() throws PAMException {
         // PAM instances are not reusable.
-        return new PAM(serviceName);
+        return new PAM(constants.getPamAuthServiceName());
     }
 
     @Override
