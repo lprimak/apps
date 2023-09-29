@@ -28,6 +28,6 @@ public class SampleDAO implements SampleDAOLocal {
 
     @Override
     public Optional<Long> findFirst() {
-        return em.createNamedQuery("Sample.findAllIDs", Long.class).setMaxResults(1).getResultList().stream().findFirst();
+        return em.createNamedQuery("Sample.findAllIDs", Long.class).setMaxResults(1).getResultStream().findFirst();
     }
 }
