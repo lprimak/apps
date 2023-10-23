@@ -243,7 +243,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.1</version>
                     <configuration>
                         <includeScope>runtime</includeScope>
                         <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
