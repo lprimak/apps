@@ -91,6 +91,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
+            <version>1.16.2</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
