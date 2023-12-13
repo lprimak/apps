@@ -6,6 +6,16 @@
     <h:head>
         <title>Test Date Field</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <script type="text/javascript">
+            //<![CDATA[
+            function hideDatePicker(table, picker) {
+                PF(table).filter();
+                PF(picker).hide();
+                // Workaround for https://github.com/primefaces/primefaces/issues/11115
+                PF(picker).jq.datePicker('disableModality');
+            }
+            //]]>
+        </script>
     </h:head>
     <h:body>
         <h:form>
@@ -29,7 +39,7 @@
                 <p:column headerText="Birthday" filterBy="#{birthday.dateOfBirth}" filterMatchMode="between">
                     <f:facet name="filter">
                         <p:datePicker selectionMode="range" widgetVar="filterDatePicker"
-                                      onchange="PF('birthdayTable').filter(); PF('filterDatePicker').hide()"/>
+                                      onchange="hideDatePicker('birthdayTable', 'filterDatePicker')"/>
                     </f:facet>
                     <p:cellEditor>
                         <f:facet name="output">
