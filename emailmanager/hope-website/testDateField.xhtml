@@ -39,6 +39,7 @@
                 <p:column headerText="Birthday" filterBy="#{birthday.dateOfBirth}" filterMatchMode="between">
                     <f:facet name="filter">
                         <p:datePicker selectionMode="range" widgetVar="filterDatePicker" showButtonBar="true"
+                                      yearNavigator="true" monthNavigator="true"
                                       onchange="hideDatePicker('birthdayTable', 'filterDatePicker')"/>
                     </f:facet>
                     <p:cellEditor>
