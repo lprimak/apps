@@ -11,8 +11,6 @@
             function hideDatePicker(table, picker) {
                 PF(table).filter();
                 PF(picker).hide();
-                // Workaround for https://github.com/primefaces/primefaces/issues/11115
-                PF(picker).jq.datePicker('disableModality');
             }
             //]]>
         </script>
