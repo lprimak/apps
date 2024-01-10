@@ -13,7 +13,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Cleanup;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,7 +24,6 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.WildcardPermission;
-import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.jvnet.libpam.PAM;
@@ -43,17 +41,15 @@ public class UnixRealm extends AuthorizingRealm {
     @Inject
     Constants constants;
 
-    public UnixRealm() {
-        if (getPermissionResolver() == null) {
-            setPermissionResolver(new WildcardPermissionResolver());
-        }
-    }
-
     @Override
-    @SneakyThrows(PAMException.class)
     protected void onInit() {
         super.onInit();
-        getPam();
+        try {
+            getPam();
+        } catch (Throwable thr) {
+            constants.setUnixRealmAvailable(false);
+            log.warn("PAM realm unavailable", thr);
+        }
     }
 
     protected PAM getPam() throws PAMException {
@@ -63,9 +59,13 @@ public class UnixRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        if (!constants.isUnixRealmAvailable()) {
+            return null;
+        }
+
         final UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         final String password = String.valueOf(upToken.getPassword());
-        UnixUser unixUser = null;
+        UnixUser unixUser;
         try {
             @Cleanup("dispose")
             PAM pam = getPam();
@@ -78,6 +78,10 @@ public class UnixRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        if (!constants.isUnixRealmAvailable()) {
+            return null;
+        }
+
         Collection<UserAuth> principalsList = principals.byType(UserAuth.class);
 
         if (principalsList.isEmpty()) {

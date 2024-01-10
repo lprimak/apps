@@ -4,6 +4,7 @@ import jakarta.annotation.sql.DataSourceDefinition;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.Getter;
+import lombok.Setter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
@@ -37,4 +38,7 @@ public class Constants {
     @Inject
     @ConfigProperty(name = "com.flowlogix.cipher-key", defaultValue = " ")
     String cipherKey;
+
+    @Getter @Setter
+    boolean unixRealmAvailable = true;
 }
