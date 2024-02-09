@@ -34,7 +34,11 @@ public class EmailManager implements Serializable {
     public void eraseJunk() {
         try {
             int erasedCount = emailManager.get().eraseFolder(constants.getJunkFolderName());
-            displayMessage("Erased Junk Mail (%d)".formatted(erasedCount));
+            if (erasedCount > 0) {
+                displayMessage("Erased Junk Mail (%d)".formatted(erasedCount));
+            } else {
+                displayMessage("No Junk E-Mail to Erase");
+            }
         } catch (MessagingException e) {
             log.debug("failed to erase junk mail", e);
             displayMessage("Failed to erase junk mail: " + e.getMessage());
@@ -44,10 +48,10 @@ public class EmailManager implements Serializable {
     @RequiresPermissions("mail:draft:send")
     public void sendDrafts() {
         try {
-            int numSent = emailManager.get().sendDrafts(constants.getDraftFolderName(),
+            int sentCount = emailManager.get().sendDrafts(constants.getDraftFolderName(),
                     constants.getSentFolderName());
-            if (numSent > 0) {
-                displayMessage(String.format("Draft E-Mail%s Sent (%d)", (numSent > 1) ? "s" : "", numSent));
+            if (sentCount > 0) {
+                displayMessage(String.format("Draft E-Mail%s Sent (%d)", (sentCount > 1) ? "s" : "", sentCount));
             } else {
                 displayMessage("No Draft E-Mail to Send");
             }
