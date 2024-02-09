@@ -17,9 +17,10 @@ public class EmailManagerMock implements EmailManagerLocal {
     Supplier<UserAuth> auth;
 
     @Override
-    public void eraseFolder(String folderName) {
+    public int eraseFolder(String folderName) {
         // just a fake test
         logUserName();
+        return 0;
     }
 
     @Override

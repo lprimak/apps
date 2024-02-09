@@ -56,12 +56,15 @@ public class EmailManagerImpl implements EmailManagerLocal {
 
     @Override
     @RequiresPermissions("mail:folder:write")
-    public void eraseFolder(String folderName) throws MessagingException {
+    public int eraseFolder(String folderName) throws MessagingException {
         @Cleanup
         Folder folder = new Folder(folderName, jakarta.mail.Folder.READ_WRITE);
+        int erasedCount = 0;
         for (Message msg : folder.getFolder().getMessages()) {
             msg.setFlag(Flag.DELETED, true);
+            ++erasedCount;
         }
+        return erasedCount;
     }
 
     @Override

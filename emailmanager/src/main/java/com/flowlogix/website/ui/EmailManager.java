@@ -33,8 +33,8 @@ public class EmailManager implements Serializable {
     @RequiresPermissions("mail:junk:erase")
     public void eraseJunk() {
         try {
-            emailManager.get().eraseFolder(constants.getJunkFolderName());
-            displayMessage("Erased Junk Mail");
+            int erasedCount = emailManager.get().eraseFolder(constants.getJunkFolderName());
+            displayMessage("Erased Junk Mail (%d)".formatted(erasedCount));
         } catch (MessagingException e) {
             log.debug("failed to erase junk mail", e);
             displayMessage("Failed to erase junk mail: " + e.getMessage());

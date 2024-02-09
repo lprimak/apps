@@ -6,7 +6,7 @@ import jakarta.mail.MessagingException;
 @Local
 public interface EmailManagerLocal
 {
-    void eraseFolder(String folderName) throws MessagingException;
+    int eraseFolder(String folderName) throws MessagingException;
     boolean isMock();
 
     int sendDrafts(String draftFolderName, String sentFolderName) throws MessagingException;
