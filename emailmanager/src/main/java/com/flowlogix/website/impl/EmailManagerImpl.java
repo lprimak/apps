@@ -1,5 +1,19 @@
+/*
+ * Copyright (C) 2011-2024 Flow Logix, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.flowlogix.website.impl;
-
 
 import com.flowlogix.website.security.UserAuth;
 import jakarta.annotation.Resource;
@@ -43,16 +57,16 @@ public class EmailManagerImpl implements EmailManagerLocal {
     Supplier<UserAuth> user;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
-    private String smtp_host;
+    private String smtpHost;
     @Inject
     @ConfigProperty(name = "hope-smtp-port", defaultValue = "587")
-    private int smtp_port;
+    private int smtpPort;
     @Inject
     @ConfigProperty(name = "hope-smtp-user", defaultValue = "none")
-    private String smtp_user;
+    private String smtpUser;
     @Inject
     @ConfigProperty(name = "hope-smtp-password", defaultValue = "none")
-    private String smtp_password;
+    private String smtpPassword;
 
     @Override
     @RequiresPermissions("mail:folder:write")
@@ -142,7 +156,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
     @SneakyThrows(MessagingException.class)
     private Transport connectTransport() {
         var transport = mailSession.getTransport();
-        transport.connect(smtp_host, smtp_port, smtp_user, smtp_password);
+        transport.connect(smtpHost, smtpPort, smtpUser, smtpPassword);
         return transport;
     }
 
@@ -150,7 +164,7 @@ public class EmailManagerImpl implements EmailManagerLocal {
         @Getter
         private final jakarta.mail.Folder folder;
         private final Store store;
-        public Folder(String folderName, int options) throws MessagingException {
+        Folder(String folderName, int options) throws MessagingException {
             store = connectImap(true);
             try {
                 folder = store.getFolder(folderName);

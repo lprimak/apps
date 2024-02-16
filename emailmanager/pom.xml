@@ -7,12 +7,15 @@
     <version>1.x-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Hope NYC</name>
+    <name>Email Manager</name>
+
+    <parent>
+        <groupId>com.flowlogix</groupId>
+        <artifactId>apps-root</artifactId>
+        <version>1.x-SNAPSHOT</version>
+    </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>21</maven.compiler.release>
-        <jakartaee.version>10.0.0</jakartaee.version>
         <flowlogix.version>8.0.1</flowlogix.version>
         <shiro2.version>2.0.0-alpha-4</shiro2.version>
         <lombok.version>1.18.30</lombok.version>
@@ -208,55 +211,37 @@
                     <commitIdGenerationMode>full</commitIdGenerationMode>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </annotationProcessorPath>
+                        <annotationProcessorPath>
+                            <groupId>org.eclipse.persistence</groupId>
+                            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+                            <version>${eclipselink.version}</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <includeScope>runtime</includeScope>
+                    <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
+                    <excludeGroupIds>com.flowlogix</excludeGroupIds>
+                </configuration>
+            </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <!-- Up-to-date compiler plugin -->
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.12.1</version>
-                    <configuration>
-                        <showDeprecation>true</showDeprecation>
-                        <showWarnings>true</showWarnings>
-                        <annotationProcessorPaths>
-                            <annotationProcessorPath>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${lombok.version}</version>
-                            </annotationProcessorPath>
-                            <annotationProcessorPath>
-                                <groupId>org.eclipse.persistence</groupId>
-                                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                                <version>${eclipselink.version}</version>
-                            </annotationProcessorPath>
-                        </annotationProcessorPaths>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.4.0</version>
-                    <configuration>
-                        <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.6.1</version>
-                    <configuration>
-                        <includeScope>runtime</includeScope>
-                        <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
-                        <excludeGroupIds>com.flowlogix</excludeGroupIds>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.5</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 </project>

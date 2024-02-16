@@ -10,11 +10,46 @@
 
     <name>Apps Root</name>
 
+    <parent>
+        <groupId>com.flowlogix</groupId>
+        <artifactId>infra-pom</artifactId>
+        <version>2</version>
+    </parent>
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <checkstyle.supressionsLocation>${apps.basedir}/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
     </properties>
 
     <modules>
         <module>emailmanager</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>directory-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>directories</id>
+                        <goals>
+                            <goal>directory-of</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <property>apps.basedir</property>
+                            <project>
+                                <groupId>com.flowlogix</groupId>
+                                <artifactId>apps-root</artifactId>
+                            </project>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
