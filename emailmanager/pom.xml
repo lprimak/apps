@@ -17,7 +17,7 @@
 
     <properties>
         <flowlogix.version>8.0.2</flowlogix.version>
-        <shiro2.version>2.0.0-alpha-4</shiro2.version>
+        <shiro2.version>2.0.0</shiro2.version>
         <lombok.version>1.18.30</lombok.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <skinny.war>false</skinny.war>
