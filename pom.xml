@@ -18,6 +18,9 @@
 
     <properties>
         <checkstyle.supressionsLocation>${apps.basedir}/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
+        <base.directory.property>apps.basedir</base.directory.property>
+        <base.directory.groupId>com.flowlogix</base.directory.groupId>
+        <base.directory.artifactId>apps-root</base.directory.artifactId>
     </properties>
 
     <modules>
@@ -29,23 +32,6 @@
             <plugin>
                 <groupId>org.commonjava.maven.plugins</groupId>
                 <artifactId>directory-maven-plugin</artifactId>
-                <version>1.0</version>
-                <executions>
-                    <execution>
-                        <id>directories</id>
-                        <goals>
-                            <goal>directory-of</goal>
-                        </goals>
-                        <phase>validate</phase>
-                        <configuration>
-                            <property>apps.basedir</property>
-                            <project>
-                                <groupId>com.flowlogix</groupId>
-                                <artifactId>apps-root</artifactId>
-                            </project>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-checkstyle-plugin</artifactId>
