@@ -35,13 +35,6 @@
             <artifactId>microprofile</artifactId>
             <type>pom</type>
         </dependency>
-        <!-- MP warnings avoidance: see https://github.com/quarkusio/quarkus/issues/19970 -->
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>osgi.annotation</artifactId>
-            <version>8.1.0</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>libpam4j</artifactId>
