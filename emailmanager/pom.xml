@@ -18,7 +18,6 @@
     <properties>
         <flowlogix.version>9.0</flowlogix.version>
         <shiro2.version>2.0.0</shiro2.version>
-        <lombok.version>1.18.30</lombok.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
