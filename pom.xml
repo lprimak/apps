@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.flowlogix</groupId>
         <artifactId>infra-pom</artifactId>
-        <version>12</version>
+        <version>13</version>
     </parent>
 
     <properties>
