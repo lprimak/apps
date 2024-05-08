@@ -16,10 +16,13 @@
 package com.flowlogix.website.security;
 
 import com.flowlogix.website.ui.Constants;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -60,6 +63,21 @@ public class UnixRealm extends AuthorizingRealm {
         } catch (Throwable thr) {
             constants.setUnixRealmAvailable(false);
             log.warn("PAM realm unavailable", thr);
+        }
+    }
+
+    @PreDestroy
+    void destroy() {
+        try {
+            Class<?> cleanerClass = Class.forName("com.sun.jna.internal.Cleaner");
+            Method cleanerMethod = cleanerClass.getMethod("getCleaner");
+            Object cleaner = cleanerMethod.invoke(null);
+            Field cleanerThreadField = cleanerClass.getDeclaredField("cleanerThread");
+            cleanerThreadField.setAccessible(true);
+            Thread cleanerThread = (Thread) cleanerThreadField.get(cleaner);
+            cleanerThread.interrupt();
+        } catch (Exception e) {
+            log.warn("Unable to interrupt JNA cleaner thread", e);
         }
     }
 
