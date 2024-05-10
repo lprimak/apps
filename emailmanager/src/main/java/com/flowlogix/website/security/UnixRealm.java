@@ -18,6 +18,7 @@ package com.flowlogix.website.security;
 import com.flowlogix.website.ui.Constants;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -67,15 +68,19 @@ public class UnixRealm extends AuthorizingRealm {
     }
 
     @PreDestroy
+    @SuppressWarnings("checkstyle:MagicNumber")
     void destroy() {
         try {
             Class<?> cleanerClass = Class.forName("com.sun.jna.internal.Cleaner");
-            Method cleanerMethod = cleanerClass.getMethod("getCleaner");
-            Object cleaner = cleanerMethod.invoke(null);
+            Method getCleanerMethod = cleanerClass.getMethod("getCleaner");
+            Object cleaner = getCleanerMethod.invoke(null);
             Field cleanerThreadField = cleanerClass.getDeclaredField("cleanerThread");
             cleanerThreadField.setAccessible(true);
             Thread cleanerThread = (Thread) cleanerThreadField.get(cleaner);
-            cleanerThread.interrupt();
+            if (cleanerThread != null) {
+                cleanerThread.interrupt();
+                cleanerThread.join(Duration.ofMillis(100));
+            }
         } catch (Exception e) {
             log.warn("Unable to interrupt JNA cleaner thread", e);
         }

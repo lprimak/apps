@@ -21,7 +21,7 @@
         <eclipselink.version>4.0.2</eclipselink.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
-        <pam.provided>true</pam.provided>
+        <pam.provided>false</pam.provided>
     </properties>
 
     <dependencies>
@@ -43,7 +43,6 @@
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>5.14.0</version>
             <optional>${pam.provided}</optional>
         </dependency>
         <dependency>
@@ -186,6 +185,11 @@
                 <version>6.1</version>
                 <type>pom</type>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>5.14.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
