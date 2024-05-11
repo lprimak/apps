@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -55,12 +56,19 @@ import org.jvnet.libpam.UnixUser;
 public class UnixRealm extends AuthorizingRealm {
     @Inject
     Constants constants;
+    private record PAMThreadLocals(ThreadLocal<?> busy, ThreadLocal<?> reads) {
+        private void remove() {
+            busy.remove();
+            reads.remove();
+        }
+    }
+    private Optional<PAMThreadLocals> pamThreadLocals = Optional.empty();
 
     @Override
     protected void onInit() {
         super.onInit();
         try {
-            getPam();
+            pamOperation(pam -> null);
         } catch (Throwable thr) {
             constants.setUnixRealmAvailable(false);
             log.warn("PAM realm unavailable", thr);
@@ -68,27 +76,26 @@ public class UnixRealm extends AuthorizingRealm {
     }
 
     @PreDestroy
-    @SuppressWarnings("checkstyle:MagicNumber")
     void destroy() {
         try {
-            Class<?> cleanerClass = Class.forName("com.sun.jna.internal.Cleaner");
-            Method getCleanerMethod = cleanerClass.getMethod("getCleaner");
-            Object cleaner = getCleanerMethod.invoke(null);
-            Field cleanerThreadField = cleanerClass.getDeclaredField("cleanerThread");
-            cleanerThreadField.setAccessible(true);
-            Thread cleanerThread = (Thread) cleanerThreadField.get(cleaner);
-            if (cleanerThread != null) {
-                cleanerThread.interrupt();
-                cleanerThread.join(Duration.ofMillis(100));
-            }
-        } catch (Exception e) {
+            destroyCleanerThread();
+        } catch (ReflectiveOperationException | InterruptedException e) {
             log.warn("Unable to interrupt JNA cleaner thread", e);
         }
     }
 
-    protected PAM getPam() throws PAMException {
-        // PAM instances are not reusable.
-        return new PAM(constants.getPamAuthServiceName());
+    @SuppressWarnings("checkstyle:MagicNumber")
+    private void destroyCleanerThread() throws ReflectiveOperationException, InterruptedException {
+        Class<?> cleanerClass = Class.forName("com.sun.jna.internal.Cleaner");
+        Method getCleanerMethod = cleanerClass.getMethod("getCleaner");
+        Object cleaner = getCleanerMethod.invoke(null);
+        Field cleanerThreadField = cleanerClass.getDeclaredField("cleanerThread");
+        cleanerThreadField.setAccessible(true);
+        Thread cleanerThread = (Thread) cleanerThreadField.get(cleaner);
+        if (cleanerThread != null) {
+            cleanerThread.interrupt();
+            cleanerThread.join(Duration.ofMillis(100));
+        }
     }
 
     @Override
@@ -101,9 +108,7 @@ public class UnixRealm extends AuthorizingRealm {
         final String password = String.valueOf(upToken.getPassword());
         UnixUser unixUser;
         try {
-            @Cleanup("dispose")
-            PAM pam = getPam();
-            unixUser = pam.authenticate(upToken.getUsername(), password);
+            unixUser = pamOperation(pam -> pam.authenticate(upToken.getUsername(), password));
         } catch (PAMException ex) {
             throw new AuthenticationException(ex);
         }
@@ -125,9 +130,8 @@ public class UnixRealm extends AuthorizingRealm {
         var roles = new HashSet<String>();
         try {
             for (UserAuth userPrincipal : principalsList) {
-                @Cleanup("dispose")
-                PAM pam = getPam();
-                UnixUser unixUser = pam.authenticate(userPrincipal.getUserName().get(), userPrincipal.getPassword().get());
+                UnixUser unixUser = pamOperation(pam -> pam.authenticate(userPrincipal.getUserName().get(),
+                        userPrincipal.getPassword().get()));
                 roles.addAll(unixUser.getGroups());
             }
         } catch (NoSuchElementException ex) {
@@ -140,5 +144,36 @@ public class UnixRealm extends AuthorizingRealm {
         info.setObjectPermissions(Set.of(new WildcardPermission("mail:*")));
 
         return info;
+    }
+
+    @FunctionalInterface
+    interface PAMFunction<TT> {
+        TT apply(PAM pam) throws PAMException;
+    }
+
+    private <TT> TT pamOperation(PAMFunction<TT> operation) throws PAMException {
+        // PAM instances are not reusable.
+        try {
+            if (pamThreadLocals.isEmpty()) {
+                createPAMThreadLocals();
+            }
+            @Cleanup("dispose")
+            PAM pam = new PAM(constants.getPamAuthServiceName());
+            return operation.apply(pam);
+        } catch (ReflectiveOperationException e) {
+            throw new PAMException("Unable to initialize JNA", e);
+        } finally {
+            pamThreadLocals.ifPresent(PAMThreadLocals::remove);
+        }
+    }
+
+    private void createPAMThreadLocals() throws ReflectiveOperationException {
+        Class<?> structureClass = Class.forName("com.sun.jna.Structure");
+        Field busyField = structureClass.getDeclaredField("busy");
+        busyField.setAccessible(true);
+        Field readsField = structureClass.getDeclaredField("reads");
+        readsField.setAccessible(true);
+        pamThreadLocals = Optional.of(new PAMThreadLocals((ThreadLocal<?>) busyField.get(null),
+                (ThreadLocal<?>) readsField.get(null)));
     }
 }
