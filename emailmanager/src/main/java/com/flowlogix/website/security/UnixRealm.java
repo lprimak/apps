@@ -16,15 +16,10 @@
 package com.flowlogix.website.security;
 
 import com.flowlogix.website.ui.Constants;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.time.Duration;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Set;
-import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -56,13 +51,6 @@ import org.jvnet.libpam.UnixUser;
 public class UnixRealm extends AuthorizingRealm {
     @Inject
     Constants constants;
-    private record PAMThreadLocals(ThreadLocal<?> busy, ThreadLocal<?> reads) {
-        private void remove() {
-            busy.remove();
-            reads.remove();
-        }
-    }
-    private Optional<PAMThreadLocals> pamThreadLocals = Optional.empty();
 
     @Override
     protected void onInit() {
@@ -72,29 +60,6 @@ public class UnixRealm extends AuthorizingRealm {
         } catch (Throwable thr) {
             constants.setUnixRealmAvailable(false);
             log.warn("PAM realm unavailable", thr);
-        }
-    }
-
-    @PreDestroy
-    void destroy() {
-        try {
-            destroyCleanerThread();
-        } catch (ReflectiveOperationException | InterruptedException e) {
-            log.warn("Unable to interrupt JNA cleaner thread", e);
-        }
-    }
-
-    @SuppressWarnings("checkstyle:MagicNumber")
-    private void destroyCleanerThread() throws ReflectiveOperationException, InterruptedException {
-        Class<?> cleanerClass = Class.forName("com.sun.jna.internal.Cleaner");
-        Method getCleanerMethod = cleanerClass.getMethod("getCleaner");
-        Object cleaner = getCleanerMethod.invoke(null);
-        Field cleanerThreadField = cleanerClass.getDeclaredField("cleanerThread");
-        cleanerThreadField.setAccessible(true);
-        Thread cleanerThread = (Thread) cleanerThreadField.get(cleaner);
-        if (cleanerThread != null) {
-            cleanerThread.interrupt();
-            cleanerThread.join(Duration.ofMillis(100));
         }
     }
 
@@ -152,28 +117,13 @@ public class UnixRealm extends AuthorizingRealm {
     }
 
     private <TT> TT pamOperation(PAMFunction<TT> operation) throws PAMException {
-        // PAM instances are not reusable.
         try {
-            if (pamThreadLocals.isEmpty()) {
-                createPAMThreadLocals();
-            }
+            // PAM instances are not reusable.
             @Cleanup("dispose")
             PAM pam = new PAM(constants.getPamAuthServiceName());
             return operation.apply(pam);
-        } catch (ReflectiveOperationException e) {
-            throw new PAMException("Unable to initialize JNA", e);
         } finally {
-            pamThreadLocals.ifPresent(PAMThreadLocals::remove);
+            JNAOperation.begin();
         }
-    }
-
-    private void createPAMThreadLocals() throws ReflectiveOperationException {
-        Class<?> structureClass = Class.forName("com.sun.jna.Structure");
-        Field busyField = structureClass.getDeclaredField("busy");
-        busyField.setAccessible(true);
-        Field readsField = structureClass.getDeclaredField("reads");
-        readsField.setAccessible(true);
-        pamThreadLocals = Optional.of(new PAMThreadLocals((ThreadLocal<?>) busyField.get(null),
-                (ThreadLocal<?>) readsField.get(null)));
     }
 }
