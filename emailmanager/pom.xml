@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <flowlogix.version>9.0</flowlogix.version>
+        <flowlogix.version>9.0.1</flowlogix.version>
         <shiro2.version>2.0.1</shiro2.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <skinny.war>false</skinny.war>
