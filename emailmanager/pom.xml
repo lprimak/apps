@@ -67,6 +67,12 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
             <classifier>jakarta</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jsoup</groupId>
+                    <artifactId>jsoup</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -86,7 +92,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.17.2</version>
+            <version>1.18.1</version>
             <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
