@@ -19,6 +19,7 @@
         <flowlogix.version>9.0.3</flowlogix.version>
         <shiro2.version>2.0.1</shiro2.version>
         <eclipselink.version>4.0.2</eclipselink.version>
+        <junit.version>5.10.3</junit.version>
         <skinny.war>false</skinny.war>
         <postgres.provided>true</postgres.provided>
         <pam.provided>false</pam.provided>
@@ -135,10 +136,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
