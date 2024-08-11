@@ -18,7 +18,7 @@
     <properties>
         <flowlogix.version>9.0.3</flowlogix.version>
         <eclipselink.version>4.0.2</eclipselink.version>
-        <depchain.version>18</depchain.version>
+        <depchain.version>19</depchain.version>
         <postgres.provided>true</postgres.provided>
         <pam.provided>false</pam.provided>
     </properties>
@@ -38,14 +38,12 @@
             <groupId>com.flowlogix.depchain</groupId>
             <artifactId>shiro-jakarta</artifactId>
             <version>${depchain.version}</version>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.flowlogix.depchain</groupId>
             <artifactId>unit-test</artifactId>
             <version>${depchain.version}</version>
             <scope>test</scope>
-            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
