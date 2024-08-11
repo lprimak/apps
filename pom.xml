@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <checkstyle.supressionsLocation>${apps.basedir}/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
+        <checkstyle.supressionsLocation>${apps.basedir}/src/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
         <base.directory.property>apps.basedir</base.directory.property>
         <base.directory.groupId>com.flowlogix</base.directory.groupId>
         <base.directory.artifactId>apps-root</base.directory.artifactId>

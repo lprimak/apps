@@ -17,10 +17,8 @@
 
     <properties>
         <flowlogix.version>9.0.3</flowlogix.version>
-        <shiro2.version>2.0.1</shiro2.version>
         <eclipselink.version>4.0.2</eclipselink.version>
-        <junit.version>5.10.3</junit.version>
-        <skinny.war>false</skinny.war>
+        <depchain.version>18</depchain.version>
         <postgres.provided>true</postgres.provided>
         <pam.provided>false</pam.provided>
     </properties>
@@ -33,6 +31,20 @@
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flowlogix.depchain</groupId>
+            <artifactId>shiro-jakarta</artifactId>
+            <version>${depchain.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.flowlogix.depchain</groupId>
+            <artifactId>unit-test</artifactId>
+            <version>${depchain.version}</version>
+            <scope>test</scope>
             <type>pom</type>
         </dependency>
         <dependency>
@@ -56,7 +68,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <optional>${skinny.war}</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -65,59 +77,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-jakarta-ee</artifactId>
-            <classifier>jakarta</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jsoup</groupId>
-                    <artifactId>jsoup</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-cdi</artifactId>
-            <classifier>jakarta</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.18.1</version>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <classifier>jakarta</classifier>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-            <classifier>jakarta</classifier>
-            <optional>${skinny.war}</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omnifaces</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <classifier>jakarta</classifier>
-            <optional>${skinny.war}</optional>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -126,24 +88,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <optional>${skinny.war}</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -162,28 +107,7 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-bom</artifactId>
-                <version>${shiro2.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-                <!-- Workaround for https://issues.apache.org/jira/browse/MNG-8078 -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>net.bytebuddy</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
@@ -206,6 +130,11 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
                 <version>1.78.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>1.18.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -274,4 +203,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>skinny-war</id>
+            <activation>
+                <property>
+                    <name>skinny.war</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <packagingExcludes>
+                                %regex[WEB-INF/lib/(?!shiro-jakarta-ee|shiro-cdi|omnifaces
+                                |flowlogix-jee|flowlogix-datamodel|libpam4j|jna|postgresql).*.jar]
+                            </packagingExcludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
