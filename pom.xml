@@ -21,7 +21,6 @@
         <base.directory.property>apps.basedir</base.directory.property>
         <base.directory.groupId>com.flowlogix</base.directory.groupId>
         <base.directory.artifactId>apps-root</base.directory.artifactId>
-        <japicmp.skip>true</japicmp.skip>
     </properties>
 
     <modules>
