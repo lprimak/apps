@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <flowlogix.version>9.0.3</flowlogix.version>
+        <flowlogix.version>9.0.4</flowlogix.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <depchain.version>23</depchain.version>
         <postgres.provided>true</postgres.provided>
