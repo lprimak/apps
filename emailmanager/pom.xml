@@ -18,7 +18,7 @@
     <properties>
         <flowlogix.version>9.0.4</flowlogix.version>
         <eclipselink.version>4.0.2</eclipselink.version>
-        <depchain.version>23</depchain.version>
+        <depchain.version>25</depchain.version>
         <postgres.provided>true</postgres.provided>
         <pam.provided>false</pam.provided>
     </properties>
