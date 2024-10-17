@@ -195,7 +195,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <configuration>
                     <includeScope>runtime</includeScope>
-                    <excludeArtifactIds>libpam4j, jna, postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
+                    <excludeArtifactIds>postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
                     <excludeGroupIds>com.flowlogix</excludeGroupIds>
                 </configuration>
             </plugin>
@@ -216,7 +216,7 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
                             <packagingExcludes>
-                                %regex[WEB-INF/lib/(?!shiro-jakarta-ee|shiro-cdi|omnifaces|flowlogix-jee|flowlogix-datamodel|libpam4j|jna|postgresql).*.jar]
+                                %regex[WEB-INF/lib/(?!shiro-jakarta-ee|shiro-cdi|omnifaces|flowlogix-jee|flowlogix-datamodel).*.jar]
                             </packagingExcludes>
                         </configuration>
                     </plugin>
