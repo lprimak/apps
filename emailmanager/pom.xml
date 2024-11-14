@@ -223,43 +223,5 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>shiro-version-override</id>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-core</artifactId>
-                        <version>${shiro.version}</version>
-                        <classifier>jakarta</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-web</artifactId>
-                        <version>${shiro.version}</version>
-                        <classifier>jakarta</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-jakarta-ee</artifactId>
-                        <version>${shiro.version}</version>
-                        <classifier>jakarta</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-cdi</artifactId>
-                        <version>${shiro.version}</version>
-                        <classifier>jakarta</classifier>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.shiro</groupId>
-                        <artifactId>shiro-jaxrs</artifactId>
-                        <version>${shiro.version}</version>
-                        <classifier>jakarta</classifier>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
     </profiles>
 </project>
