@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Flow Logix Jakarta EE Quick Start</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <script>
+        //<![CDATA[
+        function start() {
+            PF('statusDialog').show();
+        }
+
+        function stop() {
+            PF('statusDialog').hide();
+            history.go(0);
+        }
+
+        function copyToClipboard(contentId, feedbackId) {
+            const content = document.getElementById(contentId).innerText
+            navigator.clipboard.writeText(content).then(() => {
+                const feedback = document.getElementById(feedbackId);
+                feedback.innerText = 'Copied!';
+                setTimeout(() => {
+                    feedback.innerText = '';
+                }, 2000);
+            }).catch(err => {
+                feedback.innerText = 'Failed to copy: ' + err;
+                setTimeout(() => {
+                    feedback.innerText = '';
+                }, 2000);
+
+            });
+        }
+        //]]>
+    </script>
+</h:head>
+
+<h:body>
+    <div class="card">
+        <h1>Simple, Testable and feature-rich Starter Generator for Jakarta EE</h1>
+        <p/>
+            All fields below are optional. If you don't provide any values, defaults will be used.
+            Click on the download button for your personal Jakarta EE comprehensive quick start app.
+        <p/>
+        <p:dialog id="statusDialog" modal="true" widgetVar="statusDialog" header="Generating Project"
+                  draggable="false" closable="false" resizable="false">
+            <i class="pi pi-spinner pi-spin" style="font-size:3rem"/>
+        </p:dialog>
+
+        <h:form>
+            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                             icon="pi pi-arrow-down" styleClass="mr-2">
+                <p:fileDownload value="#{archetype.download}"/>
+            </p:commandButton>
+            <p/>
+            <p:inputText id="artifact" value="#{archetype.artifact}" placeholder="Artifact Name"/>
+            <p/>
+            <p:inputText id="group" value="#{archetype.group}" placeholder="Group ID"/>
+            <p/>
+            <p:inputText id="projectName" value="#{archetype.projectName}" placeholder="Project Name"/>
+            <p/>
+            <p:inputText id="packageName" value="#{archetype.packageName}" placeholder="Package Name"/>
+            <p/>
+            <p:inputText id="baseType" value="#{archetype.baseType}" placeholder="POM (base, payara, infra)"/>
+            <p/>
+            <p:inputText id="packagingType" value="#{archetype.packagingType}" placeholder="Packaging (jar, war, ear)"/>
+            <p/>
+            <p:inputText id="version" value="#{archetype.version}" placeholder="Version"/>
+            <p/>
+            <p:inputText id="archetypeVersion" value="#{archetype.archetypeVersion}" placeholder="Archetype Version to use"/>
+            <p/>
+            <p:selectBooleanCheckbox id="useShiro" value="#{archetype.useShiro}" itemLabel="Enable Apache Shiro"/>
+            <p/>
+            <p:selectBooleanCheckbox id="useOmniFaces" value="#{archetype.useOmniFaces}" itemLabel="Enable OmniFaces"/>
+            <p/>
+            <p:selectBooleanCheckbox id="usePrimeFaces" value="#{archetype.usePrimeFaces}" itemLabel="Enable PrimeFaces"/>
+            <p/>
+            <p:selectBooleanCheckbox id="useLazyModel" value="#{archetype.useLazyModel}" itemLabel="Use JPA Lazy DataModel"/>
+            <p/>
+
+            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                             validateClient="true" icon="pi pi-arrow-down" styleClass="mr-2">
+                <p:fileDownload value="#{archetype.download}"/>
+            </p:commandButton>
+            <p/>
+            <hr/>
+            <p:commandButton value="Update commands" update="@form, curlCommand, mavenCommand"
+                             validateClient="true" icon="pi pi-arrow-down" styleClass="mr-2"/>
+            <p/>
+            <span id="curlContent">
+                <p:outputLabel id="curlCommand" value="#{archetype.curlCommand}" escape="false"/>
+            </span>
+            <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left mr-2"
+                    onclick="copyToClipboard('curlContent', 'curlContentCopyFeedback'); return false">Copy</button>
+            <span id="curlContentCopyFeedback"/>
+            <hr/>
+            <span id="mavenContent">
+                <p:outputLabel id="mavenCommand" value="#{archetype.mavenCommand}" escape="false"/>
+            </span>
+            <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left mr-2"
+                    onclick="copyToClipboard('mavenContent', 'mavenContentCopyFeedback'); return false">Copy</button>
+            <span id="mavenContentCopyFeedback"/>
+        </h:form>
+        <p/>
+        <h:form>
+            <p:commandButton value="Reset Fields" ajax="false" process="@this"
+                             actionListener="#{archetype.resetSession}" icon="pi pi-arrow-up" styleClass="mr-2">
+            </p:commandButton>
+        </h:form>
+    </div>
+</h:body>
+
+</html>
