@@ -31,6 +31,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -194,6 +195,7 @@ public class ArchetypeGenerator {
         if (!path.resolve(".mvn").toFile().mkdirs()) {
             throw new IOException("Unable to create directory");
         }
+        Files.setPosixFilePermissions(path, PosixFilePermissions.fromString("rwx------"));
         log.debug("Created temporary project directory: {}", path);
         return path;
     }

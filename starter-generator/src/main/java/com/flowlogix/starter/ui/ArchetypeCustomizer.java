@@ -22,6 +22,7 @@ import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import jakarta.ws.rs.core.MediaType;
 import lombok.Getter;
@@ -61,6 +62,7 @@ public class ArchetypeCustomizer implements Serializable {
     private String packageName = "";
     @Pattern(regexp = "\\s*(base|infra|payara|)\\s*", flags = Flag.CASE_INSENSITIVE,
             message = "Base type must be either 'infra' or 'payara'")
+    @Max(30)
     private String baseType = "";
     private String packagingType = "";
     private String version;
