@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.flowlogix</groupId>
-    <artifactId>hope-website</artifactId>
+    <artifactId>emailmanager</artifactId>
     <version>1.x-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -15,35 +15,11 @@
         <version>1.x-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <flowlogix.version>9.0.7</flowlogix.version>
-        <eclipselink.version>4.0.2</eclipselink.version>
-        <depchain.version>40</depchain.version>
-        <postgres.provided>true</postgres.provided>
-        <pam.provided>false</pam.provided>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.microprofile</groupId>
-            <artifactId>microprofile</artifactId>
-            <type>pom</type>
-        </dependency>
-
         <dependency>
             <groupId>com.flowlogix.depchain</groupId>
             <artifactId>shiro-jakarta</artifactId>
             <version>${depchain.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.flowlogix.depchain</groupId>
-            <artifactId>unit-test</artifactId>
-            <version>${depchain.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
@@ -63,79 +39,11 @@
             <optional>${postgres.provided}</optional>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>flowlogix-datamodel</artifactId>
             <version>${flowlogix.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <classifier>jakarta</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <scope>runtime</scope>
-        </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.primefaces</groupId>
-                <artifactId>primefaces</artifactId>
-                <version>14.0.8</version>
-                <classifier>jakarta</classifier>
-            </dependency>
-            <dependency>
-                <groupId>com.flowlogix</groupId>
-                <artifactId>flowlogix-bom</artifactId>
-                <version>${flowlogix.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-api</artifactId>
-                <version>${jakarta.ee.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.microprofile</groupId>
-                <artifactId>microprofile</artifactId>
-                <version>7.0</version>
-                <type>pom</type>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.jna</groupId>
-                <artifactId>jna</artifactId>
-                <version>5.15.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk18on</artifactId>
-                <version>1.79</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>1.18.3</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -169,59 +77,11 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <annotationProcessorPath>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </annotationProcessorPath>
-                        <annotationProcessorPath>
-                            <groupId>org.eclipse.persistence</groupId>
-                            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                            <version>${eclipselink.version}</version>
-                        </annotationProcessorPath>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <includeScope>runtime</includeScope>
-                    <excludeArtifactIds>postgresql, checker-qual, shiro-jakarta-ee, shiro-cdi, omnifaces</excludeArtifactIds>
-                    <excludeGroupIds>com.flowlogix</excludeGroupIds>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>skinny-war</id>
-            <activation>
-                <property>
-                    <name>skinny.war</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <packagingExcludes>
-                                %regex[WEB-INF/lib/(?!shiro-jakarta-ee|shiro-cdi|omnifaces|flowlogix-jee|flowlogix-datamodel).*.jar]
-                            </packagingExcludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

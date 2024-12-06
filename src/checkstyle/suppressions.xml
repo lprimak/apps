@@ -29,4 +29,5 @@
     <suppress checks="JavadocPackage" files="com[\\/]flowlogix[\\/]website[\\/]security[\\/]*"/>
     <suppress checks="JavadocPackage" files="com[\\/]flowlogix[\\/]website[\\/]entities[\\/]*"/>
     <suppress checks="JavadocPackage" files="com[\\/]flowlogix[\\/]website[\\/]*"/>
+    <suppress checks="JavadocPackage" files="com[\\/]flowlogix[\\/]starter[\\/]*"/>
 </suppressions>
