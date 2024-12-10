@@ -49,6 +49,7 @@ public class ArchetypeGenerator {
     @SuppressWarnings("checkstyle:MagicNumber")
     private static final int BUFFER_SIZE = 4096;
     private final Semaphore semaphore;
+    private final String jvmOptions;
 
     public record Parameter(@NonNull String key, String value) { }
     public record ReturnValue(Path temporaryPath, int status, String output) implements AutoCloseable {
@@ -60,14 +61,17 @@ public class ArchetypeGenerator {
     }
 
     public ArchetypeGenerator() {
-        this(1);
+        this(1, "-Xmx256m");
     }
 
     @Inject
     public ArchetypeGenerator(@ConfigProperty(name = "com.flowlogix.starter.generator-threads", defaultValue = "4")
-                              int generatorThreads) {
+                              int generatorThreads,
+                              @ConfigProperty(name = "com.flowlogix.starter.jvm-options", defaultValue = "-Xmx256m")
+                              String jvmOptions) {
         log.debug("Generator threads: {}", generatorThreads);
         semaphore = new Semaphore(generatorThreads);
+        this.jvmOptions = jvmOptions;
     }
 
     @SneakyThrows({IOException.class, InterruptedException.class})
@@ -76,6 +80,8 @@ public class ArchetypeGenerator {
         semaphore.acquire();
         try {
             Path temporaryPath = getTemporaryPath();
+            Files.writeString(temporaryPath.resolve(".mvn").resolve("jvm.config"),
+                    jvmOptions + System.lineSeparator());
             String projectDirectory = temporaryPath.toString();
             List<String> options = generateMavenCommandLine(inputParameters, projectDirectory);
             log.debug("Options: {}", options);
