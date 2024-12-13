@@ -44,6 +44,7 @@ class ArchetypeRunnerIT {
             temporaryPath = result.temporaryPath();
             log.debug("Generated project: {}", result.output());
             assertThat(temporaryPath).isNotEmptyDirectory();
+            assertThat(temporaryPath.resolve(".mvn")).doesNotExist();
         }
         assertThat(temporaryPath).doesNotExist();
     }

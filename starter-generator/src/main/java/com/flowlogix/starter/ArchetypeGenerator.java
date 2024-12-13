@@ -36,6 +36,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
@@ -54,9 +55,8 @@ public class ArchetypeGenerator {
     public record Parameter(@NonNull String key, String value) { }
     public record ReturnValue(Path temporaryPath, int status, String output) implements AutoCloseable {
         @Override
-        @SneakyThrows(IOException.class)
         public void close() {
-            cleanup(this);
+            cleanup(temporaryPath);
         }
     }
 
@@ -78,9 +78,11 @@ public class ArchetypeGenerator {
     public ReturnValue generateArchetype(Parameter[] inputParameters) {
         log.debug("Available Permits: {}", semaphore.availablePermits());
         semaphore.acquire();
+        Optional<Path> rootMavenPath = Optional.empty();
         try {
             Path temporaryPath = getTemporaryPath();
-            Files.writeString(temporaryPath.resolve(".mvn").resolve("jvm.config"),
+            rootMavenPath = Optional.of(temporaryPath.resolve(".mvn"));
+            Files.writeString(rootMavenPath.get().resolve("jvm.config"),
                     jvmOptions + System.lineSeparator());
             String projectDirectory = temporaryPath.toString();
             List<String> options = generateMavenCommandLine(inputParameters, projectDirectory);
@@ -93,6 +95,7 @@ public class ArchetypeGenerator {
                 return new ReturnValue(temporaryPath, -1, e.getMessage());
             }
         } finally {
+            rootMavenPath.ifPresent(ArchetypeGenerator::cleanup);
             semaphore.release();
         }
     }
@@ -163,8 +166,9 @@ public class ArchetypeGenerator {
         return returnValue;
     }
 
-    private static void cleanup(ReturnValue returnValue) throws IOException {
-        try (var paths = Files.walk(returnValue.temporaryPath)) {
+    @SneakyThrows(IOException.class)
+    private static void cleanup(Path path) {
+        try (var paths = Files.walk(path)) {
             paths.sorted(Comparator.reverseOrder()).forEach(ArchetypeGenerator::deleteFile);
         }
     }
