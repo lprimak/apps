@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Flow Logix Jakarta EE Quick Start</title>
@@ -64,7 +65,16 @@
             <p/>
             <p:inputText id="baseType" value="#{archetype.baseType}" placeholder="POM (base, payara, infra)"/>
             <p/>
-            <p:inputText id="packagingType" value="#{archetype.packagingType}" placeholder="Packaging (jar, war, ear)"/>
+            <p:selectOneRadio id="packagingType" value="#{archetype.packagingType}" layout="lineDirection">
+                <f:selectItem itemLabel="JAR" itemValue="jar"/>
+                <f:selectItem itemLabel="WAR" itemValue="war"/>
+                <f:selectItem itemLabel="EAR" itemValue="ear"/>
+                <f:selectItem itemLabel="Other" itemValue="other"/>
+                <p:ajax update="@form"/>
+            </p:selectOneRadio>
+            <p:panelGrid id="otherPackagingType" columns="1" rendered="#{archetype.packagingType == 'other'}">
+                <p:inputText id="otherPackagingTypeInput" value="#{archetype.otherPackagingType}" placeholder="packaging type"/>
+            </p:panelGrid>
             <p/>
             <p:inputText id="version" value="#{archetype.version}" placeholder="Version"/>
             <p/>

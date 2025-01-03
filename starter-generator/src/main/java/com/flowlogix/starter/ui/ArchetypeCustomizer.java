@@ -64,7 +64,8 @@ public class ArchetypeCustomizer implements Serializable {
     @Pattern(regexp = "\\s*(?:base|infra|payara)?\\s*", flags = Flag.CASE_INSENSITIVE,
             message = "Base type must be either 'infra' or 'payara'")
     private String baseType = "";
-    private String packagingType = "";
+    private String packagingType = "jar";
+    private String otherPackagingType = "";
     private String version;
     private String archetypeVersion;
 
@@ -98,13 +99,23 @@ public class ArchetypeCustomizer implements Serializable {
                 new Parameter("projectName", projectName),
                 new Parameter("package", packageName.toLowerCase()),
                 new Parameter("baseType", baseType.toLowerCase()),
-                new Parameter("packagingType", packagingType.toLowerCase()),
+                new Parameter("packagingType", processPackagingType()),
                 new Parameter("version", version),
                 new Parameter("archetypeVersion", archetypeVersion),
                 new Parameter("useShiro", Boolean.toString(useShiro)),
                 new Parameter("useOmniFaces", Boolean.toString(useOmniFaces)),
                 new Parameter("usePrimeFaces", Boolean.toString(usePrimeFaces)),
                 new Parameter("useLazyModel", Boolean.toString(useLazyModel)),
+        };
+    }
+
+    private String processPackagingType() {
+        return switch (packagingType) {
+            case "jar", "JAR" -> "";
+            case "other" -> "jar".equalsIgnoreCase(otherPackagingType)
+                    ? "" : otherPackagingType.toLowerCase();
+            case null -> "";
+            default -> packagingType.toLowerCase();
         };
     }
 
