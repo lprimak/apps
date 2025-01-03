@@ -24,7 +24,7 @@
 
         <flowlogix.version>9.0.7</flowlogix.version>
         <eclipselink.version>4.0.2</eclipselink.version>
-        <depchain.version>45</depchain.version>
+        <depchain.version>48</depchain.version>
         <jankdex.skip>false</jankdex.skip>
 
         <postgres.provided>true</postgres.provided>
