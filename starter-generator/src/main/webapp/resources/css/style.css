@@ -1,0 +1,5 @@
+/* CSS to make the entire radio button area clickable */
+.ui-radiobutton + label {
+    padding-left: 2em;
+    margin-left: -1.7em !important;
+}
