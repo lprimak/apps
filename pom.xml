@@ -22,7 +22,7 @@
         <base.directory.groupId>com.flowlogix</base.directory.groupId>
         <base.directory.artifactId>apps-root</base.directory.artifactId>
 
-        <flowlogix.version>9.0.7</flowlogix.version>
+        <flowlogix.version>9.0.8</flowlogix.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <depchain.version>51</depchain.version>
         <jandex.skip>false</jandex.skip>
