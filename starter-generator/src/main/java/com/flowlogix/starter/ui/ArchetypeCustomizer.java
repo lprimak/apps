@@ -73,6 +73,7 @@ public class ArchetypeCustomizer implements Serializable {
     private boolean useOmniFaces = true;
     private boolean usePrimeFaces = true;
     private boolean useLazyModel = true;
+    private boolean useMavenCache = true;
 
     public StreamedContent getDownload() {
         ReturnValue result = generator.generateArchetype(getParameters(false));
@@ -106,6 +107,7 @@ public class ArchetypeCustomizer implements Serializable {
                 new Parameter("useOmniFaces", Boolean.toString(useOmniFaces)),
                 new Parameter("usePrimeFaces", Boolean.toString(usePrimeFaces)),
                 new Parameter("useLazyModel", Boolean.toString(useLazyModel)),
+                new Parameter("useMavenCache", Boolean.toString(useMavenCache)),
         };
     }
 

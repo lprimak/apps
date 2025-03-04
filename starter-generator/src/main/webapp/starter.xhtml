@@ -88,6 +88,8 @@
             <p/>
             <p:selectBooleanCheckbox id="useLazyModel" value="#{archetype.useLazyModel}" itemLabel="Use JPA Lazy DataModel"/>
             <p/>
+            <p:selectBooleanCheckbox id="useMavenCache" value="#{archetype.useMavenCache}" itemLabel="Use Maven Build Cache"/>
+            <p/>
 
             <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
                              validateClient="true" icon="pi pi-arrow-down" styleClass="mr-2">
