@@ -56,6 +56,7 @@ public class ArchetypeCustomizer implements Serializable {
     @Resource
     ManagedExecutorService executorService;
 
+    @Pattern(regexp = "^(?!.*(?:\\.{2}|/)).*$", message = "Invalid path: Path traversal attempt detected")
     private String artifact = "";
     private String group = "";
     private String projectName = "";
