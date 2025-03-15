@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>starter-generator</artifactId>
+    <name>Starter Generator</name>
     <packaging>war</packaging>
 
     <dependencies>
