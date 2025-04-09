@@ -15,6 +15,7 @@
  */
 package com.flowlogix.website.security;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -34,6 +35,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 @Slf4j
 @EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = LAZY)
 public class UserAuth implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3L;
 
     private final byte[] userName;
