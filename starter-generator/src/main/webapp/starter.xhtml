@@ -70,7 +70,7 @@
                 <f:selectItem itemLabel="WAR" itemValue="war"/>
                 <f:selectItem itemLabel="EAR" itemValue="ear"/>
                 <f:selectItem itemLabel="Other" itemValue="other"/>
-                <p:ajax update="@form"/>
+                <p:ajax update="@form" process="@form"/>
             </p:selectOneRadio>
             <p:panelGrid id="otherPackagingType" columns="1" rendered="#{archetype.packagingType == 'other'}">
                 <p:inputText id="otherPackagingTypeInput" value="#{archetype.otherPackagingType}" placeholder="packaging type"/>
