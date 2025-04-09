@@ -33,7 +33,8 @@ import static lombok.EqualsAndHashCode.CacheStrategy.LAZY;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
-@EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = LAZY)
+@EqualsAndHashCode(doNotUseGetters = true, cacheStrategy = LAZY,
+        of = {"userName", "password"})
 public class UserAuth implements Serializable {
     @Serial
     private static final long serialVersionUID = 3L;
