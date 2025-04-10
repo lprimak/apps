@@ -34,6 +34,7 @@
     <modules>
         <module>emailmanager</module>
         <module>starter-generator</module>
+        <module>apps-ear</module>
     </modules>
 
     <dependencies>
@@ -199,47 +200,6 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
                             <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>ear</id>
-            <activation>
-                <property>
-                    <name>ear</name>
-                </property>
-            </activation>
-            <modules>
-                <module>apps-ear</module>
-            </modules>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-ear-plugin</artifactId>
-                        <configuration>
-                            <modules>
-                                <webModule>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>emailmanager</artifactId>
-                                    <contextRoot>/em</contextRoot>
-                                </webModule>
-                                <webModule>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>starter-generator</artifactId>
-                                    <contextRoot>/sg</contextRoot>
-                                </webModule>
-                            </modules>
-                            <defaultLibBundleDir>lib</defaultLibBundleDir>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <packagingExcludes>
-                                %regex[WEB-INF/lib/(slf4j|jcl-over-slf4j|commons-lang3|primefaces|omnifaces|flowlogix-jee).*.jar]
-                            </packagingExcludes>
                         </configuration>
                     </plugin>
                 </plugins>
