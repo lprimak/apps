@@ -37,7 +37,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
         of = {"userName", "password"})
 public class UserAuth implements Serializable {
     @Serial
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
 
     private final byte[] userName;
     private final byte[] password;
