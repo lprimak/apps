@@ -23,7 +23,7 @@
         <base.directory.artifactId>apps-root</base.directory.artifactId>
 
         <flowlogix.version>9.0.10</flowlogix.version>
-        <eclipselink.version>4.0.2</eclipselink.version>
+        <eclipselink.version>4.0.7</eclipselink.version>
         <depchain.version>64</depchain.version>
         <jandex.skip>false</jandex.skip>
 
