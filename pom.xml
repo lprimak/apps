@@ -13,14 +13,11 @@
     <parent>
         <groupId>com.flowlogix</groupId>
         <artifactId>infra-pom</artifactId>
-        <version>57</version>
+        <version>58</version>
     </parent>
 
     <properties>
-        <checkstyle.supressionsLocation>${apps.basedir}/src/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
-        <base.directory.property>apps.basedir</base.directory.property>
-        <base.directory.groupId>com.flowlogix</base.directory.groupId>
-        <base.directory.artifactId>apps-root</base.directory.artifactId>
+        <checkstyle.supressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
 
         <flowlogix.version>9.0.10</flowlogix.version>
         <eclipselink.version>4.0.7</eclipselink.version>
@@ -142,13 +139,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.commonjava.maven.plugins</groupId>
-                <artifactId>directory-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
