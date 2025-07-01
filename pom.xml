@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <checkstyle.supressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.supressionsLocation>
+        <checkstyle.suppressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.suppressionsLocation>
 
         <flowlogix.version>9.0.10</flowlogix.version>
         <eclipselink.version>4.0.7</eclipselink.version>
