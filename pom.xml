@@ -19,7 +19,7 @@
     <properties>
         <checkstyle.suppressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.suppressionsLocation>
 
-        <flowlogix.version>9.0.10</flowlogix.version>
+        <flowlogix.version>9.0.11</flowlogix.version>
         <eclipselink.version>4.0.7</eclipselink.version>
         <depchain.version>71</depchain.version>
         <jandex.skip>false</jandex.skip>
