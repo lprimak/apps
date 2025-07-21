@@ -48,6 +48,7 @@
                             <contextRoot>/sg</contextRoot>
                         </webModule>
                     </modules>
+                    <!-- TODO: Remove this when upgrading to new base-pom -->
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <skinnyWars>true</skinnyWars>
                     <skipClassPathModification>true</skipClassPathModification>
