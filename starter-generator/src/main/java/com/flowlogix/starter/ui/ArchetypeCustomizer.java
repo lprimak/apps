@@ -132,7 +132,7 @@ public class ArchetypeCustomizer implements Serializable {
         var baseURL = Faces.isRequestSecure()
                 ? ShrinkWrapManipulator.toHttpsURL(URI.create(Faces.getRequestBaseURL()).toURL())
                 : Faces.getRequestBaseURL();
-        return "curl -X GET -H \"Accept: application/octet-stream\" -o %s.zip \"%sdownload/;%s\""
+        return "curl -X GET -H \"Accept: application/octet-stream\" -o \"%s.zip\" \"%sdownload/;%s\""
                 .formatted(artifact.isBlank() ? "starter" : artifact.toLowerCase().trim(),
                         baseURL, parameters);
     }

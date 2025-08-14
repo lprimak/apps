@@ -21,6 +21,8 @@ import com.flowlogix.starter.ArchetypeGenerator.ReturnValue;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.MatrixParam;
@@ -43,6 +45,9 @@ public class DownloadResource {
     @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.TEXT_PLAIN})
     @SuppressWarnings("checkstyle:ParameterNumber")
     public Response downloadFile(@MatrixParam("group") @DefaultValue("com.example") String groupId,
+                                 @Pattern(regexp = "^[a-zA-Z0-9_-]+$",
+                                          message = "Artifact ID can only contain letters, numbers, underscores, and hyphens")
+                                 @Size(min = 1, max = 100, message = "Artifact ID must be between 1 and 100 characters")
                                  @MatrixParam("artifact") @DefaultValue("starter") String artifactId,
                                  @MatrixParam("projectName") String projectName,
                                  @MatrixParam("package") String packageName,
