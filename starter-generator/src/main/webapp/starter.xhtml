@@ -6,6 +6,8 @@
 <h:head>
     <title>Flow Logix Maven and Jakarta EE Quick Start</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <h:outputStylesheet library="css" name="main-style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeflex@4.0.0/primeflex.min.css"/>
     <script>
         //<![CDATA[
         function start() {
@@ -21,7 +23,7 @@
             const content = document.getElementById(contentId).innerText
             navigator.clipboard.writeText(content).then(() => {
                 const feedback = document.getElementById(feedbackId);
-                feedback.innerText = 'Copied!';
+                feedback.innerText = '✓';
                 setTimeout(() => {
                     feedback.innerText = '';
                 }, 2000);
@@ -39,88 +41,135 @@
 
 <h:body>
     <div class="card">
-        <h1>Simple, Testable and feature-rich Starter Generator for Maven and Jakarta EE</h1>
-        <p/>
+        <h1><strong>Simple, Testable and feature-rich Starter Generator for Maven and Jakarta EE</strong></h1>
+        <p style="text-align: center; color: #666; margin-bottom: 0.5rem;">
             All fields below are optional. If you don't provide any values, defaults will be used.
             Click on the download button for your personal Jakarta EE comprehensive quick start app.
-        <p/>
+        </p>
+
         <p:dialog id="statusDialog" modal="true" widgetVar="statusDialog" header="Generating Project"
                   draggable="false" closable="false" resizable="false">
             <i class="pi pi-spinner pi-spin" style="font-size:3rem"/>
         </p:dialog>
 
         <h:form>
-            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                             icon="pi pi-arrow-down" styleClass="mr-2">
-                <p:fileDownload value="#{archetype.download}"/>
-            </p:commandButton>
-            <p/>
-            <p:inputText id="artifact" value="#{archetype.artifact}" placeholder="Artifact Name"/>
-            <p/>
-            <p:inputText id="group" value="#{archetype.group}" placeholder="Group ID"/>
-            <p/>
-            <p:inputText id="projectName" value="#{archetype.projectName}" placeholder="Project Name"/>
-            <p/>
-            <p:inputText id="packageName" value="#{archetype.packageName}" placeholder="Package Name"/>
-            <p/>
-            <p:inputText id="baseType" value="#{archetype.baseType}" placeholder="POM (base, payara, infra)"/>
-            <p/>
-            <p:selectOneRadio id="packagingType" value="#{archetype.packagingType}" layout="lineDirection">
-                <f:selectItem itemLabel="JAR" itemValue="jar"/>
-                <f:selectItem itemLabel="WAR" itemValue="war"/>
-                <f:selectItem itemLabel="EAR" itemValue="ear"/>
-                <f:selectItem itemLabel="Other" itemValue="other"/>
-                <p:ajax update="@form" process="@form"/>
-            </p:selectOneRadio>
-            <p:panelGrid id="otherPackagingType" columns="1" rendered="#{archetype.packagingType == 'other'}">
-                <p:inputText id="otherPackagingTypeInput" value="#{archetype.otherPackagingType}" placeholder="packaging type"/>
-            </p:panelGrid>
-            <p/>
-            <p:inputText id="version" value="#{archetype.version}" placeholder="Version"/>
-            <p/>
-            <p:inputText id="archetypeVersion" value="#{archetype.archetypeVersion}" placeholder="Archetype Version to use"/>
-            <p/>
-            <p:selectBooleanCheckbox id="useShiro" value="#{archetype.useShiro}" itemLabel="Enable Apache Shiro"/>
-            <p/>
-            <p:selectBooleanCheckbox id="useOmniFaces" value="#{archetype.useOmniFaces}" itemLabel="Enable OmniFaces"/>
-            <p/>
-            <p:selectBooleanCheckbox id="usePrimeFaces" value="#{archetype.usePrimeFaces}" itemLabel="Enable PrimeFaces"/>
-            <p/>
-            <p:selectBooleanCheckbox id="useLazyModel" value="#{archetype.useLazyModel}" itemLabel="Use JPA Lazy DataModel"/>
-            <p/>
-            <p:selectBooleanCheckbox id="useMavenCache" value="#{archetype.useMavenCache}" itemLabel="Use Maven Build Cache"/>
-            <p/>
+            <div class="text-center mb-2">
+                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 icon="pi pi-arrow-down" styleClass="download-button">
+                    <p:fileDownload value="#{archetype.download}"/>
+                </p:commandButton>
+            </div>
 
-            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                             validateClient="true" icon="pi pi-arrow-down" styleClass="mr-2">
-                <p:fileDownload value="#{archetype.download}"/>
-            </p:commandButton>
-            <p/>
-            <hr/>
-            <p:commandButton value="Update commands" update="@form, curlCommand, mavenCommand"
-                             validateClient="true" icon="pi pi-arrow-down" styleClass="mr-2"/>
-            <p/>
-            <span id="curlContent">
-                <p:outputLabel id="curlCommand" value="#{archetype.curlCommand}" escape="false"/>
-            </span>
-            <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left mr-2"
-                    onclick="copyToClipboard('curlContent', 'curlContentCopyFeedback'); return false">Copy</button>
-            <span id="curlContentCopyFeedback"/>
-            <hr/>
-            <span id="mavenContent">
-                <p:outputLabel id="mavenCommand" value="#{archetype.mavenCommand}" escape="false"/>
-            </span>
-            <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left mr-2"
-                    onclick="copyToClipboard('mavenContent', 'mavenContentCopyFeedback'); return false">Copy</button>
-            <span id="mavenContentCopyFeedback"/>
+            <div class="form-section">
+                <h3 class="mt-0 text-600">Project Configuration</h3>
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="artifact" value="#{archetype.artifact}" placeholder="Artifact Name" styleClass="w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="group" value="#{archetype.group}" placeholder="Group ID" styleClass="w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="projectName" value="#{archetype.projectName}" placeholder="Project Name" styleClass="w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="packageName" value="#{archetype.packageName}" placeholder="Package Name" styleClass="w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="baseType" value="#{archetype.baseType}" placeholder="POM (base, payara, infra)" styleClass="w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:inputText id="version" value="#{archetype.version}" placeholder="Version" styleClass="w-full"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="mt-0 text-600">Packaging &amp; Archetype</h3>
+                <div class="field">
+                    <p:selectOneRadio id="packagingType" value="#{archetype.packagingType}" layout="lineDirection">
+                        <f:selectItem itemLabel="JAR" itemValue="jar"/>
+                        <f:selectItem itemLabel="WAR" itemValue="war"/>
+                        <f:selectItem itemLabel="EAR" itemValue="ear"/>
+                        <f:selectItem itemLabel="Other" itemValue="other"/>
+                        <p:ajax update="@form" process="@form"/>
+                    </p:selectOneRadio>
+                </div>
+                <p:panelGrid id="otherPackagingType" columns="1" rendered="#{archetype.packagingType == 'other'}" styleClass="field">
+                    <p:inputText id="otherPackagingTypeInput" value="#{archetype.otherPackagingType}" placeholder="packaging type" styleClass="w-full"/>
+                </p:panelGrid>
+                <div class="field">
+                    <p:inputText id="archetypeVersion" value="#{archetype.archetypeVersion}" placeholder="Archetype Version to use" styleClass="w-full"/>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="formgrid grid">
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p:selectBooleanCheckbox id="useShiro" value="#{archetype.useShiro}" itemLabel="Enable Apache Shiro"/>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p:selectBooleanCheckbox id="useOmniFaces" value="#{archetype.useOmniFaces}" itemLabel="Enable OmniFaces"/>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p:selectBooleanCheckbox id="usePrimeFaces" value="#{archetype.usePrimeFaces}" itemLabel="Enable PrimeFaces"/>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p:selectBooleanCheckbox id="useLazyModel" value="#{archetype.useLazyModel}" itemLabel="Use JPA Lazy DataModel"/>
+                    </div>
+                    <div class="field-checkbox col-12">
+                        <p:selectBooleanCheckbox id="useMavenCache" value="#{archetype.useMavenCache}" itemLabel="Use Maven Build Cache"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3 mb-2">
+                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                 validateClient="true" icon="pi pi-arrow-down" styleClass="download-button">
+                    <p:fileDownload value="#{archetype.download}"/>
+                </p:commandButton>
+            </div>
+
+            <div class="form-section">
+                <h3 class="mt-0 text-600">Command Generation</h3>
+                <div class="mb-3">
+                    <p:commandButton value="Update commands" update="@form, curlCommand, mavenCommand"
+                                     validateClient="true" icon="pi pi-refresh" styleClass="mr-2"/>
+                </div>
+
+                <div class="command-section">
+                    <h4>cURL Command:</h4>
+                    <div id="curlContent">
+                        <p:outputLabel id="curlCommand" value="#{archetype.curlCommand}" escape="false"/>
+                    </div>
+                    <div class="copy-area mt-2">
+                        <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left"
+                                onclick="copyToClipboard('curlContent', 'curlContentCopyFeedback'); return false">Copy</button>
+                        <span id="curlContentCopyFeedback" class="copy-feedback"/>
+                    </div>
+                </div>
+
+                <div class="command-section">
+                    <h4>Maven Command:</h4>
+                    <div id="mavenContent">
+                        <p:outputLabel id="mavenCommand" value="#{archetype.mavenCommand}" escape="false"/>
+                    </div>
+                    <div class="copy-area mt-2">
+                        <button class="ui-button ui-widget ui-corner-all ui-button-text-icon-left"
+                                onclick="copyToClipboard('mavenContent', 'mavenContentCopyFeedback'); return false">Copy</button>
+                        <span id="mavenContentCopyFeedback" class="copy-feedback"/>
+                    </div>
+                </div>
+            </div>
         </h:form>
-        <p/>
-        <h:form>
-            <p:commandButton value="Reset Fields" ajax="false" process="@this"
-                             actionListener="#{archetype.resetSession}" icon="pi pi-arrow-up" styleClass="mr-2">
-            </p:commandButton>
-        </h:form>
+
+        <div class="text-center mt-2">
+            <h:form>
+                <p:commandButton value="Reset Fields" ajax="false" process="@this"
+                                 actionListener="#{archetype.resetSession}" icon="pi pi-refresh" styleClass="mr-2">
+                </p:commandButton>
+            </h:form>
+        </div>
     </div>
 </h:body>
-
 </html>

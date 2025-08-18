@@ -6,20 +6,75 @@
     <h:head>
         <title>E-Mail Manager</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <h:outputStylesheet library="css" name="main-style.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeflex@4.0.0/primeflex.min.css"/>
         <f:view transient="true"/>
     </h:head>
     <h:body>
-        <h:form>
-            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.eraseJunk}" update="status"/>
-                to Erase Junk Email</h1>
-            <h1>Press <p:commandButton value="Here" actionListener="#{emailManager.sendDrafts}" update="status"/>
-                to Send Draft Emails</h1>
-        </h:form>
-        <h:form id="status">
-            <h3>E-Mail Operation Status: <span id="emailStatus">${emailManager.emailStatus}</span></h3>
-            <p:commandButton value="Log Out" action="#{authc.logout}"/>
-            <p:poll interval="5" autoStart="#{emailManager.startPolling}" stop="true"
-                    listener="#{emailManager.highlightStatus(true)}" widgetVar="poll" update="status"/>
-        </h:form>
+        <div class="content-wrapper">
+            <div class="grid">
+                <div class="col-12">
+                    <p:panel styleClass="main-panel">
+                        <div class="grid">
+                            <div class="col-12">
+                                <h1 class="text-center mb-3"><strong>E-Mail Manager</strong></h1>
+                                <p class="text-center text-600 mb-4">
+                                    Manage your email operations with simple actions below.
+                                </p>
+                            </div>
+                        </div>
+
+                        <h:form>
+                            <div class="grid">
+                                <div class="col-12 md:col-6">
+                                    <div class="action-card text-center">
+                                        <h3 class="mt-0 text-600 mb-3">Junk Email Management</h3>
+                                        <p:commandButton value="Erase Junk Email"
+                                                       actionListener="#{emailManager.eraseJunk}"
+                                                       update="status"
+                                                       icon="pi pi-trash"
+                                                       styleClass="p-button-danger w-full"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <div class="action-card text-center">
+                                        <h3 class="mt-0 text-600 mb-3">Draft Email Management</h3>
+                                        <p:commandButton value="Send Draft Emails"
+                                                       actionListener="#{emailManager.sendDrafts}"
+                                                       update="status"
+                                                       icon="pi pi-send"
+                                                       styleClass="p-button-success w-full"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+
+                        <h:form id="status">
+                            <div class="grid">
+                                <div class="col-12">
+                                    <div class="status-card">
+                                        <h3 class="mt-0 text-600 mb-3">Operation Status</h3>
+                                        <div class="flex justify-content-between align-items-center flex-wrap">
+                                            <div class="flex-1">
+                                                <span class="text-primary font-medium">Status: </span>
+                                                <span id="emailStatus" class="font-bold">${emailManager.emailStatus}</span>
+                                            </div>
+                                            <div class="mt-2 md:mt-0">
+                                                <p:commandButton value="Log Out"
+                                                               action="#{authc.logout}"
+                                                               icon="pi pi-sign-out"
+                                                               styleClass="p-button-outlined"/>
+                                            </div>
+                                        </div>
+                                        <p:poll interval="5" autoStart="#{emailManager.startPolling}" stop="true"
+                                                listener="#{emailManager.highlightStatus(true)}" widgetVar="poll" update="status"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </p:panel>
+                </div>
+            </div>
+        </div>
     </h:body>
 </html>
