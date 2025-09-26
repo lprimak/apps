@@ -42,7 +42,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Stream;
 import static com.flowlogix.util.Streams.readString;
-import static java.util.function.Predicate.not;
 
 @Slf4j
 @ApplicationScoped
@@ -218,20 +217,28 @@ public class ArchetypeGenerator {
     private static void createZipFile(Path sourceDirPath, OutputStream outputStream) throws IOException {
         try (var zipOutputStream = new ZipArchiveOutputStream(outputStream);
              var sourceDirPaths = Files.walk(sourceDirPath)) {
-            sourceDirPaths.filter(not(Files::isDirectory))
-                    .forEach(path -> addZipEntry(sourceDirPath, path, zipOutputStream));
+            sourceDirPaths.forEach(path -> addZipEntry(sourceDirPath, path, zipOutputStream));
         }
     }
 
     @SneakyThrows(IOException.class)
     @SuppressWarnings({"checkstyle:IllegalTokenText", "checkstyle:MagicNumber"})
     private static void addZipEntry(Path sourceDirPath, Path path, ZipArchiveOutputStream zipOutputStream) {
-        ZipArchiveEntry zipEntry = new ZipArchiveEntry(sourceDirPath.relativize(path).toString());
-        if (Files.isExecutable(path)) {
+        String relativizedPath = sourceDirPath.relativize(path).toString();
+        if (relativizedPath.isBlank()) {
+            return;
+        }
+        boolean isDirectory = Files.isDirectory(path);
+        ZipArchiveEntry zipEntry = isDirectory
+                ? new ZipArchiveEntry(relativizedPath + "/")
+                : new ZipArchiveEntry(relativizedPath);
+        if (!isDirectory && Files.isExecutable(path)) {
             zipEntry.setUnixMode(0755);
         }
         zipOutputStream.putArchiveEntry(zipEntry);
-        Files.copy(path, zipOutputStream);
+        if (!isDirectory) {
+            Files.copy(path, zipOutputStream);
+        }
         zipOutputStream.closeArchiveEntry();
     }
 }
