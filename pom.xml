@@ -159,10 +159,15 @@
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <includeScope>runtime</includeScope>
-                    <excludeArtifactIds>postgresql, checker-qual</excludeArtifactIds>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <excludeArtifactIds>postgresql, checker-qual</excludeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>io.smallrye</groupId>
