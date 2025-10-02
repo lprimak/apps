@@ -79,7 +79,7 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warSourceDirectory>${basedir}/hope-website</warSourceDirectory>
+                    <warSourceDirectory>${project.basedir}/src/main/hope-website</warSourceDirectory>
                 </configuration>
             </plugin>
         </plugins>
