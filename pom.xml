@@ -12,7 +12,7 @@
 
     <parent>
         <groupId>com.flowlogix</groupId>
-        <artifactId>infra-pom</artifactId>
+        <artifactId>payara-pom</artifactId>
         <version>73</version>
     </parent>
 
