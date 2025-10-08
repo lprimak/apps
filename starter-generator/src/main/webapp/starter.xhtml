@@ -117,8 +117,11 @@
                     <div class="field-checkbox col-12 md:col-6">
                         <p:selectBooleanCheckbox id="useLazyModel" value="#{archetype.useLazyModel}" itemLabel="Use JPA Lazy DataModel"/>
                     </div>
-                    <div class="field-checkbox col-12">
+                    <div class="field-checkbox col-12 md:col-6">
                         <p:selectBooleanCheckbox id="useMavenCache" value="#{archetype.useMavenCache}" itemLabel="Use Maven Build Cache"/>
+                    </div>
+                    <div class="field-checkbox col-12 md:col-6">
+                        <p:selectBooleanCheckbox id="useCodeCoverage" value="#{archetype.useCodeCoverage}" itemLabel="Enable JaCoCo Code Coverage"/>
                     </div>
                 </div>
             </div>
