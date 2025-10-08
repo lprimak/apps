@@ -188,12 +188,6 @@ body {
     }
 }
 
-/* Button styling consistency */
-.ui-button {
-    border-radius: var(--border-radius-sm);
-    transition: transform 0.2s ease-in-out;
-}
-
 .ui-button:hover {
     transform: translateY(-1px);
 }
