@@ -33,6 +33,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.util.Callbacks;
 import java.io.InputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -49,6 +50,7 @@ import static jakarta.validation.constraints.Pattern.Flag;
 @Getter @Setter
 @Slf4j
 public class ArchetypeCustomizer implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Inject
@@ -125,7 +127,7 @@ public class ArchetypeCustomizer implements Serializable {
     }
 
     public String getCurlCommand() throws MalformedURLException {
-        String parameters = Arrays.asList(getParameters(true)).stream()
+        String parameters = Arrays.stream(getParameters(true))
                 .filter(parameter -> parameter.value() != null && !parameter.value().isBlank())
                 .map(parameter -> "%s=%s".formatted(parameter.key(),
                         URLEncoder.encode(parameter.value().trim(), StandardCharsets.UTF_8)
