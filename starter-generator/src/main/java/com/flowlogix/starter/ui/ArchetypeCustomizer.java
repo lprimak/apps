@@ -78,6 +78,7 @@ public class ArchetypeCustomizer implements Serializable {
     private boolean useLazyModel = true;
     private boolean useMavenCache = true;
     private boolean useCodeCoverage = true;
+    private boolean useArquillianGraphene = true;
 
     public StreamedContent getDownload() {
         ReturnValue result = generator.generateArchetype(getParameters(false));
@@ -113,6 +114,7 @@ public class ArchetypeCustomizer implements Serializable {
                 new Parameter("useLazyModel", Boolean.toString(useLazyModel)),
                 new Parameter("useMavenCache", Boolean.toString(useMavenCache)),
                 new Parameter("useCodeCoverage", Boolean.toString(useCodeCoverage)),
+                new Parameter("useArquillianGraphene", Boolean.toString(useArquillianGraphene))
         };
     }
 
