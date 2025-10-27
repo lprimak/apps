@@ -58,7 +58,10 @@ public class DownloadResource {
                                  @MatrixParam("useShiro") @DefaultValue("false") boolean useShiro,
                                  @MatrixParam("useOmniFaces") @DefaultValue("false") boolean useOmniFaces,
                                  @MatrixParam("usePrimeFaces") @DefaultValue("false") boolean usePrimeFaces,
-                                 @MatrixParam("useLazyModel") @DefaultValue("false") boolean useLazyModel) {
+                                 @MatrixParam("useLazyModel") @DefaultValue("false") boolean useLazyModel,
+                                 @MatrixParam("useMavenCache") @DefaultValue("false") boolean useMavenCache,
+                                 @MatrixParam("useCodeCoverage") @DefaultValue("false") boolean useCodeCoverage,
+                                 @MatrixParam("useArquillianGraphene") @DefaultValue("false") boolean useArquillianGraphene) {
         ReturnValue result = generator.generateArchetype(new Parameter[] {
                 new Parameter("groupId", groupId),
                 new Parameter("artifactId", artifactId),
@@ -72,6 +75,9 @@ public class DownloadResource {
                 new Parameter("useOmniFaces", Boolean.toString(useOmniFaces)),
                 new Parameter("usePrimeFaces", Boolean.toString(usePrimeFaces)),
                 new Parameter("useLazyModel", Boolean.toString(useLazyModel)),
+                new Parameter("useMavenCache", Boolean.toString(useMavenCache)),
+                new Parameter("useCodeCoverage", Boolean.toString(useCodeCoverage)),
+                new Parameter("useArquillianGraphene", Boolean.toString(useArquillianGraphene))
         });
 
         if (result.status() != 0) {
