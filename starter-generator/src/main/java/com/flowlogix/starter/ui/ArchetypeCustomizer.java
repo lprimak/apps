@@ -17,8 +17,6 @@ package com.flowlogix.starter.ui;
 
 import com.flowlogix.starter.ArchetypeGenerator;
 import com.flowlogix.util.ShrinkWrapManipulator;
-import jakarta.annotation.Resource;
-import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -51,12 +49,10 @@ import static jakarta.validation.constraints.Pattern.Flag;
 @Slf4j
 public class ArchetypeCustomizer implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     @Inject
     ArchetypeGenerator generator;
-    @Resource
-    ManagedExecutorService executorService;
 
     @Pattern(regexp = "^(?!.*(?:\\.{2}|/)).*$", message = "Invalid path: Path traversal attempt detected")
     private String artifact = "";
@@ -87,7 +83,7 @@ public class ArchetypeCustomizer implements Serializable {
             return null;
         }
 
-        InputStream input = generator.createZipStream(result, executorService);
+        InputStream input = generator.createZipStream(result);
         Callbacks.SerializableSupplier<InputStream> callback = () -> input;
 
         return DefaultStreamedContent.builder()

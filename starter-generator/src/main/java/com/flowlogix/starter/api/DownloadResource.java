@@ -86,7 +86,7 @@ public class DownloadResource {
                     .entity(result.output()).build();
         }
 
-        StreamingOutput stream = outputStream -> generator.createZipStream(result, outputStream, executorService);
+        StreamingOutput stream = outputStream -> generator.createZipStream(result, outputStream);
         return Response.ok(stream)
                 .header("Content-Disposition", "attachment; filename=\"%s.zip\"".formatted(artifactId))
                 .build();

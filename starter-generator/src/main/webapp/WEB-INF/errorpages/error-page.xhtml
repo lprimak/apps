@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:of="http://omnifaces.org/functions">
+    <h:head>
+        <ui:param name="statusCode" value="#{requestScope['jakarta.servlet.error.status_code']}"/>
+        <ui:param name="devMode" value="#{facesContext.isProjectStage('Development')}"/>
+        <title>Error #{statusCode}</title>
+        <h:outputStylesheet library="css" name="errorpage-style.css"/>
+    </h:head>
+    <h:body>
+        <div class="#{devMode ? 'error-container dev' : 'error-container'}">
+            <div class="error-icon">⚠️</div>
+
+            <ui:fragment rendered="#{devMode}">
+                <div class="dev-mode-badge">DEVELOPMENT MODE</div>
+            </ui:fragment>
+
+            <h2>#{statusCode == 404 ? 'Page Not Found' : 'Oops! Something went wrong'}</h2>
+
+            <ui:fragment rendered="#{devMode}">
+                <div class="error-details">
+                    <ul>
+                        <li>Date/time: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
+                        <li>User agent: #{header['user-agent']}</li>
+                        <li>User IP: #{request.remoteAddr}</li>
+                        <li>Request URI: #{requestScope['jakarta.servlet.error.request_uri']}</li>
+                        <li>Ajax request: #{facesContext.partialViewContext.ajaxRequest ? 'Yes' : 'No'}</li>
+                        <li>Status code: #{statusCode}</li>
+                        <li>Exception type: #{requestScope['jakarta.servlet.error.exception_type']}</li>
+                        <li>Exception message: #{requestScope['jakarta.servlet.error.message']}</li>
+                        <li>Exception UUID: #{requestScope['org.omnifaces.exception_uuid']}</li>
+                        <li>Stack trace:
+                            <pre>#{of:printStackTrace(requestScope['jakarta.servlet.error.exception'])}</pre>
+                        </li>
+                    </ul>
+                </div>
+
+            </ui:fragment>
+
+            <ui:fragment rendered="#{not devMode and statusCode != 404}">
+                <div class="error-details">
+                    <p>We're sorry for the inconvenience.
+                        Our team has been notified and is working to resolve the issue.
+                    </p>
+                </div>
+            </ui:fragment>
+        </div>
+    </h:body>
+</html>

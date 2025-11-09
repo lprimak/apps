@@ -15,8 +15,11 @@
  */
 package com.flowlogix.starter;
 
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +53,10 @@ public class ArchetypeGenerator {
     private static final int BUFFER_SIZE = 4096;
     private final Semaphore semaphore;
     private final String jvmOptions;
+
+    @Getter
+    @Resource
+    private ManagedExecutorService executorService;
 
     public record Parameter(@NonNull String key, String value) { }
     public record ReturnValue(Path temporaryPath, int status, String output) implements AutoCloseable {
@@ -112,7 +119,7 @@ public class ArchetypeGenerator {
     }
 
     @SneakyThrows(IOException.class)
-    public void createZipStream(ReturnValue result, OutputStream outputStream, ExecutorService executorService) {
+    public void createZipStream(ReturnValue result, OutputStream outputStream) {
         try (var output = new PipedOutputStream();
              var input = new PipedInputStream(output, BUFFER_SIZE)) {
             zipToStream(result, output, executorService);
@@ -121,7 +128,7 @@ public class ArchetypeGenerator {
     }
 
     @SneakyThrows(IOException.class)
-    public InputStream createZipStream(ReturnValue result, ExecutorService executorService) {
+    public InputStream createZipStream(ReturnValue result) {
         var output = new PipedOutputStream();
         zipToStream(result, output, executorService);
         return new PipedInputStream(output, BUFFER_SIZE);
