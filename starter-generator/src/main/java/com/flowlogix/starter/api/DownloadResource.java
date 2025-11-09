@@ -18,8 +18,6 @@ package com.flowlogix.starter.api;
 import com.flowlogix.starter.ArchetypeGenerator;
 import com.flowlogix.starter.ArchetypeGenerator.Parameter;
 import com.flowlogix.starter.ArchetypeGenerator.ReturnValue;
-import jakarta.annotation.Resource;
-import jakarta.enterprise.concurrent.ManagedExecutorService;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -38,8 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 public class DownloadResource {
     @Inject
     ArchetypeGenerator generator;
-    @Resource
-    ManagedExecutorService executorService;
 
     @GET
     @Produces({MediaType.APPLICATION_OCTET_STREAM, MediaType.TEXT_PLAIN})
