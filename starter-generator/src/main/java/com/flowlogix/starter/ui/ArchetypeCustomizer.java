@@ -80,6 +80,7 @@ public class ArchetypeCustomizer implements Serializable {
         ReturnValue result = generator.generateArchetype(getParameters(false));
         if (result.status() != 0) {
             result.close();
+            Faces.redirect(Faces.getRequestURL());
             return null;
         }
 
