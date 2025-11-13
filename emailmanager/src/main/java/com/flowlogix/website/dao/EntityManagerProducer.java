@@ -15,12 +15,17 @@
  */
 package com.flowlogix.website.dao;
 
+import jakarta.annotation.Priority;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Alternative;
 import jakarta.enterprise.inject.Produces;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import static jakarta.interceptor.Interceptor.Priority.APPLICATION;
 
+@Alternative
 @RequestScoped
+@Priority(APPLICATION + 1)
 public class EntityManagerProducer {
     @Produces
     @PersistenceContext
