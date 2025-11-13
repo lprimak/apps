@@ -33,9 +33,9 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
         user = "${MPCONFIG=hope-db-username:}", password = "${MPCONFIG=hope-db-password:}",
         maxPoolSize = 32, minPoolSize = 8,
         properties = {
-            "fish.payara.is-connection-validation-required = true",
-            "fish.payara.connection-validation-method = auto-commit",
-            "fish.payara.fail-all-connections = true"})
+            "fish.payara.is-connection-validation-required=true",
+            "fish.payara.connection-validation-method=auto-commit",
+            "fish.payara.fail-all-connections=true"})
 public class Constants {
     @Inject
     @ConfigProperty(name = "com.flowlogix.pam-service-name", defaultValue = "login")
