@@ -3,23 +3,15 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <activeProfiles>
-        <activeProfile>jakarta-ee-version-override</activeProfile>
         <activeProfile>flowlogix-repository</activeProfile>
     </activeProfiles>
 
     <profiles>
         <profile>
-            <id>jakarta-ee-version-override</id>
-            <properties>
-                <jakarta.ee.version>10.0.0-lp-nov6</jakarta.ee.version>
-            </properties>
-        </profile>
-
-        <profile>
             <id>flowlogix-repository</id>
             <repositories>
                 <repository>
-                    <id>hope-repository</id>
+                    <id>flowlogix-repository</id>
                     <url>https://nexus.flowlogix.com/repository/maven-releases</url>
                     <releases>
                         <enabled>true</enabled>

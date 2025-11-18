@@ -3,7 +3,7 @@ module HopeNYC {
     requires jakarta.ejb;
     requires jakarta.persistence;
     requires jakarta.validation;
-    requires jakarta.faces.api;
+    requires jakarta.faces;
     requires jakarta.servlet;
     requires java.compiler;
     requires lombok;
