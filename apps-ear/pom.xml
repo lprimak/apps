@@ -29,6 +29,12 @@
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>contact-us</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -46,6 +52,11 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>starter-generator</artifactId>
                             <contextRoot>/sg</contextRoot>
+                        </webModule>
+                        <webModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>contact-us</artifactId>
+                            <contextRoot>/contact</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>

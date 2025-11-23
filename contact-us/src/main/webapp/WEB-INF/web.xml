@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+    <distributable/>
+    <welcome-file-list>
+        <welcome-file>contact.xhtml</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/errorpages/error-page.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorpages/error-page.xhtml</location>
+    </error-page>
+    <context-param>
+        <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
+        <param-value>/*.xhtml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.omnifaces.FACES_VIEWS_LOWERCASED_REQUEST_URI</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.flowlogix.add-unmapped-resources</param-name>
+        <param-value>true</param-value>
+    </context-param>
+</web-app>

@@ -31,6 +31,7 @@
     <modules>
         <module>emailmanager</module>
         <module>starter-generator</module>
+        <module>contact-us</module>
         <module>apps-ear</module>
     </modules>
 
