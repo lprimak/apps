@@ -44,13 +44,13 @@ import org.apache.shiro.cdi.annotations.Principal;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Stateless
-@MailSessionDefinition(name = "java:app/mail/HopeMail",
+@MailSessionDefinition(name = "java:app/em/mail/HopeMail",
         host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp", storeProtocol = "imaps",
         properties = {
             "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=false"})
 @Slf4j
 public class EmailManagerImpl implements EmailManagerLocal {
-    @Resource(name = "java:app/mail/HopeMail")
+    @Resource(name = "java:app/em/mail/HopeMail")
     Session mailSession;
     @Inject
     @Principal

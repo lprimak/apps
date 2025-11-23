@@ -43,8 +43,8 @@ import java.util.List;
 @Slf4j
 @Named
 @RequestScoped
-@MailSessionDefinition(name = "java:app/mail/HopeMail",
-        host = "${MPCONFIG=hope-imap-host:}", transportProtocol = "smtp", storeProtocol = "imaps",
+@MailSessionDefinition(name = "java:app/contact/mail/HopeMail",
+        transportProtocol = "smtp", storeProtocol = "imaps",
         properties = {
                 "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=true"})
 public class ContactBean {
@@ -73,7 +73,7 @@ public class ContactBean {
         "ORM support"
     );
 
-    @Resource(name = "java:app/mail/HopeMail")
+    @Resource(name = "java:app/contact/mail/HopeMail")
     Session mailSession;
     @Inject
     @ConfigProperty(name = "hope-smtp-host", defaultValue = "none")
