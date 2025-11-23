@@ -4,15 +4,94 @@
       xmlns:f="jakarta.faces.core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>Flow Logix Maven and Jakarta EE Quick Start</title>
+    <title>Contact Flow Logix - Professional Jakarta EE Services</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <h:outputStylesheet library="css" name="main-style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeflex@4.0.0/primeflex.min.css"/>
+    <f:view transient="true"/>
 </h:head>
 
 <h:body>
     <div class="card">
-        <h1><strong>XXX</strong></h1>
+        <h1><strong>Contact Flow Logix</strong></h1>
+        <h3>Professional Jakarta EE Services and Solutions</h3>
+
+        <div class="form-section">
+            <h:form id="contactForm">
+                <p:focus/>
+                <p:messages id="messages" skipDetailIfEqualsSummary="true" showDetail="true" closable="true"/>
+
+                <div class="formgrid grid">
+                    <div class="field col-12 md:col-6">
+                        <label for="name">Name *</label>
+                        <p:inputText id="name" value="#{contactBean.contactInfo.name}"
+                                     styleClass="w-full"/>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="email">Email *</label>
+                        <p:inputText id="email" value="#{contactBean.contactInfo.email}"
+                                     styleClass="w-full"/>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="company">Company</label>
+                        <p:inputText id="company" value="#{contactBean.contactInfo.company}"
+                                     styleClass="w-full"/>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="phone">Phone</label>
+                        <p:inputText id="phone" value="#{contactBean.contactInfo.phone}"
+                                     styleClass="w-full"/>
+                    </div>
+
+                    <div class="field col-12">
+                        <label for="products">Products/Services of Interest *</label>
+                        <div class="flex flex-column gap-2 mt-2">
+                            <p:selectManyCheckbox id="products" value="#{contactBean.contactInfo.selectedProducts}"
+                                                  layout="pageDirection">
+                                <f:selectItems value="#{contactBean.products}" var="product"
+                                              itemLabel="#{product}" itemValue="#{product}"/>
+                            </p:selectManyCheckbox>
+                        </div>
+                    </div>
+
+                    <div class="field col-12">
+                        <label for="message">Message</label>
+                        <p:inputTextarea id="message" value="#{contactBean.contactInfo.message}"
+                                        rows="6" autoResize="false"
+                                        styleClass="w-full"
+                                        placeholder="Tell us about your project requirements..."/>
+                    </div>
+
+                    <div class="field col-12 flex gap-2 justify-content-end">
+                        <p:commandButton value="Submit"
+                                        action="#{contactBean.submit}"
+                                        update="contactForm"
+                                        icon="pi pi-send"
+                                        styleClass="download-button">
+                        </p:commandButton>
+                        <p:commandButton value="Clear"
+                                        icon="pi pi-times"
+                                        actionListener="#{contactBean.clear}"
+                                        update="contactForm"
+                                        process="@this"
+                                        styleClass="p-button-secondary"/>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <div class="command-section">
+            <h4>About Our Services</h4>
+            <p style="margin: 0.5rem 0; color: #555; font-size: 0.85rem; line-height: 1.4;">
+                <strong>Jakarta EE migration:</strong> Seamless migration from Java EE to Jakarta EE with minimal disruption.<br/>
+                <strong>Debugging enhanced by AI:</strong> Advanced debugging tools powered by artificial intelligence.<br/>
+                <strong>MirrorImmich:</strong> Professional photo management and sharing solutions.<br/>
+                <strong>ORM support:</strong> Expert assistance with JPA, EclipseLink, and Hibernate implementations.
+            </p>
+        </div>
     </div>
 </h:body>
 </html>
