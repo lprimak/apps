@@ -56,7 +56,7 @@
                         <webModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>contact-us</artifactId>
-                            <contextRoot>/contact</contextRoot>
+                            <contextRoot>/c</contextRoot>
                         </webModule>
                     </modules>
                 </configuration>
