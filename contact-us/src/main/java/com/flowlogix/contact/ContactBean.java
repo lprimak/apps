@@ -71,7 +71,7 @@ public class ContactBean {
         "Debugging enhanced by AI",
         "MirrorImmich",
         "ORM support",
-        "Something Else"
+        "Something else"
     );
 
     @Resource(name = "java:app/contact/mail/HopeMail")
