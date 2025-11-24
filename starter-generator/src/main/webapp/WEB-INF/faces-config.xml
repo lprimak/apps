@@ -24,9 +24,6 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd">
     <factory>
-        <exception-handler-factory>
-            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
-        </exception-handler-factory>
         <!-- order is important, the following line needs to appear last -->
         <exception-handler-factory>org.omnifaces.exceptionhandler.ViewExpiredExceptionHandlerFactory</exception-handler-factory>
     </factory>
