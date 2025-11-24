@@ -8,7 +8,7 @@
         <ui:param name="statusCode" value="#{requestScope['jakarta.servlet.error.status_code']}"/>
         <ui:param name="devMode" value="#{facesContext.isProjectStage('Development')}"/>
         <title>Error #{statusCode}</title>
-        <h:outputStylesheet library="css" name="errorpage-style.css"/>
+        <link rel="stylesheet" href="https://flowlogix.com/css/apps/errorpage-style.css"/>
     </h:head>
     <h:body>
         <div class="#{devMode ? 'error-container dev' : 'error-container'}">

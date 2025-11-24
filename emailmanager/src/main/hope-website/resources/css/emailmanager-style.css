@@ -1,0 +1,91 @@
+/* Main panel with all nested elements - matches starter's .card */
+.main-panel > .ui-panel-content {
+    border-radius: var(--border-radius-md);
+    box-shadow: 2px 4px 8px 0 #00000020;
+    padding: 0.3rem;
+    background-color: var(--card-bg);
+    max-width: 1200px;
+    margin: 0 auto;
+
+    /* All typography inherits from main panel */
+    h1 {
+        color: var(--text-primary);
+        font-weight: 300;
+        margin: 0 0 0.15rem 0;
+        font-size: 1.2rem;
+        line-height: 1.1;
+        text-align: center;
+    }
+
+    h3 {
+        margin: 0 0 0.2rem 0;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    h4 {
+        margin: 0.15rem 0 0.1rem 0;
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+}
+
+/* Action and status cards with all nested elements - email manager specific */
+.action-card, .status-card {
+    background-color: var(--section-bg);
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--shadow-md);
+    padding: 0.3rem;
+    margin-bottom: 0.2rem;
+}
+
+.action-card {
+    margin-bottom: 0.4rem;
+}
+
+.ui-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Status highlighting - email manager specific */
+#emailStatus {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+@media (min-width: 768px) {
+    .main-panel > .ui-panel-content {
+        border-radius: var(--border-radius-lg);
+        box-shadow: 3px 6px 12px 0 #00000025;
+        padding: 0.5rem 0.75rem;
+
+        h1 {
+            margin-bottom: 0.4rem;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+    }
+    .action-card, .status-card {
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-lg);
+        padding: 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .action-card {
+        margin-bottom: 0.3rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .main-panel > .ui-panel-content {
+        padding: 0.75rem 1rem;
+        box-shadow: 4px 8px 16px 0 #00000030;
+    }
+}
