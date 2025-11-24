@@ -70,7 +70,8 @@ public class ContactBean {
         "Jakarta EE migration",
         "Debugging enhanced by AI",
         "MirrorImmich",
-        "ORM support"
+        "ORM support",
+        "Something Else"
     );
 
     @Resource(name = "java:app/contact/mail/HopeMail")
