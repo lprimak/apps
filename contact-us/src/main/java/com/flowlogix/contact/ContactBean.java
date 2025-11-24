@@ -46,7 +46,7 @@ import java.util.List;
 @MailSessionDefinition(name = "java:app/contact/mail/HopeMail",
         transportProtocol = "smtp", storeProtocol = "imaps",
         properties = {
-                "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=true"})
+                "mail.smtp.auth=true", "mail.smtp.starttls.enable=true", "mail.debug=false"})
 public class ContactBean {
     @Getter
     @Setter
