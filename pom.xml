@@ -13,14 +13,13 @@
     <parent>
         <groupId>com.flowlogix</groupId>
         <artifactId>payara-pom</artifactId>
-        <version>94</version>
+        <version>95</version>
     </parent>
 
     <properties>
         <checkstyle.suppressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.suppressionsLocation>
 
         <flowlogix.version>11</flowlogix.version>
-        <eclipselink.version>5.0.0-B13</eclipselink.version>
         <depchain.version>102</depchain.version>
         <jandex.skip>false</jandex.skip>
 
@@ -76,10 +75,6 @@
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
             <scope>runtime</scope>
@@ -88,20 +83,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.primefaces</groupId>
-                <artifactId>primefaces</artifactId>
-                <version>15.0.10</version>
-                <classifier>jakarta</classifier>
-            </dependency>
-            <dependency>
-                <groupId>com.flowlogix</groupId>
-                <artifactId>flowlogix-bom</artifactId>
-                <version>${flowlogix.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
@@ -113,12 +94,6 @@
                 <artifactId>microprofile</artifactId>
                 <version>7.1</version>
                 <type>pom</type>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                <version>${eclipselink.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -148,12 +123,10 @@
                         <annotationProcessorPath>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </annotationProcessorPath>
                         <annotationProcessorPath>
                             <groupId>org.eclipse.persistence</groupId>
                             <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                            <version>${eclipselink.version}</version>
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
