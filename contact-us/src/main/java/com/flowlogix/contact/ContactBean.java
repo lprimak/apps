@@ -68,7 +68,7 @@ public class ContactBean {
 
     private static final List<String> PRODUCTS = List.of(
         "Jakarta EE migration",
-        "Apache Shiro support",
+        "Apache Shiro Security support",
         "Debugging enhanced by AI",
         "MirrorImmich",
         "Jakarta Persistence / ORM support",
