@@ -2,9 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.flowlogix</groupId>
     <artifactId>emailmanager</artifactId>
-    <version>1.x-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Email Manager</name>
@@ -15,11 +13,15 @@
         <version>1.x-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <shiro.version>3.0.0-alpha-1</shiro.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
-            <version>3.0.0-alpha-1</version>
+            <version>${shiro.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
