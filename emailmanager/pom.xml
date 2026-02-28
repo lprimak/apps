@@ -17,9 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.flowlogix.depchain</groupId>
-            <artifactId>shiro-jakarta</artifactId>
-            <version>${depchain.version}</version>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-jakarta-ee</artifactId>
+            <version>3.0.0-alpha-1</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>

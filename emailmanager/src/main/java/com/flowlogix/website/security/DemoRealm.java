@@ -31,10 +31,11 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.ImmutablePrincipalCollection;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.omnifaces.util.Servlets;
 import java.io.IOException;
+import java.util.List;
 import static org.apache.shiro.web.env.IniWebEnvironment.DEFAULT_WEB_INI_RESOURCE_PATH;
 
 @Slf4j
@@ -84,10 +85,10 @@ public class DemoRealm extends AuthorizingRealm {
         if (authenticationToken instanceof UsernamePasswordToken upToken) {
             AuthenticationInfo auth = iniRealm.getAuthInfo(authenticationToken);
             if (auth != null) {
-                var principalCollection = new SimplePrincipalCollection();
-                principalCollection.add(new UserAuth(upToken.getUsername(),
-                        String.valueOf(upToken.getPassword())), getName());
-                principalCollection.add(upToken.getUsername(), iniRealm.getName());
+                var principalCollection = ImmutablePrincipalCollection.ofSingleRealm(
+                        List.of(new UserAuth(upToken.getUsername(),
+                                        String.valueOf(upToken.getPassword())),
+                                upToken.getUsername()), iniRealm.getName());
                 return new SimpleAuthenticationInfo(principalCollection, upToken.getPassword());
             } else {
                 throw new IncorrectCredentialsException();
