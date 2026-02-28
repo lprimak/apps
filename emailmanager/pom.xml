@@ -14,14 +14,14 @@
     </parent>
 
     <properties>
-        <shiro.version>3.0.0-alpha-1</shiro.version>
+        <shiro3.version>3.0.0-alpha-1</shiro3.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
-            <version>${shiro.version}</version>
+            <version>${shiro3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke</groupId>
