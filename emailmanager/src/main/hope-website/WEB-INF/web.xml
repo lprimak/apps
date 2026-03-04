@@ -12,6 +12,14 @@
     <session-config>
         <session-timeout>3</session-timeout>
     </session-config>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/errorpages/error-page.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/errorpages/error-page.xhtml</location>
+    </error-page>
     <context-param>
         <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
         <param-value>/*.xhtml</param-value>
