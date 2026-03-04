@@ -35,7 +35,6 @@ import org.apache.shiro.subject.ImmutablePrincipalCollection;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.omnifaces.util.Servlets;
 import java.io.IOException;
-import java.util.List;
 import static org.apache.shiro.web.env.IniWebEnvironment.DEFAULT_WEB_INI_RESOURCE_PATH;
 
 @Slf4j
@@ -85,11 +84,11 @@ public class DemoRealm extends AuthorizingRealm {
         if (authenticationToken instanceof UsernamePasswordToken upToken) {
             AuthenticationInfo auth = iniRealm.getAuthInfo(authenticationToken);
             if (auth != null) {
-                var principalCollection = ImmutablePrincipalCollection.ofSingleRealm(
-                        List.of(new UserAuth(upToken.getUsername(),
-                                        String.valueOf(upToken.getPassword())),
-                                upToken.getUsername()), iniRealm.getName());
-                return new SimpleAuthenticationInfo(principalCollection, upToken.getPassword());
+                var userAuthPrincipal = ImmutablePrincipalCollection.ofSinglePrincipal(
+                        new UserAuth(upToken.getUsername(), String.valueOf(upToken.getPassword())), getName());
+                return new SimpleAuthenticationInfo(userAuthPrincipal, upToken.getPassword())
+                        .merge(new SimpleAuthenticationInfo(ImmutablePrincipalCollection.ofSinglePrincipal(
+                                upToken.getUsername(), iniRealm.getName()), null));
             } else {
                 throw new IncorrectCredentialsException();
             }
