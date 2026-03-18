@@ -19,8 +19,8 @@
     <properties>
         <checkstyle.suppressionsLocation>${maven.multiModuleProjectDirectory}/src/checkstyle/suppressions.xml</checkstyle.suppressionsLocation>
 
-        <flowlogix.version>11.1</flowlogix.version>
-        <depchain.version>112</depchain.version>
+        <flowlogix.version>11.1.1</flowlogix.version>
+        <depchain.version>113</depchain.version>
         <jandex.skip>false</jandex.skip>
 
         <postgres.provided>true</postgres.provided>
