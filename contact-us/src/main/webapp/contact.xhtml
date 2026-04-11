@@ -65,7 +65,9 @@
                                         styleClass="w-full"
                                         placeholder="Tell us about your project requirements..."/>
                     </div>
-
+                    <div class="field col-12">
+                        <p:captcha label="hCaptcha" type="h-captcha" validatorMessage="Please verify that you are a human"/>
+                    </div>
                     <div class="field col-12 flex gap-2 justify-content-end">
                         <p:commandButton value="Submit"
                                         action="#{contactBean.submit}"
