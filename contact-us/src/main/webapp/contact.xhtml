@@ -26,13 +26,17 @@
                     <div class="field col-12 md:col-6">
                         <label for="name">Name *</label>
                         <p:inputText id="name" value="#{contactBean.contactInfo.name}"
-                                     styleClass="w-full"/>
+                                     styleClass="w-full" placeholder="Your full name">
+                            <p:ajax update="messages" event="blur"/>
+                        </p:inputText>
                     </div>
 
                     <div class="field col-12 md:col-6">
                         <label for="email">Email *</label>
                         <p:inputText id="email" value="#{contactBean.contactInfo.email}"
-                                     styleClass="w-full"/>
+                                     styleClass="w-full" placeholder="your@email.com">
+                            <p:ajax update="messages" event="blur"/>
+                        </p:inputText>
                     </div>
 
                     <div class="field col-12 md:col-6">
@@ -54,6 +58,7 @@
                                                   layout="pageDirection">
                                 <f:selectItems value="#{contactBean.products}" var="product"
                                               itemLabel="#{product}" itemValue="#{product}"/>
+                                <p:clientValidator/>
                             </p:selectManyCheckbox>
                         </div>
                     </div>
@@ -73,6 +78,7 @@
                                         action="#{contactBean.submit}"
                                         update="contactForm"
                                         icon="pi pi-send"
+                                        enabledByValidateClient="true"
                                         styleClass="download-button">
                         </p:commandButton>
                         <p:commandButton value="Clear"
