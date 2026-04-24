@@ -15,7 +15,6 @@
  */
 package com.flowlogix.website.entities;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,8 +38,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NamedQuery(name = "Sample.findAll", query = "SELECT s FROM Sample s order by s.id")
 @NamedQuery(name = "Sample.findAllIDs", query = "SELECT s.id FROM Sample s order by s.id")
-public class Sample implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Sample {
     @Id
     @GeneratedValue
     private Long id;
