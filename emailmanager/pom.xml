@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.10</version>
+            <version>42.7.11</version>
             <optional>${postgres.provided}</optional>
         </dependency>
         <dependency>
