@@ -60,8 +60,8 @@ public class ArchetypeCustomizer implements Serializable {
     private String projectName = "";
     private String packageName = "";
     @Size(max = 30)
-    @Pattern(regexp = "^\\s*(?:base|infra|payara)?\\s*$", flags = Flag.CASE_INSENSITIVE,
-            message = "Base type must be either 'infra' or 'payara'")
+    @Pattern(regexp = "^\\s*(?:base|infra|payara|glassfish)?\\s*$", flags = Flag.CASE_INSENSITIVE,
+            message = "Base type must be either 'infra', 'payara' or 'glassFish'")
     private String baseType = "";
     private String packagingType = "jar";
     private String otherPackagingType = "";

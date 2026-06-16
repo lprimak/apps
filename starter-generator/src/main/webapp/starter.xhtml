@@ -78,8 +78,14 @@
                     <div class="field col-12 md:col-6">
                         <p:inputText id="packageName" value="#{archetype.packageName}" placeholder="Package Name" styleClass="w-full"/>
                     </div>
-                    <div class="field col-12 md:col-6">
-                        <p:inputText id="baseType" value="#{archetype.baseType}" placeholder="POM (base, payara, infra)" styleClass="w-full"/>
+                    <div class="field col-12 md:col-6 align-content-center">
+                        <p:selectOneRadio id="baseType" value="#{archetype.baseType}" layout="lineDirection" styleClass="flex justify-content-center">
+                            <f:selectItem itemLabel="Base" itemValue="base"/>
+                            <f:selectItem itemLabel="Payara" itemValue="payara"/>
+                            <f:selectItem itemLabel="GlassFish" itemValue="glassfish"/>
+                            <f:selectItem itemLabel="Infra" itemValue="infra"/>
+                            <p:ajax update="@form" process="@form"/>
+                        </p:selectOneRadio>
                     </div>
                     <div class="field col-12 md:col-6">
                         <p:inputText id="version" value="#{archetype.version}" placeholder="Version" styleClass="w-full"/>
