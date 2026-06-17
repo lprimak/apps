@@ -21,7 +21,6 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.core.MediaType;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +40,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import static com.flowlogix.starter.ArchetypeGenerator.Parameter;
 import static com.flowlogix.starter.ArchetypeGenerator.ReturnValue;
-import static jakarta.validation.constraints.Pattern.Flag;
 
 @Named("archetype")
 @SessionScoped
@@ -49,21 +47,22 @@ import static jakarta.validation.constraints.Pattern.Flag;
 @Slf4j
 public class ArchetypeCustomizer implements Serializable {
     @Serial
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
 
     @Inject
     ArchetypeGenerator generator;
+
+    private enum BaseType {
+        BASE, INFRA, PAYARA, GLASSFISH
+    }
 
     @Pattern(regexp = "^(?!.*(?:\\.{2}|/)).*$", message = "Invalid path: Path traversal attempt detected")
     private String artifact = "";
     private String group = "";
     private String projectName = "";
     private String packageName = "";
-    @Size(max = 30)
-    @Pattern(regexp = "^\\s*(?:base|infra|payara|glassfish)?\\s*$", flags = Flag.CASE_INSENSITIVE,
-            message = "Base type must be either 'infra', 'payara' or 'glassFish'")
-    private String baseType = "";
-    private String packagingType = "jar";
+    private BaseType baseType = BaseType.PAYARA;
+    private String packagingType = "war";
     private String otherPackagingType = "";
     private String version;
     private String archetypeVersion;
@@ -101,7 +100,7 @@ public class ArchetypeCustomizer implements Serializable {
                 new Parameter(forCurl ? "artifact" : "artifactId", artifact.toLowerCase()),
                 new Parameter("projectName", projectName),
                 new Parameter("package", packageName.toLowerCase()),
-                new Parameter("baseType", baseType.toLowerCase()),
+                new Parameter("baseType", baseType.name().toLowerCase()),
                 new Parameter("packagingType", processPackagingType()),
                 new Parameter("version", version),
                 new Parameter("archetypeVersion", archetypeVersion),
