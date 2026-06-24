@@ -15,10 +15,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.flowlogix.depchain</groupId>
-            <artifactId>shiro-jakarta</artifactId>
-            <version>${depchain.version}</version>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-jakarta-ee</artifactId>
+            <version>3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>libpam4j</artifactId>
