@@ -13,11 +13,15 @@
         <version>1.x-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <shiro.version>3.0.0</shiro.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-jakarta-ee</artifactId>
-            <version>3.0.0</version>
+            <version>${shiro.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
