@@ -96,6 +96,12 @@
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
+            <!-- Security fix -->
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-api</artifactId>
+                <version>1.63.0</version>
+            </dependency>
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
